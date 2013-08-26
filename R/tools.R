@@ -1,11 +1,4 @@
 # :vim set filetype=R
-range.for(value, series) %as% {
-  x <- segment(series, TRUE)
-  idx <- 1:nrow(x)
-  idx.inf <- (is.na(x$a) | x$a != value) & (!is.na(x$b) & x$b == value)
-  idx.sup <- (!is.na(x$a) & x$a == value) & (is.na(x$b) | x$b != value)
-  data.frame(min=idx[idx.inf], max=idx[idx.sup]-1)
-}
 
 #' Similar to partion where radius=2 and there is no metric
 segment(x, pad=FALSE) %as% {
@@ -68,6 +61,3 @@ partition(x, metric=median, radius=10) %as% {
 }
 
 
-use_default(NULL, default) %as% default
-use_default(NA, default) %as% default
-use_default(x, default) %as% x
