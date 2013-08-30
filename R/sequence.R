@@ -3,6 +3,22 @@
 #' Pad a vector with NAs
 pad(x, head, tail=0, default=NA) %as% c(rep(default,head),x, rep(default,tail))
 
+#' Partition a sequence into coordinate pairs based on adjacent windows
+partition(x, metric=median, radius=10) %as% {
+  f <- function(x,i) {
+    c(left=metric(x[max(1,i-radius):i]), 
+      right=metric(x[(i+1):min(length(x),i+1+radius)]))
+  }
+  t(sapply(1:(length(x)-1), function(i) f(x,i)))
+}
+
+
+#' Similar to partion where radius=2 and there is no metric
+segment(x, pad=FALSE) %as% {
+  x <- onlyif(function(y) pad(y,1,1), x, pad)
+  data.frame(a=x[1:(length(x)-1)], b=x[2:length(x)])
+}
+
 #' Safely get an element from a vector
 #'
 #' Returns NA whenever a bad index is encountered
