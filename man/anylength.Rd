@@ -1,83 +1,45 @@
 \name{anylength}
 \alias{anylength}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-%%  ~~function to do ... ~~
-}
+\title{ Get the generic length of an object }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  This function consolidates size dimensions for one and two dimensional data
+  structures. The idea is that many operations require knowing either how long
+  a vector is or how many rows are in a matrix. So rather than switching 
+  between length and nrow, anylength provides the appropriate polymorphism to 
+  return the proper value.
 }
 \usage{
 anylength(...)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
-}
+  \item{\dots}{ Abstract function controlled by lambda.r }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+  anylength(data)
+  data - An object
+
+  When working with libraries, it is easy to forget the return type of a
+  function, particularly when there are a lot of switches between vectors,
+  matrices, and other data structures. This function along with its
+  \code{\link{anynames}} counterpart provides a single interface for accessing
+  this information across objects.
+
+  The core assumption is that in most cases length is semantically synonomous
+  with nrow such that the number of columns in two-dimensional structures is
+  less consequential than the number of rows. This is particularly true of
+  time-based objects, such as zoo or xts where the number of observations is
+  equal to the number of rows in the structure.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  The length or nrow of the object
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{ Brian Lee Yung Rowe }
+\seealso{ \code{\link{anynames}} }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+  m <- matrix(c(1,2,3,4,5,6), ncol=2)
+  anylength(m)
 
-## The function is currently defined as
-structure(function (...) 
-UseFunction(anylength, "anylength", ...), class = "lambdar.fun", variants = list(
-    structure(list(args = structure(list(paren.level = "1", node = "argument", 
-        token = "data", pattern = NA_character_, default = NA_character_), .Names = c("paren.level", 
-    "node", "token", "pattern", "default"), row.names = 2L, class = "data.frame"), 
-        guard = function (data) 
-        {
-            !is.null(nrow(data))
-        }, def = structure(function (data) 
-        {
-            nrow(data)
-        }, topenv = "<environment: 0x159e350> ", name = "anylength"), 
-        signature = "anylength(data) \%when\% {\n    !is.null(nrow(data))\n}", 
-        body = "nrow(data)", ellipsis = integer(0), fill.tokens = "data", 
-        fill.defaults = NA_character_, accepts = c(1L, 1L)), .Names = c("args", 
-    "guard", "def", "signature", "body", "ellipsis", "fill.tokens", 
-    "fill.defaults", "accepts")), structure(list(args = structure(list(
-        paren.level = "1", node = "argument", token = "data", 
-        pattern = NA_character_, default = NA_character_), .Names = c("paren.level", 
-    "node", "token", "pattern", "default"), row.names = 2L, class = "data.frame"), 
-        def = structure(function (data) 
-        {
-            length(data)
-        }, topenv = "<environment: 0x159e350> ", name = "anylength"), 
-        signature = "anylength(data)", body = "length(data)", 
-        ellipsis = integer(0), fill.tokens = "data", fill.defaults = NA_character_, 
-        accepts = c(1L, 1L)), .Names = c("args", "def", "signature", 
-    "body", "ellipsis", "fill.tokens", "fill.defaults", "accepts"
-    ))), types = list())
+  v <- c(1,2,3,4,5)
+  anylength(v)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ attribute }

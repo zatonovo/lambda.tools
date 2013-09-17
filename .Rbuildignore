@@ -1,0 +1,8 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^rename$
+^\.gitignore$
+^README.md$
+^LICENSE$
+^tools$
+^.travis.yml$

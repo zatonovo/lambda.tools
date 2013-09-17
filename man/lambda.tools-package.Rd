@@ -1,42 +1,53 @@
-\name{lambda.tools-package}
-\alias{lambda.tools-package}
-\alias{lambda.tools}
 \docType{package}
-\title{
-What the package does (short line)
-~~ package title ~~
-}
+\name{lambda.tools-package}
+\alias{lambda.tools}
+\alias{lambda.tools-package}
+\title{Tools for functional programming in R}
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
+  This package contains a collection of utility functions
+  that provide polymorphism over certain data types. These
+  any* functions attempt to consolidate attribute access of
+  lists, vectors, matrices, arrays, and other data
+  structures.
 }
 \details{
-\tabular{ll}{
-Package: \tab lambda.tools\cr
-Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2013-08-30\cr
-License: \tab What license is it under?\cr
-}
-~~ An overview of how to use the package, including the most important ~~
-~~ functions ~~
-}
-\author{
-Who wrote it
+  \tabular{ll}{ Package: \tab futile.any\cr Type: \tab
+  Package\cr Version: \tab 1.0.0\cr Date: \tab
+  2013-08-30\cr License: \tab LGPL-3\cr LazyLoad: \tab
+  yes\cr }
 
-Maintainer: Who to complain to <yourfault@somewhere.net>
-~~ The author and/or maintainer of the package ~~
-}
-\references{
-~~ Literature or other references for background information ~~
-}
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in ~~
-~~ the R documentation directory ~~
-\keyword{ package }
-\seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
+  The anylength and anynames functions consolidate
+  attribute access across many data structures providing a
+  bit of convenience via polymorphism. The anytypes
+  function provides the classes or types of a
+  data.frame-like object. This is useful when parsing data
+  and it is not always clear how values will be parsed.
 }
 \examples{
-~~ simple examples of the most important functions ~~
+m <- matrix(c(1,2,3,4,5,6), ncol=2)
+anylength(m)
+
+v <- c(1,2,3,4,5)
+anylength(v)
+
+m <- matrix(c(1,2,3,4,5,6), ncol=2)
+anynames(m) <- c('d','e')
+anynames(m)
+
+v <- c(a=1,b=2,c=3,d=4,e=5)
+anynames(v)
+
+l <- list(a=1,b=2,c=3,d=4,e=5)
+anynames(l)
 }
+\author{
+  Brian Lee Yung Rowe <r@zatonovo.com>
+}
+\seealso{
+  \code{\link{anylength}}, \code{\link{anynames}},
+  \code{\link{anytypes}}
+}
+\keyword{attribute}
+\keyword{logic}
+\keyword{package}
+

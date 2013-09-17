@@ -2,6 +2,7 @@
 
 #' Force values into bins
 #'
+#' @name quantize
 #' @param x The vector whose values should be binned
 #' @param bins The available bins
 #' @param attractor The method to attract values to the bins
@@ -15,26 +16,34 @@ quantize(x, bins=c(-1,0,1), metric=function(a,b) abs(a-b)) %as% {
   apply(ds,1, function(d) item(bins, which.min(d)))
 }
 
-.confine(x, min.level, max.level) %when% { x < min.level } %as% min.evel
-.confine(x, min.level, max.level) %when% { x > max.level } %as% max.level
-.confine(x, min.level, max.level) %as% x
 
 #' Confine values to the given bounds
+#'
+#' @name confine
 #' @examples
 #' x <- rnorm(10, sd=4)
 #' confine(x)
-confine(x, min.level=-1, max.level=1) %as%
-  sapply(x, function(y) .confine(y,min.level,max.level))
+confine(x, min.level=-1, max.level=1) %when% {
+  length(x) > 1
+} %as% {
+  sapply(x, function(y) confine(y,min.level,max.level))
+}
 
+confine(x, min.level, max.level) %when% { x < min.level } %as% min.level
+confine(x, min.level, max.level) %when% { x > max.level } %as% max.level
+confine(x, min.level, max.level) %as% x
 
 
 #' Split a sequence based on an expression
 #'
+#' @name slice
 #' @param x
 #' @param pivot
 #' @param inclusive
 #' 
 #' @examples
+#' slice(1:50, 25, TRUE)
+#' slice(1:50, 25, FALSE)
 slice(x, pivot, inclusive) %::% a : numeric : logical : list
 slice(x, pivot, inclusive=FALSE) %when% {
   is.null(dim(x))
@@ -70,6 +79,7 @@ slice(x, expression) %as%
 
 #' Remove the head an tail of a data structure
 #'
+#' @name chomp
 #' @param x
 #' @param head
 #' @param tail
@@ -85,7 +95,7 @@ chomp(x, head=1, tail=1) %when% {
 }
 
 chomp(x, head=1, tail=1) %as% {
-  x[(1+head):(length(x)-tail), ]
+  x[(1+head):(nrow(x)-tail), ]
 }
 
 

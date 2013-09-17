@@ -1,9 +1,22 @@
 Package: lambda.tools
 Type: Package
-Title: What the package does (short line)
-Version: 1.0
+Title: Tools for modeling data with functional programming
+Version: 1.0.0
 Date: 2013-08-30
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Depends:
+    lambda.r
+Author: Brian Lee Yung Rowe
+Maintainer: Brian Lee Yung Rowe <r@zatonovo.com>
+Description: Provides tools that manipulate and transform data using methods
+    and techniques consistent with functional programming. The idea is that
+    through the use of these tools, a program can be reasoned about insomuch
+    that the implementation can be proven to be equivalent to the mathematical
+    model.
+License: LGPL-3
+Collate:
+    'any.R'
+    'higher_order.R'
+    'lambda.tools-package.R'
+    'logic.R'
+    'sequence.R'
+    'tools.R'
