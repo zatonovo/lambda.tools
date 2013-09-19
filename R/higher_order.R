@@ -34,17 +34,17 @@ map(x, fn, y=c()) %as% map(x[,-1,drop=FALSE], fn, c(y, fn(x[,1])))
 #'
 #' @examples
 #' x <- rnorm(50)
-#' x10 <- maprange(x, mean, 10, TRUE)
-#' x20 <- maprange(x, mean, 20, TRUE)
-maprange(x, fn, window, pad=FALSE) %when% {
+#' x10 <- maprange(x, 10, mean, TRUE)
+#' x20 <- maprange(x, 20, mean)
+maprange(x, window, fn, do.pad=FALSE) %when% {
   is.null(dim(x))
 } %as% {
-  y <- sapply((window):length(x), function(idx) fn(x[(idx-window+1):idx]))
-  onlyif(pad, function(z) pad(z, window-1), y)
+  y <- sapply(window:length(x), function(idx) fn(x[(idx-window+1):idx]))
+  onlyif(do.pad, function(z) pad(z, window-1), y)
 }
 
-maprange(x, fn, window, pad=FALSE) %as% {
-  sapply(1:ncol(x), function(ydx) maprange(x[,ydx], fn, window, pad))
+maprange(x, window, fn, do.pad=FALSE) %as% {
+  sapply(1:ncol(x), function(ydx) maprange(x[,ydx], fn, window, do.pad))
 }
 
 
@@ -54,7 +54,7 @@ maprange(x, fn, window, pad=FALSE) %as% {
 #' @name fold
 #'
 #' @examples
-#' fold(rnorm(10), function(x,y) x+y, 0)
+#' fold(rnorm(10), function(x,y) x+y)
 #'
 # Things to test
 # . Vector
@@ -64,16 +64,28 @@ maprange(x, fn, window, pad=FALSE) %as% {
 # . Vector of length 1
 fold(EMPTY, fn, acc) %as% acc
 
-fold(x, fn, acc) %when% { is.null(dim(x)) } %as% 
+fold(x, fn, acc=0) %when% { is.null(dim(x)) } %as% 
   fold(x[-1], fn, fn(x[[1]], acc))
 
-fold(x, fn, acc) %as% fold(x[,-1,drop=FALSE], fn, fn(x[,1], acc))
+fold(x, fn, acc=0) %as% fold(x[,-1,drop=FALSE], fn, fn(x[,1], acc))
 
 
-# Not sure if there's a need for this
-#foldrange(x, fn, window, pad=FALSE) %when% {
-#  is.null(dim(x))
-#} %as% {
-#  y <- sapply((window):length(x), function(idx) fn(x[(idx-window+1):idx]))
-#  onlyif(function(z) pad(z, window-1), y, pad)
-#}
+#' Perform fold over a window
+#'
+#' @name foldrange
+#' @param x
+#' @param window
+#' @param fn
+#' @param acc
+foldrange(x, window, fn, acc=0) %when% {
+  is.null(dim(x))
+} %as% {
+  foldrange(x, window, fn, acc, length(x)-window+1)
+}
+
+foldrange(x, window, fn, acc, 0) %as% acc
+
+foldrange(x, window, fn, acc=0, idx) %as% {
+  foldrange(x, window, fn, fn(x[idx:(idx+window-1)], acc), idx-1)
+}
+
