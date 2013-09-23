@@ -11,7 +11,7 @@
   structures.
 }
 \details{
-  \tabular{ll}{ Package: \tab futile.any\cr Type: \tab
+  \tabular{ll}{ Package: \tab lambda.tools\cr Type: \tab
   Package\cr Version: \tab 1.0.0\cr Date: \tab
   2013-08-30\cr License: \tab LGPL-3\cr LazyLoad: \tab
   yes\cr }

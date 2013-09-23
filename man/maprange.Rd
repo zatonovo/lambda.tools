@@ -6,7 +6,7 @@
 }
 \examples{
 x <- rnorm(50)
-x10 <- maprange(x, mean, 10, TRUE)
-x20 <- maprange(x, mean, 20, TRUE)
+x10 <- maprange(x, 10, mean, TRUE)
+x20 <- maprange(x, 20, mean)
 }
 

@@ -7,6 +7,6 @@ previous application}
   of the previous application
 }
 \examples{
-fold(rnorm(10), function(x,y) x+y, 0)
+fold(rnorm(10), function(x,y) x+y)
 }
 
