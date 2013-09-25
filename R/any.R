@@ -44,5 +44,3 @@ is.bad(x) %as% { apply(x,1, is.bad) }
 
 is.bad(x) %::% a : logical
 is.bad(x) %as% { is.na(x) }
-
-
