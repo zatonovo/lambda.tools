@@ -6,14 +6,17 @@
 
   \item{bins}{The available bins}
 
-  \item{attractor}{The method to attract values to the
-  bins}
+  \item{metric}{The method to attract values to the bins}
 }
 \description{
   Force values into bins
 }
 \examples{
-x <- rnorm(10, sd=4)
+x <- seq(-2, 2, by=.1)
 quantize(x)
+# quantize x using a Euclidian distance metric.
+quantize(x, metric=function(a, b) sqrt((a - b)^2))
+# quantize with custom bins.
+quantize(x, bins=c(-2, -1, 0, 1, 2), metric=function(a, b) sqrt((a - b)^2))
 }
 

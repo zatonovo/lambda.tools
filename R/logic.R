@@ -9,7 +9,7 @@
 #' @examples
 #' x <- rnorm(5)
 #' onlyif(length(x) < 10, function(y) pad(y, 10 - length(y)), x)
-onlyif(TRUE, fn, x) %as% f(x)
+onlyif(TRUE, fn, x) %as% fn(x)
 onlyif(FALSE, fn, x) %as% x
 
 #' Apply a default value whenever a variable is empty, NULL, or NA

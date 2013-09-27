@@ -61,13 +61,13 @@ confine(x, min.level, max.level) %as% x
 #' slice(x, 25, FALSE)
 #' slice(x, x < 25)
 #' slice(x, x > 25)
-#' slice(x, 10 < x < 25)
+#' slice(x, x > 10 & x < 25)
 #' slice(x,  x > 10 & x < 25)
 #' # Slice a matrix.
-#' A <- matrix(rnorm(20), ncol=2)
+#' A <- matrix(1:10, ncol=2)
 #' slice(A, 3, TRUE)
 #' slice(A, 3, FALSE)
-#' slice(A,  A[,1] > 0.1 & A[,1] < 1)
+#' slice(A,  A[,1] > 5 & A[,1] < 7)
 #' # Slice a data frame.
 #' x <- 1:50
 #' df <- data.frame(col1=x, col2=x)
@@ -86,7 +86,7 @@ slice(x, pivot, inclusive=FALSE) %when% {
 }
 
 slice(x, pivot, inclusive=FALSE) %when% {
-  pivot < anylength(df)
+  pivot < anylength(x)
 } %as% {
   left <- x[1:pivot,]
   right <- x[(pivot+as.numeric(!inclusive)):nrow(x),]
