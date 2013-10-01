@@ -25,6 +25,10 @@ quantize(x, bins=c(-1,0,1), metric=function(a,b) abs(a-b)) %as% {
 #' Confine values to the given bounds
 #'
 #' @name confine
+#' @param x a vector
+#' @param min.level lower bound on values to be confined
+#' @param max.level upper bound on values to be confined
+#'
 #' @examples
 #' x <- 1:100
 #' y <- rnorm(100, sd=4)
@@ -51,8 +55,8 @@ confine(x, min.level, max.level) %as% x
 #' @name slice
 #' @param x a sequence
 #' @param pivot the index where x will be sliced. 
-#' @param inclusive defined as TRUE will include the value of x at index pivot as the first 
-#'        element in second half of the slice of x.
+#' @param inclusive defined as TRUE will include the value of x at index pivot as 
+#' the first element in second half of the slice of x.
 #' @param expression is a logical expression used for logical indexing of x. 
 #' @examples
 #' # Slice a one-dimensional sequence. 
@@ -115,14 +119,13 @@ slice(x, expression) %when% {
 #' Remove the head and tail of a data structure
 #'
 #' @name chomp
-#' @param x
-#' @param head
-#' @param tail
+#' @param x a vector or a 2-d data structure.
+#' @param head the number of elements to be removed from the head of x
+#' @param tail the number of elements to be removed from the tail of x
 #' 
 #' @examples
 #' chomp(rnorm(10))
 #' chomp(rnorm(10), head=2, tail=2)
-#'
 #' chomp(matrix(rnorm(20), ncol=2))
 #' chomp(data.frame(x=rnorm(20), y=rnorm(20)), head=5, tail=5)
 chomp(x, head=1, tail=1) %when% {

@@ -1,6 +1,13 @@
 \name{confine}
 \alias{confine}
 \title{Confine values to the given bounds}
+\arguments{
+  \item{x}{a vector}
+
+  \item{min.level}{lower bound on values to be confined}
+
+  \item{max.level}{upper bound on values to be confined}
+}
 \description{
   Confine values to the given bounds
 }
