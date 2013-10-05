@@ -30,7 +30,7 @@ partition(x, metric=median, radius=10) %as% {
 #' @param x
 #' @param pad
 segment(x, pad=FALSE) %as% {
-  x <- onlyif(function(y) pad(y,1,1), x, pad)
+  x <- onlyif(pad, function(y) pad(y,1,1), x)
   data.frame(a=x[1:(length(x)-1)], b=x[2:length(x)])
 }
 
