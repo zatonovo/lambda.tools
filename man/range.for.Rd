@@ -7,6 +7,11 @@
 
   \item{series}{a series of values}
 }
+\value{
+  A \code{data.frame} where each row contains the start and
+  end index for the range of the value of interest in the
+  series.
+}
 \description{
   Get the range of a value in a series
 }
@@ -17,12 +22,6 @@
   series and scan the rows of the \code{data.frame} for
   matching values. If two values are the same on a specific
   row then adjacent data can be detected.
-}
-
-\section{Value}{
-  A \code{data.frame} where each row contains the start and
-  end index for the range of the value of interest in the
-  series.
 }
 
 \section{TODO}{

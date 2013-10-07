@@ -9,6 +9,9 @@
 
   \item{x}{an object}
 }
+\value{
+  A boolean.
+}
 \description{
   Conditionally apply a function to an argument
 }

@@ -1,9 +1,92 @@
-# Gets the length of a vector or the rows of a matrix or data frame.
+#' Gets the length of a vector or the rows of a matrix or data frame.
+#' 
+#' @name anylength 
+#' @param data a vector, list, matrix or a data.frame
+#'
+#' @section Details:
+#' This function consolidates size dimensions for one and two dimensional data
+#' structures. The idea is that many operations require knowing either how long
+#' a vector is or how many rows are in a matrix. So rather than switching
+#' between length and nrow, anylength provides the appropriate polymorphism to
+#' return the proper value. 
+#'
+#' When working with libraries, it is easy to forget the return type of a
+#' function, particularly when there are a lot of switches between vectors,
+#' matrices, and other data structures. This function along with its
+#' \code{\link{anynames}} counterpart provides a single interface for accessing
+#' this information across objects
+#' 
+#' The core assumption is that in most cases length is semantically synonomous
+#' with nrow such that the number of columns in two-dimensional structures is
+#' less consequential than the number of rows. This is particularly true of
+#' time-based objects, such as zoo or xts where the number of observations is
+#' equal to the number of rows in the structure.
+#'
+#' When working with functions that are polymorphic, \code{lambda.r} function
+#' clauses that have guard conditions on the length of the input data structure x
+#' can use \code{anylength} instead of using \code{length} or \code{nrow}. 
+#'
+#' # A lambda.r function interface using a guard on length(x) when x is 1-d.
+#'
+#' slice(x, expression) \%::\% a : logical : list
+#'
+#' slice(x, expression) \%when\% \{length(expression) == length(x) \}
+#'
+#' # A lambda.r function using a guard on nrow(x) when x is 2-d.
+#'
+#' slice(x, expression) \%::\% a : logical : list
+#'
+#' slice(x, expression) \%when\% {length(expression) == nrow(x) }
+#'
+#' # A lambda.r function interface using a guard on anylength(x) for both cases.
+#'
+#' slice(x, expression) \%::\% a : logical : list
+#'
+#' slice(x, expression) \%when\% {length(expression) == anylength(x) }
+#'
+#' @return For vectors and lists \code{anylength} returns \code{length(data)}, for 
+#' matrices and data.frames \code{anylength} returns \code{nrow(data)}.
+#'
+#' @examples
+#' m <- matrix(c(1,2,3,4,5,6), ncol=2)
+#' anylength(m)
+#'
+#' v <- c(1,2,3,4,5)
+#' anylength(v)
+#
 anylength(data) %when% { ! is.null(nrow(data)) } %as% nrow(data)
 anylength(data) %as% length(data)
 
-# Get either names or colnames from a list or data.frame. This attempts to 
-# create some polymorphism around lists, vectors, and data.frames.
+#' Get either names or colnames from a list or data.frame. This attempts to 
+#' create some polymorphism around lists, vectors, and data.frames.
+#' 
+#' @name anynames
+#' @aliases anynames<-
+#'
+#' @section Details:
+#' Depending on the type of structure utilized in code, one needs to call either
+#' names or colnames to get information related to the data sets within the 
+#' structure. The use of two separate functions can cause errors and slows
+#' development time as data structures passed from intermediate functions may
+#' change over time, resulting in a broken interface.
+#'
+#' By providing a thin layer over underlying accessors, this function attempts to
+#' expedite development and add a bit of polymorphism to the semantics of names.
+#' The explicit assumption is that data sets in two dimensional structures are
+#' organized by column, as this is compatible with time-series objects such as
+#' zoo and xts. 
+#'
+#' @return Returns the names for a data structure.
+#' @examples
+#' m <- matrix(c(1,2,3,4,5,6), ncol=2)
+#' anynames(m) <- c('d','e')
+#' anynames(m)
+#'
+#' v <- c(a=1,b=2,c=3,d=4,e=5)
+#' anynames(v)
+#'
+#' l <- list(a=1,b=2,c=3,d=4,e=5)
+#' anynames(l)
 anynames(data) %when% { ! is.null(names(data)) } %as% names(data)
 anynames(data) %when% { ! is.null(colnames(data)) } %as% colnames(data)
 anynames(data) %as% NULL
@@ -15,7 +98,30 @@ anynames(data) %as% NULL
   invisible(data)
 }
 
-# Lists out the types of a data.frame or other object that supports anynames
+#' Lists out the types of a data.frame or other object that supports anynames
+#' @name anytypes
+#' @param data An object
+#' @param fun The function to use to get the types. Defaults to class, although
+#'    type or mode, etc. could be used
+#'
+#' @section Details:
+#' Depending on the type of structure utilized in code, one needs to call either
+#' names or colnames to get information related to the data sets within the 
+#' structure. The use of two separate functions can cause errors and slows
+#' development time as data structures passed from intermediate functions may
+#' change over time, resulting in a broken interface.
+#'
+#' By providing a thin layer over underlying accessors, this function attempts to
+#' expedite development and add a bit of polymorphism to the semantics of names.
+#' The explicit assumption is that data sets in two dimensional structures are
+#' organized by column, as this is compatible with time-series objects such as
+#' zoo and xts.
+#'
+#' @return Returns a vector containing the types of the columns of a data structure.
+#'
+#' @examples
+#' d <- data.frame(ints=c(1,2,3), chars=c('a','b','c'), nums=c(.1,.2,.3))
+#' anytypes(d)
 anytypes(data, fun=class) %when% {
   is.null(dim(data))
 } %as% fun(data)

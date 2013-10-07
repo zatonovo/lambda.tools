@@ -9,6 +9,11 @@
   \item{radius}{the maximum window size of the adjacent
   partitions}
 }
+\value{
+  A matrix with columns left and right where each row
+  corresponds to the value of #' the metric function that
+  was applied to adjacent windows.
+}
 \description{
   Partition a sequence into coordinate pairs based on
   adjacent windows
@@ -25,12 +30,6 @@
   one of the windows approach the head or tail of the
   sequence. In that case the respective window will have a
   length less than the radius parameter.
-}
-
-\section{Value}{
-  A matrix with columns left and right where each row
-  corresponds to the value of the metric function that was
-  applied to adjacent windows.
 }
 \examples{
 x <- 1:50

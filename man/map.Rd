@@ -10,6 +10,16 @@
   \item{y}{an accumulator object (vector, list, matrix,
   data.frame)}
 }
+\value{
+  The value returned is the accumulator object \code{y}
+  which is returned from the first function clause (run
+  \code{describe(map, 1)} in the R session).
+
+  Recursion will decrement the length of the input object
+  \code{x} and eventually the above function clause will be
+  called as a result of \code{x} being empty. At that point
+  \code{map} will return the accumulator \code{y}.
+}
 \description{
   Apply a function over each element of a vector
 }
@@ -19,17 +29,6 @@
   \code{getOption('expressions') / 8.0}. This limit is due
   to R session protecting against infinite recursion via
   the expressions parameter. See \code{options}.
-}
-
-\section{Value}{
-  The value returned is the accumulator object \code{y}
-  which is returned from the first function clause (run
-  \code{describe(map, 1)} in the R session).
-
-  Recursion will decrement the length of the input object
-  \code{x} and eventually the above function clause will be
-  called as a result of \code{x} being empty. At that point
-  \code{map} will return the accumulator \code{y}.
 }
 \examples{
 map(rnorm(10, sd=2), quantize)

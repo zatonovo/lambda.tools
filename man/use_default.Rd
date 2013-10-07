@@ -6,6 +6,9 @@
 
   \item{default}{the value to replace empty, NULL, or NA}
 }
+\value{
+  A boolean.
+}
 \description{
   Apply a default value whenever a variable is empty, NULL,
   or NA
@@ -14,8 +17,10 @@
   These are equivlaent operations,
 
   \code{x <- sample(c(1:3, NA), 10, replace=TRUE)}
-  \code{x[is.na(x)] <- 0} \code{map(x, function(y)
-  use_default(y,0))}
+
+  \code{x[is.na(x)] <- 0}
+
+  \code{map(x, function(y) use_default(y,0))}
 
   The value in using \code{use_default} instead of element
   replacement by a set operation is that the functional

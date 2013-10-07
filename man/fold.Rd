@@ -9,9 +9,16 @@ previous application}
 
   \item{acc}{accumulator}
 }
+\value{
+  a vector containing the accumulated result.
+}
 \description{
   Successively apply a function to a sequence and the value
   of the previous application
+}
+\section{Details}{
+  The function applied to the blocks must take two
+  arguments (i.e., a binary function).
 }
 \examples{
 fold(rnorm(10), function(x, y) x + y)

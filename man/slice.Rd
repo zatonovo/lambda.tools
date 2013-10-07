@@ -13,8 +13,25 @@
   \item{expression}{is a logical expression used for
   logical indexing of x.}
 }
+\value{
+  A list containing the left and right vectors with respect
+  to pivot.
+}
 \description{
   Split a sequence based on a pivot value or an expression
+}
+\section{Details}{
+  This function splits a sequence based on a pivot value or
+  logical expression. The inclusive parameter will either
+  include or exclude the value at the pivot in the second
+  element of the returned list.
+
+  This function is defined for one- and two-dimensional
+  data structures. In the two- dimensional case,
+  \code{slice} will return a list where each value in the
+  list is a matrix. This function is useful for splitting
+  data on a value and applying a function to the smaller
+  pieces.
 }
 \examples{
 # Slice a one-dimensional sequence.

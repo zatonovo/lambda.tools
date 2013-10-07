@@ -8,8 +8,18 @@
 
   \item{max.level}{upper bound on values to be confined}
 }
+\value{
+  A vector of points that lie within the bounds defined by
+  min.level max.level.
+}
 \description{
   Confine values to the given bounds
+}
+\section{Details}{
+  This function confines a set of values within a lower and
+  upper bound. The function defintion is only written for x
+  being a vector and is not vectorized to handle two
+  dimensional data structures.
 }
 \examples{
 x <- 1:100

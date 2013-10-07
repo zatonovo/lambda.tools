@@ -10,8 +10,21 @@
   \item{tail}{the number of elements to be removed from the
   tail of x}
 }
+\value{
+  A vector with the elements defined by head and tail
+  removed.
+}
 \description{
   Remove the head and tail of a data structure
+}
+\section{Details}{
+  This function removes the head and tail of a data
+  structure. The parameters \code{head} and \code{tail}
+  control how many elements are removed from the data
+  structure, and they must be positive. Additionally, the
+  summation of \code{head} and \code{tail} must not be
+  greater than or equal to the length of the data
+  structure.
 }
 \examples{
 chomp(rnorm(10))

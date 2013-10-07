@@ -12,7 +12,8 @@
   function}
 }
 \value{
-  A matrix containing the samples from x stored column-wise
+  A matrix containing the samples from x stored
+  column-wise.
 }
 \description{
   Get a sample as a subsequence of a larger set
@@ -27,12 +28,6 @@
   sampled randomly based on the the length of the input
   vector \code{x} and the window parameter. This fixed
   integer set is used to index the values in the vector x.
-}
-
-\section{Value}{
-  Returns a matrix with the number of rows equal to
-  \code{size} and the number of columns equal to
-  \code{window}.
 }
 \examples{
 # Sample a range in a vector.

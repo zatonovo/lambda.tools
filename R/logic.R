@@ -10,6 +10,8 @@
 #' 'scalar' in this function defintion is intened to mean any object with length equal
 #' to one.
 #'
+#' @return A boolean.
+#'
 #' @examples
 #' x <- 10
 #' is.scalar(x)
@@ -36,6 +38,8 @@ is.scalar(x) %as% { FALSE }
 #' will fail due to the closure around \code{fold}.  If the argument \code{fn}, is not
 #' a function \code{onlyif} will throw an error. 
 #'
+#' @return A boolean.
+#'
 #' @examples
 #' x <- rnorm(5)
 #' onlyif(length(x) < 10, function(y) pad(y, 10 - length(y)), x)
@@ -55,12 +59,16 @@ onlyif(FALSE, fn, x) %as% { x }
 #' These are equivlaent operations,  
 #'
 #' \code{x <- sample(c(1:3, NA), 10, replace=TRUE)}
+#'
 #' \code{x[is.na(x)] <- 0}
+#'
 #' \code{map(x, function(y) use_default(y,0))}
 #'
 #' The value in using \code{use_default} instead of element replacement by a set 
 #' operation is that the functional definition will help mathematical provability 
 #' of the program and facilitate translation between the mathematical model and code.
+#'
+#' @return A boolean.
 #'
 #' @examples
 #' # Clean data.

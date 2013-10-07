@@ -10,12 +10,17 @@
 
   \item{default}{value to be padded (default is NA)}
 }
+\value{
+  The input vector x will be returned with the appropriate
+  value(s) padded to the #' head or tail, or both.
+}
 \description{
   Pad a vector with NAs or other values.
 }
-\section{Value}{
-  The input vector x will be returned with the appropriate
-  value(s) padded to the head or tail, or both.
+\section{Details}{
+  This function pads NAs or other values to the head and
+  tail of a vector. This function has only been implemented
+  for \code{x} being a vector.
 }
 \examples{
 # Pad 10 NA values to the head of x.

@@ -8,9 +8,11 @@
 #' @param tail the length of padded values at the tail of x
 #' @param default value to be padded (default is NA)
 #'
-#' @section Value:
-#' The input vector x will be returned with the appropriate value(s) padded to the head
-#' or tail, or both.
+#' @section Details:
+#' This function pads NAs or other values to the head and tail of a vector. This function
+#' has only been implemented for \code{x} being a vector. 
+#'
+#' @return The input vector x will be returned with the appropriate value(s) padded to the #' head or tail, or both.
 #'
 #' @examples
 #' # Pad 10 NA values to the head of x.
@@ -46,9 +48,7 @@ pad(x, head, tail=0, default=NA) %when% {
 #' the sequence. In that case the respective window will have a length less than the 
 #' radius parameter.
 #'
-#' @section Value:
-#' A matrix with columns left and right where each row corresponds to the value of the 
-#' metric function that was applied to adjacent windows.
+#' @return A matrix with columns left and right where each row corresponds to the value of #' the metric function that was applied to adjacent windows.
 #'  
 #' @examples
 #' x <- 1:50
@@ -111,8 +111,7 @@ segment(x, padded=FALSE) %when% {
 #' This function is designed to create a consistent return value for a bad index value.
 #' If a bad index value is used \code{item} will return NA. 
 #'
-#' @section Value:
-#' A scalar corresponding to the index used for the idx parameter.
+#' @return A scalar corresponding to the index used for the idx parameter.
 #'
 #' @examples
 #' v <- rnorm(10) 
@@ -135,8 +134,7 @@ item(v, idx) %when% { is.null(dim(v)) } %as% v[idx]
 #' to shift the series and scan the rows of the \code{data.frame} for matching values.
 #' If two values are the same on a specific row then adjacent data can be detected.
 #'
-#' @section Value:
-#' A \code{data.frame} where each row contains the start and end index for the 
+#' @return A \code{data.frame} where each row contains the start and end index for the 
 #' range of the value of interest in the series.
 #'
 #' @section TODO:
@@ -174,7 +172,6 @@ range.for(value, series) %when% {
 #' @param size sample size
 #' @param window the length of the output vectors 
 #' @param \dots optional arguments for the sample.int function
-#' @return A matrix containing the samples from x stored column-wise
 #'
 #' @section Details:
 #' If the window parameter is defined to be greater than the length of the input vector,
@@ -185,9 +182,7 @@ range.for(value, series) %when% {
 #' the length of the input vector \code{x} and the window parameter. This fixed integer
 #' set is used to index the values in the vector x. 
 #'
-#' @section Value:
-#' Returns a matrix with the number of rows equal to \code{size} and the number of columns
-#' equal to \code{window}.
+#' @return A matrix containing the samples from x stored column-wise.
 #'
 #' @examples
 #' # Sample a range in a vector.

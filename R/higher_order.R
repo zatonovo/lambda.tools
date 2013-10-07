@@ -19,10 +19,8 @@
 #' is due to R session protecting against infinite recursion via the
 #' expressions parameter. See \code{options}.
 #'
-#' @section Value:
-#' The value returned is the accumulator object \code{y} which is returned from the first 
-#' function clause (run \code{describe(map, 1)} in the R session).
-#' 
+#' @return The value returned is the accumulator object \code{y} which is 
+#' returned from the first function clause (run \code{describe(map, 1)} in the R session).
 #'
 #' Recursion will decrement the length of the input object \code{x} and eventually the
 #' above function clause will be called as a result of \code{x} being empty. At that point
@@ -65,6 +63,15 @@ map(x, fn, y=c()) %when% {
 #' @param x a vector, list, matrix, or data.frame 
 #' @param window number of elements included in rolling range
 #' @param fn a function applied to the rolling range in x 
+#'
+#' @section Details:
+#' This function is implemented using recursion and will throw an error if the  
+#' length of \code{x} approaches \code{getOption('expressions') / 8.0}. This limit
+#' is due to R session protecting against infinite recursion via the
+#' expressions parameter. See \code{options}.
+#'
+#' @return a vector containing the result of fn appled to the rolling window.
+#'
 #' @examples
 #' x <- rnorm(50)
 #' x10 <- rangemap(x, 10, mean, TRUE)
@@ -97,10 +104,17 @@ rangemap(x, window, fn, do.pad=FALSE) %when% {
 # x <- 1:10
 # > blockmap(x, 3, function(a) sum(a))
 # [1]  6 15 24 NA
+#
 #' @name blockmap
 #' @param x a vector, list, matrix, or data.frame 
 #' @param block the block size used to map over 
 #' @param fn a function applied to a block
+#'
+#' @section Details:
+#' The function used must take one required argment.
+#'
+#' @return a vector containing the result of fn appled to the rolling window.
+#'
 #' @examples
 #' x <- rnorm(50)
 #' x10 <- blockmap(x, 10, mean, TRUE)
@@ -127,6 +141,11 @@ blockmap(x, block, fn, do.pad=FALSE) %when% {
 #' @param x a vector, list, matrix or data.frame
 #' @param fn a function applied to x
 #' @param acc accumulator
+#'
+#' @section Details:
+#' The function applied to the blocks must take two arguments (i.e., a binary function).
+#'
+#' @return a vector containing the accumulated result.
 #'
 #' @examples
 #' fold(rnorm(10), function(x, y) x + y)
@@ -171,7 +190,13 @@ fold(x, fn, acc=0) %when% {
 #' @param window the number of elements included in the rolling range 
 #' @param fn the function applied to the rolling range 
 #' @param acc accumulator
-#' @param idx starting index for rolling range
+#'
+#' @section Details:
+#' This function apples to one-dimensional data structures only.
+#' A restriction on the block size is that the block size must be less than the length(x).
+#' The function applied to the blocks must take two arguments (i.e., a binary function).
+#'
+#' @return a vector containing the accumulated result.
 #'
 #' @examples
 #' rangefold(rnorm(10), 2, function(x,y) x + y)
@@ -202,7 +227,18 @@ rangefold(x, window, fn, acc=0, idx) %when% {
 #' a vector
 #'
 #' @name blockfold
+#' @param x a vector, lsit, matrix or data.frame
+#' @param block the number of elements included in the rolling block 
+#' @param fn the function applied to the rolling range 
+#' @param acc accumulator
 #'
+#' @section Details:
+#' This function apples to both one-dimensional and two-dimensional data structures.
+#' A restriction on the block size is that the block size must be less than the length(x).
+#' The function applied to the blocks must take two arguments (i.e., a binary function).
+#'
+#' @examples
+#' blockfold(rnorm(10), 2, function(x,y) x + y)
 blockfold(x, block, fn, acc=0) %when% { 
   is.null(dim(x))
   block < anylength(x)
