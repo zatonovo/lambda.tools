@@ -22,8 +22,10 @@
 #' @examples
 #' x <- seq(-2, 2, by=.1)  
 #' quantize(x)
+#'
 #' # quantize x using a Euclidian distance metric.
 #' quantize(x, metric=function(a, b) sqrt((a - b)^2))
+#'
 #' # quantize with custom bins. 
 #' quantize(x, bins=c(-2, -1, 0, 1, 2), metric=function(a, b) sqrt((a - b)^2))
 quantize(x, bins=c(-1,0,1), metric=function(a,b) abs(a-b)) %as% {
@@ -52,6 +54,7 @@ quantize(x, bins=c(-1,0,1), metric=function(a,b) abs(a-b)) %as% {
 #' x <- 1:100
 #' y <- rnorm(100, sd=4)
 #' confine(y)
+#'
 #' # Illustration of confine(y) behavior.
 #' plot(x, y)
 #' points(x, confine(y), col='red') 
@@ -94,22 +97,34 @@ confine(x, min.level, max.level) %as% x
 #' # Slice a one-dimensional sequence. 
 #' x <- 1:50
 #' slice(x, 25, TRUE)
+#'
 #' slice(x, 25, FALSE)
+#'
 #' slice(x, x < 25)
+#'
 #' slice(x, x > 25)
+#'
 #' slice(x, x > 10 & x < 25)
+#'
 #' slice(x,  x > 10 & x < 25)
+#'
 #' # Slice a matrix.
 #' A <- matrix(1:10, ncol=2)
 #' slice(A, 3, TRUE)
+#'
 #' slice(A, 3, FALSE)
+#'
 #' slice(A,  A[,1] > 5 & A[,1] < 7)
+#'
 #' # Slice a data frame.
 #' x <- 1:50
 #' df <- data.frame(col1=x, col2=x)
 #' slice(df, 25, TRUE)
+#'
 #' slice(df, 25, FALSE)
+#'
 #' slice(df, df$col2 > 30)
+#'
 #' slice(df, df$col1 > 10 & df$col1 < 25)
 slice(x, pivot, inclusive) %::% a : numeric : logical : list
 slice(x, pivot, inclusive=FALSE) %when% {
@@ -150,7 +165,7 @@ slice(x, expression) %when% {
 #' Remove the head and tail of a data structure
 #'
 #' @name chomp
-#' @param x a vector or a 2-d data structure.
+#' @param x Any indexable data structure.
 #' @param head the number of elements to be removed from the head of x
 #' @param tail the number of elements to be removed from the tail of x
 #' 
@@ -161,10 +176,14 @@ slice(x, expression) %when% {
 #' \code{tail} must not be greater than or equal to the length of the data structure.
 #'  
 #' @return A vector with the elements defined by head and tail removed.
+#'
 #' @examples
 #' chomp(rnorm(10))
+#'
 #' chomp(rnorm(10), head=2, tail=2)
+#'
 #' chomp(matrix(rnorm(20), ncol=2))
+#'
 #' chomp(data.frame(x=rnorm(20), y=rnorm(20)), head=5, tail=5)
 chomp(x, head=1, tail=1) %when% {
   is.null(dim(x))

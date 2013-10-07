@@ -1,4 +1,4 @@
-#' Gets the length of a vector or the rows of a matrix or data frame.
+#' Gets the length of data structure.
 #' 
 #' @name anylength 
 #' @param data a vector, list, matrix or a data.frame
@@ -24,25 +24,22 @@
 #'
 #' When working with functions that are polymorphic, \code{lambda.r} function
 #' clauses that have guard conditions on the length of the input data structure x
-#' can use \code{anylength} instead of using \code{length} or \code{nrow}. 
+#' can use \code{anylength} instead of using \code{length} or \code{nrow},
+#' which preserves polymorphism and reduces the number of function clauses necessary. 
 #'
-#' # A lambda.r function interface using a guard on length(x) when x is 1-d.
+#' \code{slice(x, expression) \%::\% a : logical : list}
 #'
-#' slice(x, expression) \%::\% a : logical : list
+#' \code{slice(x, expression) \%when\% \{length(expression) == length(x) \}}
 #'
-#' slice(x, expression) \%when\% \{length(expression) == length(x) \}
 #'
-#' # A lambda.r function using a guard on nrow(x) when x is 2-d.
+#' \code{slice(x, expression) \%::\% a : logical : list}
 #'
-#' slice(x, expression) \%::\% a : logical : list
+#' \code{slice(x, expression) \%when\% {length(expression) == nrow(x) }}
 #'
-#' slice(x, expression) \%when\% {length(expression) == nrow(x) }
 #'
-#' # A lambda.r function interface using a guard on anylength(x) for both cases.
+#' \code{slice(x, expression) \%::\% a : logical : list}
 #'
-#' slice(x, expression) \%::\% a : logical : list
-#'
-#' slice(x, expression) \%when\% {length(expression) == anylength(x) }
+#' \code{slice(x, expression) \%when\% {length(expression) == anylength(x) }}
 #'
 #' @return For vectors and lists \code{anylength} returns \code{length(data)}, for 
 #' matrices and data.frames \code{anylength} returns \code{nrow(data)}.

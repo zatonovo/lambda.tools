@@ -22,6 +22,7 @@
 \examples{
 v <- rnorm(10)
 item(v, 5)
+
 item(v, 20)
 }
 

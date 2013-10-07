@@ -10,7 +10,9 @@
   \item{x}{an object}
 }
 \value{
-  A boolean.
+  The result of the function \code{fn} if \code{condition}
+  is satisfied for that specific element. Otherwise,
+  returns the element itself.
 }
 \description{
   Conditionally apply a function to an argument
@@ -23,11 +25,16 @@
   a closure can be used. For example,
 
   \code{ifelse(length(x) < 10, function(y) fold(x,
-  function(x, y) x+y), x)}.
+  function(x,y) x+y), x)}
 
-  will fail due to the closure around \code{fold}.  If the
-  argument \code{fn}, is not a function \code{onlyif} will
-  throw an error.
+  will fail due to the closure around \code{fold}.  The
+  alternative would be,
+
+  \code{onlyif(length(x) < 10, function(y) fold(x,
+  function(x,y) x+y), x)}
+
+  If the argument \code{fn}, is not a function
+  \code{onlyif} will throw an error.
 }
 \examples{
 x <- rnorm(5)

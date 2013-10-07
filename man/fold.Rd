@@ -3,32 +3,37 @@
 \title{Successively apply a function to a sequence and the value of the
 previous application}
 \arguments{
-  \item{x}{a vector, list, matrix or data.frame}
+  \item{x}{Any indexable data structure.}
 
   \item{fn}{a function applied to x}
 
   \item{acc}{accumulator}
 }
 \value{
-  a vector containing the accumulated result.
+  An object containing the accumulated result.
 }
 \description{
   Successively apply a function to a sequence and the value
   of the previous application
 }
 \section{Details}{
-  The function applied to the blocks must take two
-  arguments (i.e., a binary function).
+  This function implements a linear fold operation as
+  opposed to a tree-like fold. The function applied to the
+  blocks must take two arguments (i.e., a binary function).
 }
 \examples{
 fold(rnorm(10), function(x, y) x + y)
+
 fold(rnorm(10), function(x, y) x + y, acc=10)
+
 # Fold over a list element.
 x <- list(1:10)
 fold(x[[1]], function(x, y) x + y)
+
 # Fold across the rows of a matrix.
 x <- matrix(1:10, ncol=2)
 fold(x, function(x, y) x + y)
+
 # Fold accross the rows of a data.frame.
 x <- data.frame(x1=1:10, x2=1:10)
 fold(x, function(x, y) x + y)

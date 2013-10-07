@@ -2,12 +2,11 @@
 \alias{map}
 \title{Apply a function over each element of a vector}
 \arguments{
-  \item{x}{a data structure containing elements that are
-  compatable with fn}
+  \item{x}{Any indexable data structure.}
 
-  \item{fn}{a function}
+  \item{fn}{A function applied to elements in x.}
 
-  \item{y}{an accumulator object (vector, list, matrix,
+  \item{y}{An accumulator object (vector, list, matrix,
   data.frame)}
 }
 \value{
@@ -32,9 +31,12 @@
 }
 \examples{
 map(rnorm(10, sd=2), quantize)
+
 map(rnorm(10, sd=2), function(y) sum(y), y=list())
+
 # Sum the columns of a matrix
 map(matrix(rnorm(10, sd=2), ncol=2), function(y) sum(y), y=list())
+
 # Sum the columns of a data.frame
 map(matrix(rnorm(10, sd=2), ncol=2), function(y) sum(y), y=list())
 }

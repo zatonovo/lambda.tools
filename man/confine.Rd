@@ -25,6 +25,7 @@
 x <- 1:100
 y <- rnorm(100, sd=4)
 confine(y)
+
 # Illustration of confine(y) behavior.
 plot(x, y)
 points(x, confine(y), col='red')

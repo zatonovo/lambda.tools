@@ -11,8 +11,8 @@
 }
 \value{
   A matrix with columns left and right where each row
-  corresponds to the value of #' the metric function that
-  was applied to adjacent windows.
+  corresponds to the value of the metric function that was
+  applied to adjacent windows.
 }
 \description{
   Partition a sequence into coordinate pairs based on
@@ -34,7 +34,9 @@
 \examples{
 x <- 1:50
 partition(x)
+
 partition(x, metric=sum)
+
 partition(x, metric=sum, radius=5)
 }
 

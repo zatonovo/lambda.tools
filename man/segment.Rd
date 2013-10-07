@@ -4,7 +4,7 @@
 \arguments{
   \item{x}{a sequence}
 
-  \item{padded}{logical to control if NAs will be padded to
+  \item{do.pad}{logical to control if NAs will be padded to
   segments}
 }
 \description{
@@ -33,6 +33,7 @@
 \examples{
 x <- 1:50
 segment(x)
+
 segment(x, TRUE)
 }
 

@@ -10,7 +10,7 @@
 #' 'scalar' in this function defintion is intened to mean any object with length equal
 #' to one.
 #'
-#' @return A boolean.
+#' @return A logical value that indicates if the input is of length one. 
 #'
 #' @examples
 #' x <- 10
@@ -33,12 +33,16 @@ is.scalar(x) %as% { FALSE }
 #' differs from \code{ifelse} in the sense that it is not vectorized and a closure
 #' can be used. For example,
 #'
-#' \code{ifelse(length(x) < 10, function(y) fold(x, function(x, y) x+y), x)}.
+#' \code{ifelse(length(x) < 10, function(y) fold(x, function(x,y) x+y), x)}
 #'
-#' will fail due to the closure around \code{fold}.  If the argument \code{fn}, is not
-#' a function \code{onlyif} will throw an error. 
+#' will fail due to the closure around \code{fold}.  The alternative would be,
 #'
-#' @return A boolean.
+#' \code{onlyif(length(x) < 10, function(y) fold(x, function(x,y) x+y), x)}
+#'
+#' If the argument \code{fn}, is not a function \code{onlyif} will throw an error. 
+#'
+#' @return The result of the function \code{fn} if \code{condition} is satisfied for that
+#' specific element. Otherwise, returns the element itself.
 #'
 #' @examples
 #' x <- rnorm(5)
@@ -56,7 +60,7 @@ onlyif(FALSE, fn, x) %as% { x }
 #' @param default the value to replace empty, NULL, or NA
 #'
 #' @section Details:
-#' These are equivlaent operations,  
+#' These are equivalent operations,
 #'
 #' \code{x <- sample(c(1:3, NA), 10, replace=TRUE)}
 #'
@@ -68,7 +72,8 @@ onlyif(FALSE, fn, x) %as% { x }
 #' operation is that the functional definition will help mathematical provability 
 #' of the program and facilitate translation between the mathematical model and code.
 #'
-#' @return A boolean.
+#' @return A scalar variable that has been mapped to a default value if it is NA,
+#' EMPTY, or NULL. Otherwise, this function will return the value itself. 
 #'
 #' @examples
 #' # Clean data.

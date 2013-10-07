@@ -12,7 +12,7 @@
 }
 \value{
   The input vector x will be returned with the appropriate
-  value(s) padded to the #' head or tail, or both.
+  value(s) padded to the head or tail, or both.
 }
 \description{
   Pad a vector with NAs or other values.
@@ -26,10 +26,13 @@
 # Pad 10 NA values to the head of x.
 x <- 1:50
 pad(x, 10)
+
 # Pad 10 NAs to the tail of x.
 pad(x, 0, 10)
+
 # Pad 10 NAs to the head and tail of x.
 pad(x, 10, 10)
+
 # Pad 10 zeros to the head and tail of x.
 pad(x, 10, 10, default=0)
 }

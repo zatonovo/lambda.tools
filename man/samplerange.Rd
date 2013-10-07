@@ -33,7 +33,9 @@
 # Sample a range in a vector.
 x <- rnorm(10)
 samplerange(x, 5, 2)
+
 samplerange(x, 5, 3)
+
 # Sample a range in a matrix.
 x <- matrix(rnorm(10), ncol=2)
 samplerange(x, 4, 2)
