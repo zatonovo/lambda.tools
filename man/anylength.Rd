@@ -1,45 +1,76 @@
 \name{anylength}
 \alias{anylength}
-\title{ Get the generic length of an object }
-\description{
-  This function consolidates size dimensions for one and two dimensional data
-  structures. The idea is that many operations require knowing either how long
-  a vector is or how many rows are in a matrix. So rather than switching 
-  between length and nrow, anylength provides the appropriate polymorphism to 
-  return the proper value.
-}
-\usage{
-anylength(...)
-}
+\title{Gets the length of a vector or the rows of a matrix or data frame.}
 \arguments{
-  \item{\dots}{ Abstract function controlled by lambda.r }
-}
-\details{
-  anylength(data)
-  data - An object
-
-  When working with libraries, it is easy to forget the return type of a
-  function, particularly when there are a lot of switches between vectors,
-  matrices, and other data structures. This function along with its
-  \code{\link{anynames}} counterpart provides a single interface for accessing
-  this information across objects.
-
-  The core assumption is that in most cases length is semantically synonomous
-  with nrow such that the number of columns in two-dimensional structures is
-  less consequential than the number of rows. This is particularly true of
-  time-based objects, such as zoo or xts where the number of observations is
-  equal to the number of rows in the structure.
+  \item{data}{a vector, list, matrix or a data.frame}
 }
 \value{
-  The length or nrow of the object
+  For vectors and lists \code{anylength} returns
+  \code{length(data)}, for matrices and data.frames
+  \code{anylength} returns \code{nrow(data)}.
 }
-\author{ Brian Lee Yung Rowe }
-\seealso{ \code{\link{anynames}} }
-\examples{
-  m <- matrix(c(1,2,3,4,5,6), ncol=2)
-  anylength(m)
+\description{
+  Gets the length of a vector or the rows of a matrix or
+  data frame.
+}
+\section{Details}{
+  This function consolidates size dimensions for one and
+  two dimensional data structures. The idea is that many
+  operations require knowing either how long a vector is or
+  how many rows are in a matrix. So rather than switching
+  between length and nrow, anylength provides the
+  appropriate polymorphism to return the proper value.
 
-  v <- c(1,2,3,4,5)
-  anylength(v)
+  When working with libraries, it is easy to forget the
+  return type of a function, particularly when there are a
+  lot of switches between vectors, matrices, and other data
+  structures. This function along with its
+  \code{\link{anynames}} counterpart provides a single
+  interface for accessing this information across objects
+
+  The core assumption is that in most cases length is
+  semantically synonomous with nrow such that the number of
+  columns in two-dimensional structures is less
+  consequential than the number of rows. This is
+  particularly true of time-based objects, such as zoo or
+  xts where the number of observations is equal to the
+  number of rows in the structure.
+
+  When working with functions that are polymorphic,
+  \code{lambda.r} function clauses that have guard
+  conditions on the length of the input data structure x
+  can use \code{anylength} instead of using \code{length}
+  or \code{nrow}.
+
+  # A lambda.r function interface using a guard on
+  length(x) when x is 1-d.
+
+  slice(x, expression) \%::\% a : logical : list
+
+  slice(x, expression) \%when\% \{length(expression) ==
+  length(x) \}
+
+  # A lambda.r function using a guard on nrow(x) when x is
+  2-d.
+
+  slice(x, expression) \%::\% a : logical : list
+
+  slice(x, expression) \%when\% {length(expression) ==
+  nrow(x) }
+
+  # A lambda.r function interface using a guard on
+  anylength(x) for both cases.
+
+  slice(x, expression) \%::\% a : logical : list
+
+  slice(x, expression) \%when\% {length(expression) ==
+  anylength(x) }
 }
-\keyword{ attribute }
+\examples{
+m <- matrix(c(1,2,3,4,5,6), ncol=2)
+anylength(m)
+
+v <- c(1,2,3,4,5)
+anylength(v)
+}
+
