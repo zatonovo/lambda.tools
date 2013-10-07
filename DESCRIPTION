@@ -5,8 +5,10 @@ Version: 1.0.0
 Date: 2013-08-30
 Depends:
     lambda.r
-Author: Brian Lee Yung Rowe
-Maintainer: Brian Lee Yung Rowe <r@zatonovo.com>
+Suggests:
+    testthat (>= 0.2)
+Author: Brian Lee Yung Rowe, Eric Cox
+Maintainer: Brian Lee Yung Rowe <r@zatonovo.com>, Eric Cox <ec@cashpath.com>
 Description: Provides tools that manipulate and transform data using methods
     and techniques consistent with functional programming. The idea is that
     through the use of these tools, a program can be reasoned about insomuch

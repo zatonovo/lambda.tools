@@ -16,7 +16,7 @@
 #' @aliases lambda.tools-package lambda.tools
 #' @docType package
 #' @exportPattern "^[^\\.]"
-#' @author Brian Lee Yung Rowe <r@@zatonovo.com>
+#' @author Brian Lee Yung Rowe <r@@zatonovo.com>, Eric Cox <ec@@cashpath.com>
 #' @seealso \code{\link{lambda.r}}
 #' @keywords package attribute logic
 NULL
