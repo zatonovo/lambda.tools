@@ -2,9 +2,9 @@
 \alias{map}
 \title{Apply a function over each element of a vector}
 \arguments{
-  \item{x}{Any indexable data structure.}
+  \item{x}{Any indexable data structure}
 
-  \item{fn}{A function applied to elements in x.}
+  \item{fn}{A function applied to elements in x}
 
   \item{y}{An accumulator object (vector, list, matrix,
   data.frame)}

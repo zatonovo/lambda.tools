@@ -1,8 +1,8 @@
 \name{anylength}
 \alias{anylength}
-\title{Gets the length of data structure.}
+\title{Get the generic length of an object}
 \arguments{
-  \item{data}{a vector, list, matrix or a data.frame}
+  \item{data}{Any indexable data structure}
 }
 \value{
   For vectors and lists \code{anylength} returns
@@ -10,7 +10,7 @@
   \code{anylength} returns \code{nrow(data)}.
 }
 \description{
-  Gets the length of data structure.
+  Get the generic length of an object
 }
 \section{Details}{
   This function consolidates size dimensions for one and
@@ -44,18 +44,18 @@
 
   \code{slice(x, expression) \%::\% a : logical : list}
 
-  \code{slice(x, expression) \%when\% \{length(expression)
+  \code{slice(x, expression) \%when\% \{ length(expression)
   == length(x) \}}
 
   \code{slice(x, expression) \%::\% a : logical : list}
 
-  \code{slice(x, expression) \%when\% {length(expression)
-  == nrow(x) }}
+  \code{slice(x, expression) \%when\% \{ length(expression)
+  == nrow(x) \}}
 
   \code{slice(x, expression) \%::\% a : logical : list}
 
-  \code{slice(x, expression) \%when\% {length(expression)
-  == anylength(x) }}
+  \code{slice(x, expression) \%when\% \{ length(expression)
+  == anylength(x) \}}
 }
 \examples{
 m <- matrix(c(1,2,3,4,5,6), ncol=2)

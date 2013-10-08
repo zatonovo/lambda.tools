@@ -2,7 +2,7 @@
 \alias{chomp}
 \title{Remove the head and tail of a data structure}
 \arguments{
-  \item{x}{Any indexable data structure.}
+  \item{x}{Any indexable data structure}
 
   \item{head}{the number of elements to be removed from the
   head of x}

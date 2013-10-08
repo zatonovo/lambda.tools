@@ -2,16 +2,16 @@
 \alias{slice}
 \title{Split a sequence based on a pivot value or an expression}
 \arguments{
-  \item{x}{a sequence}
+  \item{x}{A sequence}
 
-  \item{pivot}{the index where x will be sliced.}
+  \item{pivot}{The index where x will be sliced}
 
-  \item{inclusive}{defined as TRUE will include the value
+  \item{inclusive}{Defined as TRUE will include the value
   of x at index pivot as the first element in second half
-  of the slice of x.}
+  of the slice of x}
 
-  \item{expression}{is a logical expression used for
-  logical indexing of x.}
+  \item{expression}{A logical expression used for logical
+  indexing of x}
 }
 \value{
   A list containing the left and right vectors with respect

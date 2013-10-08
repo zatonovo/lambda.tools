@@ -3,8 +3,8 @@
 #' Apply a function over each element of a vector
 #'
 #' @name map
-#' @param x Any indexable data structure.
-#' @param fn A function applied to elements in x. 
+#' @param x Any indexable data structure
+#' @param fn A function applied to elements in x
 #' @param y An accumulator object (vector, list, matrix, data.frame)
 #'
 #' @section Details:
@@ -49,9 +49,9 @@ map(x, fn, y=c()) %when% {
 #' Apply a function over a rolling range of a vector
 #'
 #' @name maprange
-#' @param x Any indexable data structure.
-#' @param window Number of elements included in rolling range.
-#' @param fn A function applied to the rolling range in x.
+#' @param x Any indexable data structure
+#' @param window Number of elements included in rolling range
+#' @param fn A function applied to the rolling range in x
 #'
 #' @section Details:
 #' This function is implemented using recursion and will throw an error if the  
@@ -80,20 +80,12 @@ maprange(x, window, fn, do.pad=FALSE) %when% {
   sapply(1:ncol(x), function(ydx) maprange(x[,ydx], fn, window, do.pad))
 }
 
-# Things to test:
-# . Vector
-# . List
-# . Matrix
-# . Data.frame
-# . Vector of length 1
-# . When window > length(x)
-#
 #' Apply a function over blocks of a vector
 #'
 #' @name mapblock
-#' @param x Any indexable data structure.
-#' @param block The block size used to map over. 
-#' @param fn A function applied to a block.
+#' @param x Any indexable data structure
+#' @param block The block size used to map over
+#' @param fn A function applied to a block
 #'
 #' @section Details:
 #' The function used must take one required argment. If the block size is not 
@@ -126,13 +118,16 @@ mapblock(x, block, fn, do.pad=FALSE) %when% {
 #' previous application
 #'
 #' @name fold
-#' @param x Any indexable data structure.
+#' @param x Any indexable data structure
 #' @param fn a function applied to x
 #' @param acc accumulator
 #'
 #' @section Details:
-#' This function implements a linear fold operation as opposed to a tree-like fold. 
+#' This function implements a linear fold operation. 
 #' The function applied to the blocks must take two arguments (i.e., a binary function).
+#'
+#' @references Haskell Wiki, http://www.haskell.org/haskellwiki/Fold
+#' @references Brian Lee Yung Rowe, Modeling Data with Functional Programming in R.
 #'
 #' @return An object containing the accumulated result.
 #'
@@ -145,7 +140,7 @@ mapblock(x, block, fn, do.pad=FALSE) %when% {
 #' x <- list(1:10)
 #' fold(x[[1]], function(x, y) x + y)
 #'
-#' # Fold across the rows of a matrix.
+#' # Fold across the columns of a matrix.
 #' x <- matrix(1:10, ncol=2)
 #' fold(x, function(x, y) x + y)
 #'
@@ -171,7 +166,7 @@ fold(x, fn, acc=0) %when% {
 #' previous application over a rolling range of a vector
 #'
 #' @name foldrange
-#' @param x Any indexable data structure.
+#' @param x Any indexable data structure
 #' @param window the number of elements included in the rolling range 
 #' @param fn the function applied to the rolling range 
 #' @param acc accumulator
@@ -188,12 +183,6 @@ fold(x, fn, acc=0) %when% {
 #' @examples
 #' foldrange(rnorm(10), 2, function(x,y) x + y)
 #'
-# Things to test
-# . Vector
-# . List
-# . Matrix
-# . Data.frame
-# . Vector of length 1
 foldrange(x, window, fn, acc=0) %when% {
   is.null(dim(x))
   window < anylength(x)

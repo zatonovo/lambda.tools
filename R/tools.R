@@ -39,7 +39,7 @@ quantize(x, bins=c(-1,0,1), metric=function(a,b) abs(a-b)) %as% {
 #' Confine values to the given bounds
 #'
 #' @name confine
-#' @param x a vector
+#' @param x A vector
 #' @param min.level lower bound on values to be confined
 #' @param max.level upper bound on values to be confined
 #'
@@ -55,7 +55,6 @@ quantize(x, bins=c(-1,0,1), metric=function(a,b) abs(a-b)) %as% {
 #' y <- rnorm(100, sd=4)
 #' confine(y)
 #'
-#' # Illustration of confine(y) behavior.
 #' plot(x, y)
 #' points(x, confine(y), col='red') 
 #' points(x, confine(y, min.level=-2, max.level=2), col='blue')
@@ -75,11 +74,11 @@ confine(x, min.level, max.level) %as% x
 #' Split a sequence based on a pivot value or an expression
 #'
 #' @name slice
-#' @param x a sequence
-#' @param pivot the index where x will be sliced. 
-#' @param inclusive defined as TRUE will include the value of x at index pivot as 
-#' the first element in second half of the slice of x.
-#' @param expression is a logical expression used for logical indexing of x. 
+#' @param x A sequence
+#' @param pivot The index where x will be sliced
+#' @param inclusive Defined as TRUE will include the value of x at index pivot as 
+#' the first element in second half of the slice of x
+#' @param expression A logical expression used for logical indexing of x
 #' 
 #' @section Details:
 #' This function splits a sequence based on a pivot value or logical expression. 
@@ -165,7 +164,7 @@ slice(x, expression) %when% {
 #' Remove the head and tail of a data structure
 #'
 #' @name chomp
-#' @param x Any indexable data structure.
+#' @param x Any indexable data structure
 #' @param head the number of elements to be removed from the head of x
 #' @param tail the number of elements to be removed from the tail of x
 #' 

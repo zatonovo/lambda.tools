@@ -1,7 +1,7 @@
-#' Gets the length of data structure.
+#' Get the generic length of an object 
 #' 
 #' @name anylength 
-#' @param data a vector, list, matrix or a data.frame
+#' @param data Any indexable data structure
 #'
 #' @section Details:
 #' This function consolidates size dimensions for one and two dimensional data
@@ -29,17 +29,17 @@
 #'
 #' \code{slice(x, expression) \%::\% a : logical : list}
 #'
-#' \code{slice(x, expression) \%when\% \{length(expression) == length(x) \}}
+#' \code{slice(x, expression) \%when\% \{ length(expression) == length(x) \}}
 #'
 #'
 #' \code{slice(x, expression) \%::\% a : logical : list}
 #'
-#' \code{slice(x, expression) \%when\% {length(expression) == nrow(x) }}
+#' \code{slice(x, expression) \%when\% \{ length(expression) == nrow(x) \}}
 #'
 #'
 #' \code{slice(x, expression) \%::\% a : logical : list}
 #'
-#' \code{slice(x, expression) \%when\% {length(expression) == anylength(x) }}
+#' \code{slice(x, expression) \%when\% \{ length(expression) == anylength(x) \}}
 #'
 #' @return For vectors and lists \code{anylength} returns \code{length(data)}, for 
 #' matrices and data.frames \code{anylength} returns \code{nrow(data)}.
@@ -54,11 +54,13 @@
 anylength(data) %when% { ! is.null(nrow(data)) } %as% nrow(data)
 anylength(data) %as% length(data)
 
-#' Get either names or colnames from a list or data.frame. This attempts to 
-#' create some polymorphism around lists, vectors, and data.frames.
+#' Get the useful names of a data structure. This attempts to 
+#' create some polymorphism around lists, vectors, and data.frames
 #' 
 #' @name anynames
 #' @aliases anynames<-
+#'
+#' @param data Any indexable data structure
 #'
 #' @section Details:
 #' Depending on the type of structure utilized in code, one needs to call either
@@ -96,6 +98,7 @@ anynames(data) %as% NULL
 }
 
 #' Lists out the types of a data.frame or other object that supports anynames
+#'
 #' @name anytypes
 #' @param data An object
 #' @param fun The function to use to get the types. Defaults to class, although
@@ -128,7 +131,7 @@ anytypes(data, fun=class) %as% {
   return(ts)
 }
 
-# If an object is empty, it is defined but has length 0.
+# Check whether data is bad or empty
 is.empty(x) %::% a : logical
 is.empty(x) %as% { length(x) < 1 }
 

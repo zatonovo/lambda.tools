@@ -1,15 +1,18 @@
 \name{anynames}
 \alias{anynames}
 \alias{anynames<-}
-\title{Get either names or colnames from a list or data.frame. This attempts to
-create some polymorphism around lists, vectors, and data.frames.}
+\title{Get the useful names of a data structure. This attempts to
+create some polymorphism around lists, vectors, and data.frames}
+\arguments{
+  \item{data}{Any indexable data structure}
+}
 \value{
   Returns the names for a data structure.
 }
 \description{
-  Get either names or colnames from a list or data.frame.
-  This attempts to create some polymorphism around lists,
-  vectors, and data.frames.
+  Get the useful names of a data structure. This attempts
+  to create some polymorphism around lists, vectors, and
+  data.frames
 }
 \section{Details}{
   Depending on the type of structure utilized in code, one

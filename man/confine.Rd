@@ -2,7 +2,7 @@
 \alias{confine}
 \title{Confine values to the given bounds}
 \arguments{
-  \item{x}{a vector}
+  \item{x}{A vector}
 
   \item{min.level}{lower bound on values to be confined}
 
@@ -26,7 +26,6 @@ x <- 1:100
 y <- rnorm(100, sd=4)
 confine(y)
 
-# Illustration of confine(y) behavior.
 plot(x, y)
 points(x, confine(y), col='red')
 points(x, confine(y, min.level=-2, max.level=2), col='blue')
