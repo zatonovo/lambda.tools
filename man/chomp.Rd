@@ -4,10 +4,10 @@
 \arguments{
   \item{x}{Any indexable data structure}
 
-  \item{head}{the number of elements to be removed from the
+  \item{head}{The number of elements to be removed from the
   head of x}
 
-  \item{tail}{the number of elements to be removed from the
+  \item{tail}{The number of elements to be removed from the
   tail of x}
 }
 \value{
@@ -15,8 +15,14 @@
   removed.
 }
 \description{
-  Remove the head and tail of a data structure
+  This function removes the head and tail of a data
+  structure. Polymorphisim is created around vectors,
+  lists, matrices and data.frames.
 }
+\section{Usage}{
+  chomp(x, head=1, tail=1)
+}
+
 \section{Details}{
   This function removes the head and tail of a data
   structure. The parameters \code{head} and \code{tail}

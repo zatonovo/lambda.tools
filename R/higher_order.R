@@ -1,6 +1,11 @@
 # :vim set filetype=R
-
 #' Apply a function over each element of a vector
+#'
+#' This funciton implements a map operation over different data types. This provides
+#' polymorphism for vectors, lists, matrices and data.frames.
+#'
+#' @section Usage:
+#' map(x, fn, y=c())
 #'
 #' @name map
 #' @param x Any indexable data structure
@@ -13,12 +18,11 @@
 #' is due to R session protecting against infinite recursion via the
 #' expressions parameter. See \code{options}.
 #'
-#' @return The value returned is the accumulator object \code{y} which is 
-#' returned from the first function clause (run \code{describe(map, 1)} in the R session).
-#'
 #' Recursion will decrement the length of the input object \code{x} and eventually the
 #' above function clause will be called as a result of \code{x} being empty. At that point
 #' \code{map} will return the accumulator \code{y}. 
+#'
+#' @return The value returned is the accumulator object \code{y} 
 #'
 #' @examples
 #' map(rnorm(10, sd=2), quantize)
@@ -48,11 +52,16 @@ map(x, fn, y=c()) %when% {
 
 #' Apply a function over a rolling range of a vector
 #'
+#' This function applies a function over a rolling range of a vector.
+#'
 #' @name maprange
-#' @param x Any indexable data structure
+#' @param x A vector
 #' @param window Number of elements included in rolling range
 #' @param fn A function applied to the rolling range in x
 #'
+#' @section Usage:
+#' maprange(x, window, fn, do.pad=FALSE)
+#' 
 #' @section Details:
 #' This function is implemented using recursion and will throw an error if the  
 #' length of \code{x} approaches \code{getOption('expressions') / 8.0}. This limit
@@ -65,6 +74,7 @@ map(x, fn, y=c()) %when% {
 #' x <- rnorm(50)
 #' x10 <- maprange(x, 10, mean, TRUE)
 #'
+#' # Notice the difference in length of the vector when do.pad is FALSE.
 #' x20 <- maprange(x, 20, mean)
 maprange(x, window, fn, do.pad=FALSE) %when% {
   is.null(dim(x))
@@ -82,23 +92,42 @@ maprange(x, window, fn, do.pad=FALSE) %when% {
 
 #' Apply a function over blocks of a vector
 #'
+#' Apply a function over blocks of a data structure. This function implements 
+#' polymorphism over lists, vectors, matrices and data.frames.
+#'
 #' @name mapblock
 #' @param x Any indexable data structure
 #' @param block The block size used to map over
 #' @param fn A function applied to a block
 #'
+#' @section Usage:
+#' mapblock(x, block, fn, do.pad=FALSE)
+#'
 #' @section Details:
-#' The function used must take one required argment. If the block size is not 
-#' a multiple of \code{anylength(x)} the vector returned will have NAs for indices
+#' The function \code{fn} must take one required argment. If the block size is not 
+#' a multiple of \code{anylength(x)} the vector returned will have \code{NA}s for indices
 #' that fall outside the range of the blocks.
 #'
-#' @return a vector containing the result of fn appled to the rolling window.
+#' For two-dimensional structures, blocking occurs accross the columns of the data
+#' structure and the function will be appled to all rows for that given block of columns.
+#'
+#' @return A vector containing the result of fn appled to each block 
 #'
 #' @examples
+#' 
 #' x <- rnorm(50)
 #' x10 <- mapblock(x, 10, mean, TRUE)
 #'
 #' x20 <- mapblock(x, 20, mean)
+#'
+#' # Apply mapblock across the columns of a matrix for two block sizes - Note
+#' # how the function is applied to block columns.
+#' 
+#' m <- matrix(1:12, ncol=2)
+#' mapblock(m, 1, sum)
+#'
+#' mapblock(m, 2, sum)
+#'
 mapblock(x, block, fn, do.pad=FALSE) %when% {
   is.null(dim(x))
   block < anylength(x)
@@ -117,14 +146,24 @@ mapblock(x, block, fn, do.pad=FALSE) %when% {
 #' Successively apply a function to a sequence and the value of the
 #' previous application
 #'
+#' This function applys a function to a sequence and the value of the previous 
+#' application, see refrences.
+#'
 #' @name fold
 #' @param x Any indexable data structure
-#' @param fn a function applied to x
-#' @param acc accumulator
+#' @param fn A function applied to x
+#' @param acc Accumulator
+#'
+#' @section Usage:
+#' fold(x, fn, acc=0)
 #'
 #' @section Details:
-#' This function implements a linear fold operation. 
-#' The function applied to the blocks must take two arguments (i.e., a binary function).
+#' This function implements a linear fold operation via recursion. The reduction process
+#' is accomplished by recursively passing x[-1] into the inner function call. For each 
+#' call to fold, the input vector is shrinking by one element and the function applied
+#' to the data is appled to the first element of the input vector and the accumulator. 
+#' Hence, the function applied to the blocks must take two arguments
+#' (i.e., a binary function).
 #'
 #' @references Haskell Wiki, http://www.haskell.org/haskellwiki/Fold
 #' @references Brian Lee Yung Rowe, Modeling Data with Functional Programming in R.
@@ -136,7 +175,7 @@ mapblock(x, block, fn, do.pad=FALSE) %when% {
 #'
 #' fold(rnorm(10), function(x, y) x + y, acc=10)
 #'
-#' # Fold over a list element.
+#'
 #' x <- list(1:10)
 #' fold(x[[1]], function(x, y) x + y)
 #'
@@ -165,20 +204,26 @@ fold(x, fn, acc=0) %when% {
 #' Successively apply a function to a sequence and the value of the
 #' previous application over a rolling range of a vector
 #'
+#' This function successively applies a function to a sequence and the value
+#' of the previous application over a rolling range of a vector.
+#'
 #' @name foldrange
-#' @param x Any indexable data structure
-#' @param window the number of elements included in the rolling range 
-#' @param fn the function applied to the rolling range 
-#' @param acc accumulator
+#' @param x A vector
+#' @param window The number of elements included in the rolling range 
+#' @param fn The function applied to the rolling range 
+#' @param acc Accumulator
+#'
+#' @section Usage:
+#' foldrange(x, window, fn, acc=0)
 #'
 #' @section Details:
 #' This function implements a linear fold operation over a rolling range with
 #' length defined by the window parameter. This function is defined for one- and 
 #' two dimensional data structures only.  A restriction on the window size is that 
-#' the window size must be less than the length(x).  The function applied to the 
+#' the window size must be less than the \code{length(x)}. The function applied to the 
 #' window must take two arguments (i.e., a binary function).
 #'
-#' @return An object containing the accumulated result.
+#' @return An object containing the accumulated result
 #'
 #' @examples
 #' foldrange(rnorm(10), 2, function(x,y) x + y)
@@ -202,16 +247,28 @@ foldrange(x, window, fn, acc=0, idx) %when% {
 #' value of the previous application over a moving block subsequence of 
 #' a vector
 #'
+#' This function applies a funciton to a moving block of a sequence and the previous 
+#' application of the function. 
+#'
 #' @name foldblock
-#' @param x Any indexable data structure
-#' @param block the number of elements included in the rolling block
-#' @param fn the function applied to the rolling range
-#' @param acc accumulator
+#' @param x Any Indexable data structure
+#' @param block The number of elements included in the rolling block
+#' @param fn The function applied to the rolling range
+#' @param acc Accumulator
+#'
+#' @section Usage:
+#' foldblock(x, block, fn, acc=0)
+#'
+#' @return An object containg the accumulated result
 #'
 #' @section Details:
 #' This function apples to both one-dimensional and two-dimensional data structures.
 #' A restriction on the block size is that the block size must be less than the length(x).
 #' The function applied to the blocks must take two arguments (i.e., a binary function).
+#'
+#' @section TODO: 
+#' This function is not working for a matrix. See github issue
+#' https://github.com/muxspace/lambda.tools/issues/3
 #'
 #' @examples
 #' foldblock(rnorm(10), 2, function(x,y) x + y)
@@ -239,7 +296,7 @@ foldblock(x, block, fn, acc=0, idx) %when% {
   foldblock(x, block, fn, fn(x[idx:(idx+block-1)], acc), idx-block)
 }
 
-foldblock(x, block, fn, acc=0, idx) %when% { 
+foldblock(x, block, fn, acc=0, idx) %when% {
   block < anylength(x)
 } %as% {
   foldblock(x, block, fn, fn(x[,idx:(idx+block-1)], acc), idx-block)

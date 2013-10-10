@@ -1,12 +1,13 @@
 \name{partition}
 \alias{partition}
-\title{Partition a sequence into coordinate pairs based on adjacent windows}
+\title{Partition a sequence into coordinate pairs based on adjacent windows and
+apply a metric function to each window}
 \arguments{
-  \item{x}{a sequence}
+  \item{x}{A sequence}
 
-  \item{metric}{a function that maps a vector to a scalar}
+  \item{metric}{A function that maps a vector to a scalar}
 
-  \item{radius}{the maximum window size of the adjacent
+  \item{radius}{The maximum window size of the adjacent
   partitions}
 }
 \value{
@@ -15,8 +16,9 @@
   applied to adjacent windows.
 }
 \description{
-  Partition a sequence into coordinate pairs based on
-  adjacent windows
+  This function partitions a sequence into coordinate pairs
+  based on adjacent windows and applies a function to each
+  window.
 }
 \section{Details}{
   If the metric function does not map a vector to a scalar,
@@ -35,6 +37,7 @@
 x <- 1:50
 partition(x)
 
+# Apply a function to each window and change the radius.
 partition(x, metric=sum)
 
 partition(x, metric=sum, radius=5)

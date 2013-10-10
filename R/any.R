@@ -1,5 +1,10 @@
 #' Get the generic length of an object 
 #' 
+#' This function gets the generic length of an object.
+#'
+#' @section Usage: 
+#' anylength(data)
+#'
 #' @name anylength 
 #' @param data Any indexable data structure
 #'
@@ -7,8 +12,8 @@
 #' This function consolidates size dimensions for one and two dimensional data
 #' structures. The idea is that many operations require knowing either how long
 #' a vector is or how many rows are in a matrix. So rather than switching
-#' between length and nrow, anylength provides the appropriate polymorphism to
-#' return the proper value. 
+#' between \code{length} and \code{nrow}, \code{anylength} provides the appropriate 
+#' polymorphism to return the proper value. 
 #'
 #' When working with libraries, it is easy to forget the return type of a
 #' function, particularly when there are a lot of switches between vectors,
@@ -17,7 +22,7 @@
 #' this information across objects
 #' 
 #' The core assumption is that in most cases length is semantically synonomous
-#' with nrow such that the number of columns in two-dimensional structures is
+#' with \code{nrow} such that the number of columns in two-dimensional structures is
 #' less consequential than the number of rows. This is particularly true of
 #' time-based objects, such as zoo or xts where the number of observations is
 #' equal to the number of rows in the structure.
@@ -26,6 +31,7 @@
 #' clauses that have guard conditions on the length of the input data structure x
 #' can use \code{anylength} instead of using \code{length} or \code{nrow},
 #' which preserves polymorphism and reduces the number of function clauses necessary. 
+#' For example, 
 #'
 #' \code{slice(x, expression) \%::\% a : logical : list}
 #'
@@ -45,6 +51,9 @@
 #' matrices and data.frames \code{anylength} returns \code{nrow(data)}.
 #'
 #' @examples
+#' # anylength can be used in place of nrows or length to get the generic length of
+#' # an object.
+#'
 #' m <- matrix(c(1,2,3,4,5,6), ncol=2)
 #' anylength(m)
 #'
@@ -57,6 +66,12 @@ anylength(data) %as% length(data)
 #' Get the useful names of a data structure. This attempts to 
 #' create some polymorphism around lists, vectors, and data.frames
 #' 
+#' This function gets the useful names of a data structure. This attempts to 
+#' create some polymorphism around lists, vectors, and data.frames.
+#'
+#' @section Usage:
+#' anynames(data)
+#'
 #' @name anynames
 #' @aliases anynames<-
 #'
@@ -64,7 +79,7 @@ anylength(data) %as% length(data)
 #'
 #' @section Details:
 #' Depending on the type of structure utilized in code, one needs to call either
-#' names or colnames to get information related to the data sets within the 
+#' names or \code{colnames} to get information related to the data sets within the 
 #' structure. The use of two separate functions can cause errors and slows
 #' development time as data structures passed from intermediate functions may
 #' change over time, resulting in a broken interface.
@@ -77,6 +92,11 @@ anylength(data) %as% length(data)
 #'
 #' @return Returns the names for a data structure.
 #' @examples
+#'
+#' # These examples illustrate anynames provides a clean interface for 
+#' # different named data structures. The function anynames can be used in place of
+#' # names or colnames.
+#'
 #' m <- matrix(c(1,2,3,4,5,6), ncol=2)
 #' anynames(m) <- c('d','e')
 #' anynames(m)
@@ -86,6 +106,9 @@ anylength(data) %as% length(data)
 #'
 #' l <- list(a=1,b=2,c=3,d=4,e=5)
 #' anynames(l)
+#' 
+#' df <- data.frame(a=1:10, b=1:10,c=1:10,d=1:10,e=1:10)
+#' anynames(df)
 anynames(data) %when% { ! is.null(names(data)) } %as% names(data)
 anynames(data) %when% { ! is.null(colnames(data)) } %as% colnames(data)
 anynames(data) %as% NULL
@@ -97,17 +120,22 @@ anynames(data) %as% NULL
   invisible(data)
 }
 
-#' Lists out the types of a data.frame or other object that supports anynames
+#' Lists out the types of a data.frame
 #'
+#' This function lists the types of the columns in a data.frame. 
+#'
+#' @section Usage:
+#' anytypes(data, fn=class) 
+#' 
 #' @name anytypes
-#' @param data An object
-#' @param fun The function to use to get the types. Defaults to class, although
+#' @param data A data.frame
+#' @param fun The function used to get the types. Defaults to class, although
 #'    type or mode, etc. could be used
 #'
 #' @section Details:
 #' Depending on the type of structure utilized in code, one needs to call either
-#' names or colnames to get information related to the data sets within the 
-#' structure. The use of two separate functions can cause errors and slows
+#' \code{names} or \code{colnames} to get information related to the data sets
+#' within the structure. The use of two separate functions can cause errors and slows
 #' development time as data structures passed from intermediate functions may
 #' change over time, resulting in a broken interface.
 #'
@@ -117,14 +145,19 @@ anynames(data) %as% NULL
 #' organized by column, as this is compatible with time-series objects such as
 #' zoo and xts.
 #'
+#' @section TODO:
+#' Implement \code{anytypes} for a list.
+#'
 #' @return Returns a vector containing the types of the columns of a data structure.
 #'
 #' @examples
+#' # Get the types of the columns of a data.frame
 #' d <- data.frame(ints=c(1,2,3), chars=c('a','b','c'), nums=c(.1,.2,.3))
 #' anytypes(d)
 anytypes(data, fun=class) %when% {
   is.null(dim(data))
 } %as% fun(data)
+
 anytypes(data, fun=class) %as% {
   ts <- apply(matrix(anynames(data), ncol=1), 1, function(x) fun(data[,x]))
   names(ts) <- anynames(data)

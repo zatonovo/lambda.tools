@@ -5,28 +5,37 @@ previous application}
 \arguments{
   \item{x}{Any indexable data structure}
 
-  \item{fn}{a function applied to x}
+  \item{fn}{A function applied to x}
 
-  \item{acc}{accumulator}
+  \item{acc}{Accumulator}
 }
 \value{
   An object containing the accumulated result.
 }
 \description{
-  Successively apply a function to a sequence and the value
-  of the previous application
+  This function applys a function to a sequence and the
+  value of the previous application, see refrences.
 }
+\section{Usage}{
+  fold(x, fn, acc=0)
+}
+
 \section{Details}{
-  This function implements a linear fold operation. The
-  function applied to the blocks must take two arguments
-  (i.e., a binary function).
+  This function implements a linear fold operation via
+  recursion. The reduction process is accomplished by
+  recursively passing x[-1] into the inner function call.
+  For each call to fold, the input vector is shrinking by
+  one element and the function applied to the data is
+  appled to the first element of the input vector and the
+  accumulator. Hence, the function applied to the blocks
+  must take two arguments (i.e., a binary function).
 }
 \examples{
 fold(rnorm(10), function(x, y) x + y)
 
 fold(rnorm(10), function(x, y) x + y, acc=10)
 
-# Fold over a list element.
+
 x <- list(1:10)
 fold(x[[1]], function(x, y) x + y)
 

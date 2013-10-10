@@ -2,19 +2,25 @@
 
 #' Check if an object is a scalar
 #'
+#' This function checks if an object is a scalar.
+#'
 #' @name is.scalar
-#' @param x an object
+#' @param x An object
 #' 
+#' @section Usage:
+#' is.scalar(x)
+#'
 #' @section Details:
 #' This function checks to determine if an object \code{x} is a scalar. The usage of 
 #' 'scalar' in this function defintion is intened to mean any object with length equal
 #' to one.
 #'
-#' @return A logical value that indicates if the input is of length one. 
+#' @return A logical value that indicates if the input is of length one
 #'
 #' @examples
-#' x <- 10
-#' is.scalar(x)
+#' is.scalar(10)
+#' 
+#' is.scalar(1:10)
 is.scalar(x) %when% {
   length(x) == 1
 } %as% { TRUE }
@@ -22,10 +28,16 @@ is.scalar(x) %as% { FALSE }
 
 #' Conditionally apply a function to an argument
 #'
+#' This function conditionally applies a function to an argument given
+#' a logical condition.
+#'
 #' @name onlyif
-#' @param condition logical statement used to conditionally apply fn to x
-#' @param fn a function to apply to x
-#' @param x an object
+#' @param condition Logical statement used to conditionally apply fn to x
+#' @param fn A function to apply to x
+#' @param x An object
+#'
+#' @section Usage:
+#' onlyif(condition, fn, x)
 #'
 #' @section Details:
 #' This function can be used to apply a function to a vector containing
@@ -47,6 +59,7 @@ is.scalar(x) %as% { FALSE }
 #' @examples
 #' x <- rnorm(5)
 #' onlyif(length(x) < 10, function(y) pad(y, 10 - length(y)), x)
+#'
 #' onlyif(length(x) < 10, function(y) fold(x, function(x, y) x+y), x)
 onlyif(TRUE, fn, x) %when% { 
   is.function(fn)

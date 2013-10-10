@@ -1,1 +1,2 @@
 exportPattern("^[^\\.]")
+import(lambda.r)

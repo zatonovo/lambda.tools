@@ -2,16 +2,23 @@
 
 #' Force values into bins
 #'
+#' This function quantizes data based on a metric function. The effect is that values
+#' in x will be forced into the set of given bins.
+#'
 #' @name quantize
 #' @param x The vector whose values should be binned
 #' @param bins The available bins
 #' @param metric The method to attract values to the bins
+#'
+#' @section Usage:
+#' quantize(x, bins=c(-1,0,1), metric=function(a,b) abs(a-b))
 #'
 #' @section Details:
 #' This function forces values into a set of bins using a distance metric. This process
 #' is referred to as quantizing and is useful in signal processing or classification. The
 #' metric used can be a function such as euclidian distance or absolute distance, for 
 #' example. 
+#'
 #' For each value in \code{x}, this \code{quantize} evaluates the metric function with
 #' the value of \code{x} and all defined bins. The smallest metric value is selected 
 #' and used to force the value of x to the nearest bin. The metric function should be
@@ -26,7 +33,7 @@
 #' # quantize x using a Euclidian distance metric.
 #' quantize(x, metric=function(a, b) sqrt((a - b)^2))
 #'
-#' # quantize with custom bins. 
+#' # Notice the difference in the return vector when compared to the above examples.
 #' quantize(x, bins=c(-2, -1, 0, 1, 2), metric=function(a, b) sqrt((a - b)^2))
 quantize(x, bins=c(-1,0,1), metric=function(a,b) abs(a-b)) %as% {
   bins <- sort(bins)
@@ -38,23 +45,31 @@ quantize(x, bins=c(-1,0,1), metric=function(a,b) abs(a-b)) %as% {
 
 #' Confine values to the given bounds
 #'
+#' This function confines the values of a vector to the given bounds.
+#'
 #' @name confine
 #' @param x A vector
-#' @param min.level lower bound on values to be confined
-#' @param max.level upper bound on values to be confined
+#' @param min.level Lower bound on values to be confined
+#' @param max.level Upper bound on values to be confined
+#'
+#' @section Usage:
+#' confine(x, min.level=-1, max.level=1)
 #'
 #' @section Details:
 #' This function confines a set of values within a lower and upper bound. The function
 #' defintion is only written for x being a vector and is not vectorized to handle 
 #' two dimensional data structures. 
 #'
-#' @return A vector of points that lie within the bounds defined by min.level max.level.
+#' @return A vector of points that lie within the bounds defined by min.level and 
+#' max.level.
 #'
 #' @examples
+#' # Confine the values in x to lie betwween [-1, 1].
 #' x <- 1:100
 #' y <- rnorm(100, sd=4)
 #' confine(y)
 #'
+#' # Note the effect of min.level and max.level.
 #' plot(x, y)
 #' points(x, confine(y), col='red') 
 #' points(x, confine(y, min.level=-2, max.level=2), col='blue')
@@ -80,6 +95,9 @@ confine(x, min.level, max.level) %as% x
 #' the first element in second half of the slice of x
 #' @param expression A logical expression used for logical indexing of x
 #' 
+#' @section Usage:
+#' slice(x, pivot, inclusive=FALSE)
+#'
 #' @section Details:
 #' This function splits a sequence based on a pivot value or logical expression. 
 #' The inclusive parameter will either include or exclude the value at the pivot 
@@ -93,38 +111,31 @@ confine(x, min.level, max.level) %as% x
 #' @return A list containing the left and right vectors with respect to pivot.
 #'
 #' @examples
-#' # Slice a one-dimensional sequence. 
+#' # Slice x at the 25th index and switch inclusive flag - look at second half of the
+#' # output.
 #' x <- 1:50
 #' slice(x, 25, TRUE)
 #'
 #' slice(x, 25, FALSE)
 #'
+#' # Some examples using expressions.
 #' slice(x, x < 25)
 #'
 #' slice(x, x > 25)
 #'
-#' slice(x, x > 10 & x < 25)
-#'
-#' slice(x,  x > 10 & x < 25)
-#'
-#' # Slice a matrix.
+#' # Slice a few two-dimensional objects.
 #' A <- matrix(1:10, ncol=2)
 #' slice(A, 3, TRUE)
 #'
-#' slice(A, 3, FALSE)
-#'
 #' slice(A,  A[,1] > 5 & A[,1] < 7)
 #'
-#' # Slice a data frame.
-#' x <- 1:50
-#' df <- data.frame(col1=x, col2=x)
-#' slice(df, 25, TRUE)
+#' df <- data.frame(col1=1:10, col2=1:10)
+#' slice(df, 5, TRUE)
 #'
-#' slice(df, 25, FALSE)
-#'
-#' slice(df, df$col2 > 30)
+#' slice(df, 5, FALSE)
 #'
 #' slice(df, df$col1 > 10 & df$col1 < 25)
+#'
 slice(x, pivot, inclusive) %::% a : numeric : logical : list
 slice(x, pivot, inclusive=FALSE) %when% {
   is.null(dim(x))
@@ -163,11 +174,17 @@ slice(x, expression) %when% {
 
 #' Remove the head and tail of a data structure
 #'
+#' This function removes the head and tail of a data structure. Polymorphisim is created 
+#' around vectors, lists, matrices and data.frames.
+#'
 #' @name chomp
 #' @param x Any indexable data structure
-#' @param head the number of elements to be removed from the head of x
-#' @param tail the number of elements to be removed from the tail of x
+#' @param head The number of elements to be removed from the head of x
+#' @param tail The number of elements to be removed from the tail of x
 #' 
+#' @section Usage:
+#' chomp(x, head=1, tail=1)
+#'
 #' @section Details:
 #' This function removes the head and tail of a data structure. The parameters
 #' \code{head} and \code{tail} control how many elements are removed from the data

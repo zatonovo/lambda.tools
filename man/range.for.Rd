@@ -2,10 +2,10 @@
 \alias{range.for}
 \title{Get the range of a value in a series}
 \arguments{
-  \item{value}{a value in series (can be unique or
+  \item{value}{A value in series (can be unique or
   repeating in series)}
 
-  \item{series}{a series of values}
+  \item{series}{A series of values}
 }
 \value{
   A \code{data.frame} where each row contains the start and
@@ -13,7 +13,8 @@
   series.
 }
 \description{
-  Get the range of a value in a series
+  This function returns the range of a repeated or
+  non-repeated element in a series.
 }
 \section{Details}{
   This function is only defined for a one-dimensional
@@ -26,7 +27,7 @@
 
 \section{TODO}{
   Implement a \code{range.for} clause that can find the
-  range of a subsequence in a sequence. For example:
+  range of a subsequence in a sequence. For example,
 
   \code{sequence <- c(seq(1, 10), c(10, 10), seq(11, 20))}
 
@@ -40,6 +41,7 @@
   \code{segment}
 }
 \examples{
+# Find the range of repeated values of 25 in a series.
 series <- c(seq(1, 25), c(25, 25), seq(26, 50))
 range.for(25, series)
 }
