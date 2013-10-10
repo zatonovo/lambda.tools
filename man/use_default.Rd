@@ -31,8 +31,7 @@
   mathematical model and code.
 }
 \examples{
-# Clean data.
-x <- sample(c(1:3,NA), 10, replace=TRUE)
+x <- c(1, 2, 3, NA, NA)
 map(x, function(y) use_default(y, 0))
 }
 

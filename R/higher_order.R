@@ -25,7 +25,7 @@
 #' @return The value returned is the accumulator object \code{y} 
 #'
 #' @examples
-#' map(rnorm(10, sd=2), quantize)
+#' map(-10:10, quantize)
 #'
 #' map(rnorm(10, sd=2), function(y) sum(y), y=list())
 #'
@@ -71,11 +71,12 @@ map(x, fn, y=c()) %when% {
 #' @return a vector containing the result of fn appled to the rolling window.
 #'
 #' @examples
-#' x <- rnorm(50)
-#' x10 <- maprange(x, 10, mean, TRUE)
+#' x <- 1:10
+#' x3 <- maprange(x, 3, sum, TRUE)
 #'
-#' # Notice the difference in length of the vector when do.pad is FALSE.
-#' x20 <- maprange(x, 20, mean)
+#' # Notice the difference in output vector when do.pad is FALSE.
+#' x2 <- maprange(x, 2, sum)
+#' x3 <- maprange(x, 3, sum)
 maprange(x, window, fn, do.pad=FALSE) %when% {
   is.null(dim(x))
   window < anylength(x)
@@ -114,18 +115,20 @@ maprange(x, window, fn, do.pad=FALSE) %when% {
 #' @return A vector containing the result of fn appled to each block 
 #'
 #' @examples
-#' 
-#' x <- rnorm(50)
-#' x10 <- mapblock(x, 10, mean, TRUE)
+#'  
+#' x <- 1:10
+#' # Apply mean to blocks of x - look how the length of output excluding NAs is 
+#' # length(x) / block.
 #'
-#' x20 <- mapblock(x, 20, mean)
+#' x2 <- mapblock(x, 2, mean)
+#' x2 <- mapblock(x, 2, mean, TRUE)
+#' x5 <- mapblock(x, 5, mean)
 #'
 #' # Apply mapblock across the columns of a matrix for two block sizes - Note
 #' # how the function is applied to block columns.
 #' 
 #' m <- matrix(1:12, ncol=2)
 #' mapblock(m, 1, sum)
-#'
 #' mapblock(m, 2, sum)
 #'
 mapblock(x, block, fn, do.pad=FALSE) %when% {
@@ -171,32 +174,31 @@ mapblock(x, block, fn, do.pad=FALSE) %when% {
 #' @return An object containing the accumulated result.
 #'
 #' @examples
-#' fold(rnorm(10), function(x, y) x + y)
-#'
-#' fold(rnorm(10), function(x, y) x + y, acc=10)
-#'
+#' x <- 1:10
+#' fold(x, function(a,b) a+b)
+#' fold(x, function(a,b) a+b, acc=10)
 #'
 #' x <- list(1:10)
-#' fold(x[[1]], function(x, y) x + y)
+#' fold(x[[1]], function(a,b) a+b)
 #'
 #' # Fold across the columns of a matrix.
 #' x <- matrix(1:10, ncol=2)
-#' fold(x, function(x, y) x + y)
+#' fold(x, function(a,b) a+b)
 #'
 #' # Fold accross the rows of a data.frame.
-#' x <- data.frame(x1=1:10, x2=1:10)
-#' fold(x, function(x, y) x + y)
+#' x <- data.frame(col1=1:10, col2=1:10)
+#' fold(x, function(a,b) a+b)
 fold(EMPTY, fn, acc) %as% acc
 
 fold(x, fn, acc=0) %when% { 
-  is.null(dim(x)) 
+  is.null(dim(x))
   is.function(fn)
 } %as% {
   fold(x[-1], fn, fn(x[[1]], acc))
 }
 
 fold(x, fn, acc=0) %when% {
-  is.function(fn)   
+  is.function(fn)
 } %as% { 
   fold(x[,-1,drop=FALSE], fn, fn(x[,1], acc))
 }
@@ -226,7 +228,8 @@ fold(x, fn, acc=0) %when% {
 #' @return An object containing the accumulated result
 #'
 #' @examples
-#' foldrange(rnorm(10), 2, function(x,y) x + y)
+#' x <- 1:10
+#' foldrange(x, 3, function(a,b) a+b)
 #'
 foldrange(x, window, fn, acc=0) %when% {
   is.null(dim(x))
@@ -271,7 +274,12 @@ foldrange(x, window, fn, acc=0, idx) %when% {
 #' https://github.com/muxspace/lambda.tools/issues/3
 #'
 #' @examples
-#' foldblock(rnorm(10), 2, function(x,y) x + y)
+#' x <- 1:10
+#' foldblock(x, 2, function(a,b) a+b)
+#'
+#' # fold with a block size of 3 - Notice how the length of the output changes.
+#' foldblock(x, 3, function(a,b) a+b)
+#' 
 foldblock(x, block, fn, acc=0) %when% { 
   is.null(dim(x))
   block < anylength(x)

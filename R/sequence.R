@@ -20,24 +20,23 @@
 #' padded to the head or tail, or both.
 #'
 #' @examples
-#' # Pad 10 NA values to the head of x.
-#' x <- 1:50
-#' pad(x, 10) 
+#' # Pad adds NAs to the head of x.
+#' x <- 1:5
+#' pad(x, 5) 
 #' 
-#' # Pad 10 NAs to the tail of x. 
-#' pad(x, 0, 10)
+#' # Pad adds NAs to the tail of x. 
+#' pad(x, 0, 5)
 #'
-#' # Pad 10 NAs to the head and tail of x. 
-#' pad(x, 10, 10)
+#' # Pad add NAs to the head and tail of x. 
+#' pad(x, 5, 5) 
 #'
-#' # Pad 10 zeros to the head and tail of x.
-#' pad(x, 10, 10, default=0)
+#' # Pad adds zeros to the head and tail of x.
+#' pad(x, 5, 5, default=0)
 pad(x, head, tail=0, default=NA) %when% {
     is.null(dim(x))
 } %as% {
   c(rep(default,head),x, rep(default,tail))
 }
-
 
 #' Partition a sequence into coordinate pairs based on adjacent windows and
 #' apply a metric function to each window
@@ -65,13 +64,11 @@ pad(x, head, tail=0, default=NA) %when% {
 #' the value of the metric function that was applied to adjacent windows.
 #'  
 #' @examples
-#' x <- 1:50
-#' partition(x)
+#' x <- 1:5
+#' partition(x, metric=sum, radius=1)
 #'
 #' # Apply a function to each window and change the radius.
-#' partition(x, metric=sum)
-#'
-#' partition(x, metric=sum, radius=5)
+#' partition(x, metric=sum, radius=4)
 partition(x, metric=median, radius=10) %when% {
   is.null(dim(x))   
   length(metric(x)) == 1
@@ -138,10 +135,10 @@ segment(x, do.pad=FALSE) %when% {
 #' @examples
 #' # Get an element from v with a good and bad index - notice the return value 
 #' # for the second funciton call.
-#' v <- rnorm(10) 
+#' v <- 1:10 
 #' item(v, 5)
 #'
-#' item(v, 20)
+#' item(v, 0) 
 item(v, NA) %as% NA
 item(v, idx) %when% { length(idx) == 0 } %as% NA
 item(v, idx) %when% { idx == 0 } %as% NA
@@ -213,7 +210,7 @@ range.for(value, series) %when% {
 #'
 #' @examples
 #' # Sample a range in a vector.
-#' x <- rnorm(10)
+#' x <- 1:10
 #' samplerange(x, 5, 2)
 #'
 #' samplerange(x, 5, 3)

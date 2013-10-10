@@ -31,21 +31,20 @@ previous application}
   must take two arguments (i.e., a binary function).
 }
 \examples{
-fold(rnorm(10), function(x, y) x + y)
-
-fold(rnorm(10), function(x, y) x + y, acc=10)
-
+x <- 1:10
+fold(x, function(a,b) a+b)
+fold(x, function(a,b) a+b, acc=10)
 
 x <- list(1:10)
-fold(x[[1]], function(x, y) x + y)
+fold(x[[1]], function(a,b) a+b)
 
 # Fold across the columns of a matrix.
 x <- matrix(1:10, ncol=2)
-fold(x, function(x, y) x + y)
+fold(x, function(a,b) a+b)
 
 # Fold accross the rows of a data.frame.
-x <- data.frame(x1=1:10, x2=1:10)
-fold(x, function(x, y) x + y)
+x <- data.frame(col1=1:10, col2=1:10)
+fold(x, function(a,b) a+b)
 }
 \references{
   Haskell Wiki, http://www.haskell.org/haskellwiki/Fold

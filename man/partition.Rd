@@ -34,12 +34,10 @@ apply a metric function to each window}
   length less than the radius parameter.
 }
 \examples{
-x <- 1:50
-partition(x)
+x <- 1:5
+partition(x, metric=sum, radius=1)
 
 # Apply a function to each window and change the radius.
-partition(x, metric=sum)
-
-partition(x, metric=sum, radius=5)
+partition(x, metric=sum, radius=4)
 }
 

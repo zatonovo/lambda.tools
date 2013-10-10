@@ -146,7 +146,8 @@ anynames(data) %as% NULL
 #' zoo and xts.
 #'
 #' @section TODO:
-#' Implement \code{anytypes} for a list.
+#' Implement \code{anytypes} for a list. See github issue
+#' https://github.com/muxspace/lambda.tools/issues/2
 #'
 #' @return Returns a vector containing the types of the columns of a data structure.
 #'

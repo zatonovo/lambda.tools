@@ -37,7 +37,8 @@
 }
 
 \section{TODO}{
-  Implement \code{anytypes} for a list.
+  Implement \code{anytypes} for a list. See github issue
+  https://github.com/muxspace/lambda.tools/issues/2
 }
 \examples{
 # Get the types of the columns of a data.frame

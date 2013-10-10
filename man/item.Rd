@@ -27,9 +27,9 @@
 \examples{
 # Get an element from v with a good and bad index - notice the return value
 # for the second funciton call.
-v <- rnorm(10)
+v <- 1:10
 item(v, 5)
 
-item(v, 20)
+item(v, 0)
 }
 

@@ -27,17 +27,17 @@
   respectively.
 }
 \examples{
-# Pad 10 NA values to the head of x.
-x <- 1:50
-pad(x, 10)
+# Pad adds NAs to the head of x.
+x <- 1:5
+pad(x, 5)
 
-# Pad 10 NAs to the tail of x.
-pad(x, 0, 10)
+# Pad adds NAs to the tail of x.
+pad(x, 0, 5)
 
-# Pad 10 NAs to the head and tail of x.
-pad(x, 10, 10)
+# Pad add NAs to the head and tail of x.
+pad(x, 5, 5)
 
-# Pad 10 zeros to the head and tail of x.
-pad(x, 10, 10, default=0)
+# Pad adds zeros to the head and tail of x.
+pad(x, 5, 5, default=0)
 }
 

@@ -34,7 +34,7 @@
   \code{map} will return the accumulator \code{y}.
 }
 \examples{
-map(rnorm(10, sd=2), quantize)
+map(-10:10, quantize)
 
 map(rnorm(10, sd=2), function(y) sum(y), y=list())
 

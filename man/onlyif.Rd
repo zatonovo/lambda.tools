@@ -42,7 +42,7 @@
   \code{onlyif} will throw an error.
 }
 \examples{
-x <- rnorm(5)
+x <- 1:5
 onlyif(length(x) < 10, function(y) pad(y, 10 - length(y)), x)
 
 onlyif(length(x) < 10, function(y) fold(x, function(x, y) x+y), x)

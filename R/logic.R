@@ -57,7 +57,7 @@ is.scalar(x) %as% { FALSE }
 #' specific element. Otherwise, returns the element itself.
 #'
 #' @examples
-#' x <- rnorm(5)
+#' x <- 1:5
 #' onlyif(length(x) < 10, function(y) pad(y, 10 - length(y)), x)
 #'
 #' onlyif(length(x) < 10, function(y) fold(x, function(x, y) x+y), x)
@@ -89,8 +89,7 @@ onlyif(FALSE, fn, x) %as% { x }
 #' EMPTY, or NULL. Otherwise, this function will return the value itself. 
 #'
 #' @examples
-#' # Clean data.
-#' x <- sample(c(1:3,NA), 10, replace=TRUE)
+#' x <- c(1, 2, 3, NA, NA)
 #' map(x, function(y) use_default(y, 0))
 use_default(EMPTY, default) %as% default
 use_default(NULL, default) %as% default
