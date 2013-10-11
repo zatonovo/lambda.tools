@@ -1,17 +1,16 @@
 # :vim set filetype=R
-
-# Things to test:
-# . Vector
-# . List
-# . Matrix
-# . Data.frame
-#
 #' Apply a function over each element of a vector
 #'
+#' This function implements a map operation over different data types. This provides
+#' polymorphism for vectors, lists, matrices and data.frames.
+#'
+#' @section Usage:
+#' map(x, fn, y=c())
+#'
 #' @name map
-#' @param x a data structure containing elements that are compatable with fn
-#' @param fn a function 
-#' @param y an accumulator object (vector, list, matrix, data.frame)
+#' @param x Any indexable data structure
+#' @param fn A function applied to elements in x
+#' @param y An accumulator object (vector, list, matrix, data.frame)
 #'
 #' @section Details:
 #' This function is implemented using recursion and will throw an error if the  
@@ -19,18 +18,20 @@
 #' is due to R session protecting against infinite recursion via the
 #' expressions parameter. See \code{options}.
 #'
-#' @return The value returned is the accumulator object \code{y} which is 
-#' returned from the first function clause (run \code{describe(map, 1)} in the R session).
-#'
 #' Recursion will decrement the length of the input object \code{x} and eventually the
 #' above function clause will be called as a result of \code{x} being empty. At that point
 #' \code{map} will return the accumulator \code{y}. 
 #'
+#' @return The value returned is the accumulator object \code{y} 
+#'
 #' @examples
-#' map(rnorm(10, sd=2), quantize)
+#' map(-10:10, quantize)
+#'
 #' map(rnorm(10, sd=2), function(y) sum(y), y=list())
+#'
 #' # Sum the columns of a matrix
 #' map(matrix(rnorm(10, sd=2), ncol=2), function(y) sum(y), y=list())
+#'
 #' # Sum the columns of a data.frame 
 #' map(matrix(rnorm(10, sd=2), ncol=2), function(y) sum(y), y=list())
 #
@@ -49,34 +50,34 @@ map(x, fn, y=c()) %when% {
   map(x[,-1,drop=FALSE], fn, c(y, fn(x[,1])))
 }
 
-# Things to test:
-# . Vector
-# . List
-# . Matrix
-# . Data.frame
-# . Vector of length 1
-# . When window > length(x)
-#
 #' Apply a function over a rolling range of a vector
 #'
-#' @name rangemap
-#' @param x a vector, list, matrix, or data.frame 
-#' @param window number of elements included in rolling range
-#' @param fn a function applied to the rolling range in x 
+#' This function applies a function over a rolling range of a vector.
 #'
+#' @name maprange
+#' @param x A vector
+#' @param window Number of elements included in rolling range
+#' @param fn A function applied to the rolling range in x
+#'
+#' @section Usage:
+#' maprange(x, window, fn, do.pad=FALSE)
+#' 
 #' @section Details:
 #' This function is implemented using recursion and will throw an error if the  
 #' length of \code{x} approaches \code{getOption('expressions') / 8.0}. This limit
 #' is due to R session protecting against infinite recursion via the
 #' expressions parameter. See \code{options}.
 #'
-#' @return a vector containing the result of fn appled to the rolling window.
+#' @return a vector containing the result of fn applied to the rolling window.
 #'
 #' @examples
-#' x <- rnorm(50)
-#' x10 <- rangemap(x, 10, mean, TRUE)
-#' x20 <- rangemap(x, 20, mean)
-rangemap(x, window, fn, do.pad=FALSE) %when% {
+#' x <- 1:10
+#' x3 <- maprange(x, 3, sum, TRUE)
+#'
+#' # Notice the difference in output vector when do.pad is FALSE.
+#' x2 <- maprange(x, 2, sum)
+#' x3 <- maprange(x, 3, sum)
+maprange(x, window, fn, do.pad=FALSE) %when% {
   is.null(dim(x))
   window < anylength(x)
 } %as% {
@@ -84,42 +85,53 @@ rangemap(x, window, fn, do.pad=FALSE) %when% {
   onlyif(do.pad, function(z) pad(z, window-1), y)
 }
 
-rangemap(x, window, fn, do.pad=FALSE) %when% {
+maprange(x, window, fn, do.pad=FALSE) %when% {
   window < anylength(x)
 } %as% {
-  sapply(1:ncol(x), function(ydx) rangemap(x[,ydx], fn, window, do.pad))
+  sapply(1:ncol(x), function(ydx) maprange(x[,ydx], fn, window, do.pad))
 }
 
-# Things to test:
-# . Vector
-# . List
-# . Matrix
-# . Data.frame
-# . Vector of length 1
-# . When window > length(x)
-#
 #' Apply a function over blocks of a vector
 #'
-# Document this:
-# x <- 1:10
-# > blockmap(x, 3, function(a) sum(a))
-# [1]  6 15 24 NA
-#
-#' @name blockmap
-#' @param x a vector, list, matrix, or data.frame 
-#' @param block the block size used to map over 
-#' @param fn a function applied to a block
+#' Apply a function over blocks of a data structure. This function implements 
+#' polymorphism over lists, vectors, matrices and data.frames.
+#'
+#' @name mapblock
+#' @param x Any indexable data structure
+#' @param block The block size used to map over
+#' @param fn A function applied to a block
+#'
+#' @section Usage:
+#' mapblock(x, block, fn, do.pad=FALSE)
 #'
 #' @section Details:
-#' The function used must take one required argment.
+#' The function \code{fn} must take one required argument. If the block size is not 
+#' a multiple of \code{anylength(x)} the vector returned will have \code{NA}s for indices
+#' that fall outside the range of the blocks.
 #'
-#' @return a vector containing the result of fn appled to the rolling window.
+#' For two-dimensional structures, blocking occurs across the columns of the data
+#' structure and the function will be applied to all rows for that given block of columns.
+#'
+#' @return A vector containing the result of fn applied to each block 
 #'
 #' @examples
-#' x <- rnorm(50)
-#' x10 <- blockmap(x, 10, mean, TRUE)
-#' x20 <- blockmap(x, 20, mean)
-blockmap(x, block, fn, do.pad=FALSE) %when% {
+#'  
+#' x <- 1:10
+#' # Apply mean to blocks of x - look how the length of output excluding NAs is 
+#' # length(x) / block.
+#'
+#' x2 <- mapblock(x, 2, mean)
+#' x2 <- mapblock(x, 2, mean, TRUE)
+#' x5 <- mapblock(x, 5, mean)
+#'
+#' # Apply mapblock across the columns of a matrix for two block sizes - Note
+#' # how the function is applied to block columns.
+#' 
+#' m <- matrix(1:12, ncol=2)
+#' mapblock(m, 1, sum)
+#' mapblock(m, 2, sum)
+#'
+mapblock(x, block, fn, do.pad=FALSE) %when% {
   is.null(dim(x))
   block < anylength(x)
 } %as% {
@@ -127,7 +139,7 @@ blockmap(x, block, fn, do.pad=FALSE) %when% {
   onlyif(do.pad, function(z) pad(z, block-1), y)
 }
 
-blockmap(x, block, fn, do.pad=FALSE) %when% {
+mapblock(x, block, fn, do.pad=FALSE) %when% {
   block < anylength(x)
 } %as% {
   y <- sapply(seq(1, ncol(x), by=block), function(ydx) fn(x[,ydx:(ydx+block-1)]))
@@ -137,47 +149,56 @@ blockmap(x, block, fn, do.pad=FALSE) %when% {
 #' Successively apply a function to a sequence and the value of the
 #' previous application
 #'
+#' This function applies a function to a sequence and the value of the previous 
+#' application, see references.
+#'
 #' @name fold
-#' @param x a vector, list, matrix or data.frame
-#' @param fn a function applied to x
-#' @param acc accumulator
+#' @param x Any indexable data structure
+#' @param fn A function applied to x
+#' @param acc Accumulator
+#'
+#' @section Usage:
+#' fold(x, fn, acc=0)
 #'
 #' @section Details:
-#' The function applied to the blocks must take two arguments (i.e., a binary function).
+#' This function implements a linear fold operation via recursion. The reduction process
+#' is accomplished by recursively passing x[-1] into the inner function call. For each 
+#' call to fold, the input vector is shrinking by one element and the function applied
+#' to the data is applied to the first element of the input vector and the accumulator. 
+#' Hence, the function applied to the blocks must take two arguments
+#' (i.e., a binary function).
 #'
-#' @return a vector containing the accumulated result.
+#' @references Haskell Wiki, http://www.haskell.org/haskellwiki/Fold
+#' @references Brian Lee Yung Rowe, Modeling Data with Functional Programming in R.
+#'
+#' @return An object containing the accumulated result.
 #'
 #' @examples
-#' fold(rnorm(10), function(x, y) x + y)
-#' fold(rnorm(10), function(x, y) x + y, acc=10)
-#' # Fold over a list element.
+#' x <- 1:10
+#' fold(x, function(a,b) a+b)
+#' fold(x, function(a,b) a+b, acc=10)
+#'
 #' x <- list(1:10)
-#' fold(x[[1]], function(x, y) x + y)
-#' # Fold across the rows of a matrix.
+#' fold(x[[1]], function(a,b) a+b)
+#'
+#' # Fold across the columns of a matrix.
 #' x <- matrix(1:10, ncol=2)
-#' fold(x, function(x, y) x + y)
-#' # Fold accross the rows of a data.frame.
-#' x <- data.frame(x1=1:10, x2=1:10)
-#' fold(x, function(x, y) x + y)
+#' fold(x, function(a,b) a+b)
 #'
-#'
-# Things to test
-# . Vector
-# . List
-# . Matrix
-# . Data.frame
-# . Vector of length 1
+#' # Fold across the rows of a data.frame.
+#' x <- data.frame(col1=1:10, col2=1:10)
+#' fold(x, function(a,b) a+b)
 fold(EMPTY, fn, acc) %as% acc
 
 fold(x, fn, acc=0) %when% { 
-  is.null(dim(x)) 
+  is.null(dim(x))
   is.function(fn)
 } %as% {
   fold(x[-1], fn, fn(x[[1]], acc))
 }
 
 fold(x, fn, acc=0) %when% {
-  is.function(fn)   
+  is.function(fn)
 } %as% { 
   fold(x[,-1,drop=FALSE], fn, fn(x[,1], acc))
 }
@@ -185,86 +206,106 @@ fold(x, fn, acc=0) %when% {
 #' Successively apply a function to a sequence and the value of the
 #' previous application over a rolling range of a vector
 #'
-#' @name rangefold
-#' @param x a vector, lsit, matrix or data.frame
-#' @param window the number of elements included in the rolling range 
-#' @param fn the function applied to the rolling range 
-#' @param acc accumulator
+#' This function successively applies a function to a sequence and the value
+#' of the previous application over a rolling range of a vector.
+#'
+#' @name foldrange
+#' @param x A vector
+#' @param window The number of elements included in the rolling range 
+#' @param fn The function applied to the rolling range 
+#' @param acc Accumulator
+#'
+#' @section Usage:
+#' foldrange(x, window, fn, acc=0)
 #'
 #' @section Details:
-#' This function apples to one-dimensional data structures only.
-#' A restriction on the block size is that the block size must be less than the length(x).
-#' The function applied to the blocks must take two arguments (i.e., a binary function).
+#' This function implements a linear fold operation over a rolling range with
+#' length defined by the window parameter. This function is defined for one- and 
+#' two dimensional data structures only.  A restriction on the window size is that 
+#' the window size must be less than the \code{length(x)}. The function applied to the 
+#' window must take two arguments (i.e., a binary function).
 #'
-#' @return a vector containing the accumulated result.
+#' @return An object containing the accumulated result
 #'
 #' @examples
-#' rangefold(rnorm(10), 2, function(x,y) x + y)
+#' x <- 1:10
+#' foldrange(x, 3, function(a,b) a+b)
 #'
-# Things to test
-# . Vector
-# . List
-# . Matrix
-# . Data.frame
-# . Vector of length 1
-rangefold(x, window, fn, acc=0) %when% {
+foldrange(x, window, fn, acc=0) %when% {
   is.null(dim(x))
   window < anylength(x)
 } %as% {
-  rangefold(x, window, fn, acc, length(x)-window+1)
+  foldrange(x, window, fn, acc, length(x)-window+1)
 }
 
-rangefold(x, window, fn, acc, 0) %as% acc
+foldrange(x, window, fn, acc, 0) %as% acc
 
-rangefold(x, window, fn, acc=0, idx) %when% {
+foldrange(x, window, fn, acc=0, idx) %when% {
   window < anylength(x)
 } %as% {
-  rangefold(x, window, fn, fn(x[idx:(idx+window-1)], acc), idx-1)
+  foldrange(x, window, fn, fn(x[idx:(idx+window-1)], acc), idx-1)
 }
 
 #' Successively apply a function to a block of a sequence and the 
 #' value of the previous application over a moving block subsequence of 
 #' a vector
 #'
-#' @name blockfold
-#' @param x a vector, lsit, matrix or data.frame
-#' @param block the number of elements included in the rolling block 
-#' @param fn the function applied to the rolling range 
-#' @param acc accumulator
+#' This function applies a function to a moving block of a sequence and the previous 
+#' application of the function. 
+#'
+#' @name foldblock
+#' @param x Any Indexable data structure
+#' @param block The number of elements included in the rolling block
+#' @param fn The function applied to the rolling range
+#' @param acc Accumulator
+#'
+#' @section Usage:
+#' foldblock(x, block, fn, acc=0)
+#'
+#' @return An object containing the accumulated result
 #'
 #' @section Details:
 #' This function apples to both one-dimensional and two-dimensional data structures.
 #' A restriction on the block size is that the block size must be less than the length(x).
 #' The function applied to the blocks must take two arguments (i.e., a binary function).
 #'
+#' @section TODO: 
+#' This function is not working for a matrix. See github issue
+#' https://github.com/muxspace/lambda.tools/issues/3
+#'
 #' @examples
-#' blockfold(rnorm(10), 2, function(x,y) x + y)
-blockfold(x, block, fn, acc=0) %when% { 
+#' x <- 1:10
+#' foldblock(x, 2, function(a,b) a+b)
+#'
+#' # fold with a block size of 3 - Notice how the length of the output changes.
+#' foldblock(x, 3, function(a,b) a+b)
+#' 
+foldblock(x, block, fn, acc=0) %when% { 
   is.null(dim(x))
   block < anylength(x)
 } %as% {
-  blockfold(x, block, fn, acc, length(x)-block+1)
+  foldblock(x, block, fn, acc, length(x)-block+1)
 }
 
-blockfold(x, block, fn, acc=0) %when% { 
+foldblock(x, block, fn, acc=0) %when% { 
   block < anylength(x)
 } %as% {
-  blockfold(x, block, fn, acc, ncol(x)-block+1)
+  foldblock(x, block, fn, acc, ncol(x)-block+1)
 }
 
-blockfold(x, block, fn, acc, idx) %when% {
+foldblock(x, block, fn, acc, idx) %when% {
   idx <= 0
 } %as% { acc }
 
-blockfold(x, block, fn, acc=0, idx) %when% {
+foldblock(x, block, fn, acc=0, idx) %when% {
   is.null(dim(x))
   block < anylength(x)
 } %as% {
-  blockfold(x, block, fn, fn(x[idx:(idx+block-1)], acc), idx-block)
+  foldblock(x, block, fn, fn(x[idx:(idx+block-1)], acc), idx-block)
 }
 
-blockfold(x, block, fn, acc=0, idx) %when% { 
+foldblock(x, block, fn, acc=0, idx) %when% {
   block < anylength(x)
 } %as% {
-  blockfold(x, block, fn, fn(x[,idx:(idx+block-1)], acc), idx-block)
+  foldblock(x, block, fn, fn(x[,idx:(idx+block-1)], acc), idx-block)
 }

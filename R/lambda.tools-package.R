@@ -1,7 +1,9 @@
 #' Tools for functional programming in R
 #'
-#' This package contains a collection of utility functions for functional programming that
-#' implement polymorphism over certain data types. 
+#' This package contains a collection of functions that facilitate modeling of data 
+#' using a functional programming paradigm. The idea is that using tools that are 
+#' more closely connected with the idioms of mathematics will make it easier to map 
+#' the mathematical model to the software model. 
 #'
 #' \tabular{ll}{
 #' Package: \tab lambda.tools\cr
@@ -16,7 +18,8 @@
 #' @aliases lambda.tools-package lambda.tools
 #' @docType package
 #' @exportPattern "^[^\\.]"
-#' @author Brian Lee Yung Rowe <r@@zatonovo.com>
+#' @import lambda.r
+#' @author Brian Lee Yung Rowe <r@@zatonovo.com>, Eric Cox <ec@@cashpath.com>
 #' @seealso \code{\link{lambda.r}}
 #' @keywords package attribute logic
 NULL

@@ -1,14 +1,15 @@
 \name{segment}
 \alias{segment}
-\title{Similar to partion where radius=2 and there is no metric}
+\title{Similar to partition where radius=2 and there is no metric}
 \arguments{
   \item{x}{a sequence}
 
-  \item{padded}{logical to control if NAs will be padded to
+  \item{do.pad}{logical to control if NAs will be padded to
   segments}
 }
 \description{
-  Similar to partion where radius=2 and there is no metric
+  Similar to partition where radius=2 and there is no
+  metric
 }
 \section{Details}{
   This function is only defined for a one-dimensional
@@ -33,6 +34,7 @@
 \examples{
 x <- 1:50
 segment(x)
+
 segment(x, TRUE)
 }
 

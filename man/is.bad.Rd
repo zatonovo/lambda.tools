@@ -6,27 +6,16 @@
 These functions quickly test whether data within an object has bad values or
 if the object is defined (i.e. not null) but has no data.
 }
-\usage{
-is.bad(...)
-
-is.empty(...)
-}
 \arguments{
   \item{\dots}{ Abstract function controlled by lambda.r }
 }
+\usage{
+    is.bad(...)
+    is.empty(...)
+}
 \details{
-  is.empty(x) \%::\% a : logical
 
-  is.bad(x) \%::\% list : logical
-
-  is.bad(x) \%::\% data.frame : matrix
-
-  is.bad(x) \%::\% matrix : matrix
-
-  is.bad(x) \%::\% a : logical
-
-
-  x - The data to test
+  x - An object containing the data to test
 
   Depending on the type of an object, knowing whether an object contains a
   valid value or not is different. These functions unify the interfaces across

@@ -7,14 +7,16 @@
   \item{default}{the value to replace empty, NULL, or NA}
 }
 \value{
-  A boolean.
+  A scalar variable that has been mapped to a default value
+  if it is NA, EMPTY, or NULL. Otherwise, this function
+  will return the value itself.
 }
 \description{
   Apply a default value whenever a variable is empty, NULL,
   or NA
 }
 \section{Details}{
-  These are equivlaent operations,
+  These are equivalent operations,
 
   \code{x <- sample(c(1:3, NA), 10, replace=TRUE)}
 
@@ -29,8 +31,7 @@
   mathematical model and code.
 }
 \examples{
-# Clean data.
-x <- sample(c(1:3,NA), 10, replace=TRUE)
+x <- c(1, 2, 3, NA, NA)
 map(x, function(y) use_default(y, 0))
 }
 

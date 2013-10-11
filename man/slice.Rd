@@ -2,16 +2,16 @@
 \alias{slice}
 \title{Split a sequence based on a pivot value or an expression}
 \arguments{
-  \item{x}{a sequence}
+  \item{x}{A sequence}
 
-  \item{pivot}{the index where x will be sliced.}
+  \item{pivot}{The index where x will be sliced}
 
-  \item{inclusive}{defined as TRUE will include the value
+  \item{inclusive}{Defined as TRUE will include the value
   of x at index pivot as the first element in second half
-  of the slice of x.}
+  of the slice of x}
 
-  \item{expression}{is a logical expression used for
-  logical indexing of x.}
+  \item{expression}{A logical expression used for logical
+  indexing of x}
 }
 \value{
   A list containing the left and right vectors with respect
@@ -20,6 +20,12 @@
 \description{
   Split a sequence based on a pivot value or an expression
 }
+\section{Usage}{
+  slice(x, pivot, inclusive=FALSE)
+
+  slice(x, expression)
+}
+
 \section{Details}{
   This function splits a sequence based on a pivot value or
   logical expression. The inclusive parameter will either
@@ -34,25 +40,28 @@
   pieces.
 }
 \examples{
-# Slice a one-dimensional sequence.
-x <- 1:50
-slice(x, 25, TRUE)
-slice(x, 25, FALSE)
-slice(x, x < 25)
-slice(x, x > 25)
-slice(x, x > 10 & x < 25)
-slice(x,  x > 10 & x < 25)
-# Slice a matrix.
+# Slice x at the 25th index and switch inclusive flag - look at second half of the
+# output.
+x <- 1:10
+slice(x, 5, TRUE)
+
+slice(x, 5, FALSE)
+
+# Some examples using expressions - Notice how the ordering of the returned
+# list of sequences changes.
+slice(x, x < 5)
+
+slice(x, x > 5)
+
+# Slice a few two-dimensional objects.
 A <- matrix(1:10, ncol=2)
 slice(A, 3, TRUE)
-slice(A, 3, FALSE)
-slice(A,  A[,1] > 5 & A[,1] < 7)
-# Slice a data frame.
-x <- 1:50
-df <- data.frame(col1=x, col2=x)
-slice(df, 25, TRUE)
-slice(df, 25, FALSE)
-slice(df, df$col2 > 30)
-slice(df, df$col1 > 10 & df$col1 < 25)
+
+df <- data.frame(col1=1:10, col2=1:10)
+slice(df, 5, TRUE)
+
+slice(df, 5, FALSE)
+
+slice(df, df$col1 < 5)
 }
 

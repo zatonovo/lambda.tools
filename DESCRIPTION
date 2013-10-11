@@ -3,9 +3,11 @@ Type: Package
 Title: Tools for modeling data with functional programming
 Version: 1.0.0
 Date: 2013-08-30
-Depends:
+Imports:
     lambda.r
-Author: Brian Lee Yung Rowe
+Suggests:
+    testthat (>= 0.2)
+Author: Brian Lee Yung Rowe, Eric Cox
 Maintainer: Brian Lee Yung Rowe <r@zatonovo.com>
 Description: Provides tools that manipulate and transform data using methods
     and techniques consistent with functional programming. The idea is that

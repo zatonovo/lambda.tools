@@ -2,12 +2,12 @@
 \alias{chomp}
 \title{Remove the head and tail of a data structure}
 \arguments{
-  \item{x}{a vector or a 2-d data structure.}
+  \item{x}{Any indexable data structure}
 
-  \item{head}{the number of elements to be removed from the
+  \item{head}{The number of elements to be removed from the
   head of x}
 
-  \item{tail}{the number of elements to be removed from the
+  \item{tail}{The number of elements to be removed from the
   tail of x}
 }
 \value{
@@ -15,8 +15,14 @@
   removed.
 }
 \description{
-  Remove the head and tail of a data structure
+  This function removes the head and tail of a data
+  structure. Polymorphism is created around vectors, lists,
+  matrices and data.frames.
 }
+\section{Usage}{
+  chomp(x, head=1, tail=1)
+}
+
 \section{Details}{
   This function removes the head and tail of a data
   structure. The parameters \code{head} and \code{tail}
@@ -27,9 +33,12 @@
   structure.
 }
 \examples{
-chomp(rnorm(10))
-chomp(rnorm(10), head=2, tail=2)
-chomp(matrix(rnorm(20), ncol=2))
-chomp(data.frame(x=rnorm(20), y=rnorm(20)), head=5, tail=5)
+chomp(1:10)
+
+chomp(1:10, head=2, tail=2)
+
+chomp(matrix(1:10, ncol=2))
+
+chomp(data.frame(x=1:10, y=1:10, head=2, tail=2))
 }
 
