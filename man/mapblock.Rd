@@ -9,7 +9,8 @@
   \item{fn}{A function applied to a block}
 }
 \value{
-  A vector containing the result of fn appled to each block
+  A vector containing the result of fn applied to each
+  block
 }
 \description{
   Apply a function over blocks of a data structure. This
@@ -21,14 +22,15 @@
 }
 
 \section{Details}{
-  The function \code{fn} must take one required argment. If
-  the block size is not a multiple of \code{anylength(x)}
-  the vector returned will have \code{NA}s for indices that
-  fall outside the range of the blocks.
+  The function \code{fn} must take one required argument.
+  If the block size is not a multiple of
+  \code{anylength(x)} the vector returned will have
+  \code{NA}s for indices that fall outside the range of the
+  blocks.
 
-  For two-dimensional structures, blocking occurs accross
+  For two-dimensional structures, blocking occurs across
   the columns of the data structure and the function will
-  be appled to all rows for that given block of columns.
+  be applied to all rows for that given block of columns.
 }
 \examples{
 x <- 1:10

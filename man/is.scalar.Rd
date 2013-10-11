@@ -18,8 +18,8 @@
 \section{Details}{
   This function checks to determine if an object \code{x}
   is a scalar. The usage of 'scalar' in this function
-  defintion is intened to mean any object with length equal
-  to one.
+  definition is intended to mean any object with length
+  equal to one.
 }
 \examples{
 is.scalar(10)

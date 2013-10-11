@@ -13,8 +13,8 @@ previous application}
   An object containing the accumulated result.
 }
 \description{
-  This function applys a function to a sequence and the
-  value of the previous application, see refrences.
+  This function applies a function to a sequence and the
+  value of the previous application, see references.
 }
 \section{Usage}{
   fold(x, fn, acc=0)
@@ -26,7 +26,7 @@ previous application}
   recursively passing x[-1] into the inner function call.
   For each call to fold, the input vector is shrinking by
   one element and the function applied to the data is
-  appled to the first element of the input vector and the
+  applied to the first element of the input vector and the
   accumulator. Hence, the function applied to the blocks
   must take two arguments (i.e., a binary function).
 }
@@ -42,7 +42,7 @@ fold(x[[1]], function(a,b) a+b)
 x <- matrix(1:10, ncol=2)
 fold(x, function(a,b) a+b)
 
-# Fold accross the rows of a data.frame.
+# Fold across the rows of a data.frame.
 x <- data.frame(col1=1:10, col2=1:10)
 fold(x, function(a,b) a+b)
 }

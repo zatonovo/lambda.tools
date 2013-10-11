@@ -26,7 +26,7 @@
 }
 \examples{
 # Get an element from v with a good and bad index - notice the return value
-# for the second funciton call.
+# for the second function call.
 v <- 1:10
 item(v, 5)
 

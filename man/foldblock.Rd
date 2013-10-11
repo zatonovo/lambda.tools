@@ -14,10 +14,10 @@ a vector}
   \item{acc}{Accumulator}
 }
 \value{
-  An object containg the accumulated result
+  An object containing the accumulated result
 }
 \description{
-  This function applies a funciton to a moving block of a
+  This function applies a function to a moving block of a
   sequence and the previous application of the function.
 }
 \section{Usage}{

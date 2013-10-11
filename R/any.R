@@ -21,7 +21,7 @@
 #' \code{\link{anynames}} counterpart provides a single interface for accessing
 #' this information across objects
 #' 
-#' The core assumption is that in most cases length is semantically synonomous
+#' The core assumption is that in most cases length is semantically synonymous 
 #' with \code{nrow} such that the number of columns in two-dimensional structures is
 #' less consequential than the number of rows. This is particularly true of
 #' time-based objects, such as zoo or xts where the number of observations is

@@ -1,5 +1,4 @@
 # :vim set filetype=R
-
 #' Force values into bins
 #'
 #' This function quantizes data based on a metric function. The effect is that values
@@ -16,7 +15,7 @@
 #' @section Details:
 #' This function forces values into a set of bins using a distance metric. This process
 #' is referred to as quantizing and is useful in signal processing or classification. The
-#' metric used can be a function such as euclidian distance or absolute distance, for 
+#' metric used can be a function such as Euclidean distance or absolute distance, for 
 #' example. 
 #'
 #' For each value in \code{x}, this \code{quantize} evaluates the metric function with
@@ -30,7 +29,7 @@
 #' x <- seq(-2, 2, by=.1)  
 #' quantize(x)
 #'
-#' # quantize x using a Euclidian distance metric.
+#' # quantize x using a Euclidean distance metric.
 #' quantize(x, metric=function(a, b) sqrt((a - b)^2))
 #'
 #' # Notice the difference in the return vector when compared to the above examples.
@@ -57,16 +56,20 @@ quantize(x, bins=c(-1,0,1), metric=function(a,b) abs(a-b)) %as% {
 #'
 #' @section Details:
 #' This function confines a set of values within a lower and upper bound. The function
-#' defintion is only written for x being a vector and is not vectorized to handle 
+#' definition is only written for x being a vector and is not vectorized to handle 
 #' two dimensional data structures. 
 #'
 #' @return A vector of points that lie within the bounds defined by min.level and 
 #' max.level.
 #'
 #' @examples
-#' # Confine the values in x to lie betwween [-1, 1].
-#' x <- 1:100
+#' # Confine the values in x to lie between [-1, 1].
+#' x <- c(rep(4, 3), rep(3, 3), rep(0, 3), rep(-3, 3), rep(-4, 3))
+#' confine(x)
+#'
+#' # Confine a random vector.
 #' y <- rnorm(100, sd=4)
+#' x <- 1:100
 #' confine(y)
 #'
 #' # Note the effect of min.level and max.level.
@@ -98,6 +101,8 @@ confine(x, min.level, max.level) %as% x
 #' @section Usage:
 #' slice(x, pivot, inclusive=FALSE)
 #'
+#' slice(x, expression)
+#'
 #' @section Details:
 #' This function splits a sequence based on a pivot value or logical expression. 
 #' The inclusive parameter will either include or exclude the value at the pivot 
@@ -113,29 +118,27 @@ confine(x, min.level, max.level) %as% x
 #' @examples
 #' # Slice x at the 25th index and switch inclusive flag - look at second half of the
 #' # output.
-#' x <- 1:50
-#' slice(x, 25, TRUE)
+#' x <- 1:10
+#' slice(x, 5, TRUE)
 #'
-#' slice(x, 25, FALSE)
+#' slice(x, 5, FALSE)
 #'
-#' # Some examples using expressions.
-#' slice(x, x < 25)
+#' # Some examples using expressions - Notice how the ordering of the returned 
+#' # list of sequences changes.
+#' slice(x, x < 5)
 #'
-#' slice(x, x > 25)
+#' slice(x, x > 5)
 #'
 #' # Slice a few two-dimensional objects.
 #' A <- matrix(1:10, ncol=2)
 #' slice(A, 3, TRUE)
-#'
-#' slice(A,  A[,1] > 5 & A[,1] < 7)
 #'
 #' df <- data.frame(col1=1:10, col2=1:10)
 #' slice(df, 5, TRUE)
 #'
 #' slice(df, 5, FALSE)
 #'
-#' slice(df, df$col1 > 10 & df$col1 < 25)
-#'
+#' slice(df, df$col1 < 5)
 slice(x, pivot, inclusive) %::% a : numeric : logical : list
 slice(x, pivot, inclusive=FALSE) %when% {
   is.null(dim(x))
@@ -174,7 +177,7 @@ slice(x, expression) %when% {
 
 #' Remove the head and tail of a data structure
 #'
-#' This function removes the head and tail of a data structure. Polymorphisim is created 
+#' This function removes the head and tail of a data structure. Polymorphism is created 
 #' around vectors, lists, matrices and data.frames.
 #'
 #' @name chomp
@@ -194,13 +197,13 @@ slice(x, expression) %when% {
 #' @return A vector with the elements defined by head and tail removed.
 #'
 #' @examples
-#' chomp(rnorm(10))
+#' chomp(1:10)
 #'
-#' chomp(rnorm(10), head=2, tail=2)
+#' chomp(1:10, head=2, tail=2)
 #'
-#' chomp(matrix(rnorm(20), ncol=2))
+#' chomp(matrix(1:10, ncol=2))
 #'
-#' chomp(data.frame(x=rnorm(20), y=rnorm(20)), head=5, tail=5)
+#' chomp(data.frame(x=1:10, y=1:10, head=2, tail=2))
 chomp(x, head=1, tail=1) %when% {
   is.null(dim(x))
   head > 0 

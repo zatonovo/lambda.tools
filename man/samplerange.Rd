@@ -25,14 +25,14 @@
   error. This function can be applied to both one- and
   two-dimensional data structures.
 
-  A fixed interger set of a sample size is sampled randomly
+  A fixed integer set of a sample size is sampled randomly
   based on the the length of the input vector \code{x} and
   the window parameter. This fixed integer set is used to
   index the values in the vector x.
 }
 \examples{
 # Sample a range in a vector.
-x <- rnorm(10)
+x <- 1:10
 samplerange(x, 5, 2)
 
 samplerange(x, 5, 3)

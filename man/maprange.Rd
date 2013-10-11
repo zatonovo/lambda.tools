@@ -10,7 +10,7 @@
   \item{fn}{A function applied to the rolling range in x}
 }
 \value{
-  a vector containing the result of fn appled to the
+  a vector containing the result of fn applied to the
   rolling window.
 }
 \description{

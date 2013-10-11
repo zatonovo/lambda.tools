@@ -26,7 +26,7 @@
   distance metric. This process is referred to as
   quantizing and is useful in signal processing or
   classification. The metric used can be a function such as
-  euclidian distance or absolute distance, for example.
+  Euclidean distance or absolute distance, for example.
 
   For each value in \code{x}, this \code{quantize}
   evaluates the metric function with the value of \code{x}
@@ -40,7 +40,7 @@
 x <- seq(-2, 2, by=.1)
 quantize(x)
 
-# quantize x using a Euclidian distance metric.
+# quantize x using a Euclidean distance metric.
 quantize(x, metric=function(a, b) sqrt((a - b)^2))
 
 # Notice the difference in the return vector when compared to the above examples.

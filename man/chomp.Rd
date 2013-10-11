@@ -16,8 +16,8 @@
 }
 \description{
   This function removes the head and tail of a data
-  structure. Polymorphisim is created around vectors,
-  lists, matrices and data.frames.
+  structure. Polymorphism is created around vectors, lists,
+  matrices and data.frames.
 }
 \section{Usage}{
   chomp(x, head=1, tail=1)
@@ -33,12 +33,12 @@
   structure.
 }
 \examples{
-chomp(rnorm(10))
+chomp(1:10)
 
-chomp(rnorm(10), head=2, tail=2)
+chomp(1:10, head=2, tail=2)
 
-chomp(matrix(rnorm(20), ncol=2))
+chomp(matrix(1:10, ncol=2))
 
-chomp(data.frame(x=rnorm(20), y=rnorm(20)), head=5, tail=5)
+chomp(data.frame(x=1:10, y=1:10, head=2, tail=2))
 }
 

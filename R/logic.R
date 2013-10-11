@@ -12,7 +12,7 @@
 #'
 #' @section Details:
 #' This function checks to determine if an object \code{x} is a scalar. The usage of 
-#' 'scalar' in this function defintion is intened to mean any object with length equal
+#' 'scalar' in this function definition is intended to mean any object with length equal
 #' to one.
 #'
 #' @return A logical value that indicates if the input is of length one

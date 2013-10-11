@@ -33,7 +33,7 @@
   interface for accessing this information across objects
 
   The core assumption is that in most cases length is
-  semantically synonomous with \code{nrow} such that the
+  semantically synonymous with \code{nrow} such that the
   number of columns in two-dimensional structures is less
   consequential than the number of rows. This is
   particularly true of time-based objects, such as zoo or

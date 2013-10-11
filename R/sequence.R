@@ -81,7 +81,7 @@ partition(x, metric=median, radius=10) %when% {
 }
 
 
-#' Similar to partion where radius=2 and there is no metric
+#' Similar to partition where radius=2 and there is no metric
 #'
 #' @name segment
 #' @param x a sequence
@@ -134,7 +134,7 @@ segment(x, do.pad=FALSE) %when% {
 #'
 #' @examples
 #' # Get an element from v with a good and bad index - notice the return value 
-#' # for the second funciton call.
+#' # for the second function call.
 #' v <- 1:10 
 #' item(v, 5)
 #'
@@ -202,7 +202,7 @@ range.for(value, series) %when% {
 #' this function will throw an error. This function can be applied to both one- and
 #' two-dimensional data structures.
 #'
-#' A fixed interger set of a sample size is sampled randomly based on the 
+#' A fixed integer set of a sample size is sampled randomly based on the 
 #' the length of the input vector \code{x} and the window parameter. This fixed integer
 #' set is used to index the values in the vector x.
 #'

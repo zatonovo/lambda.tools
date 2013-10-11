@@ -13,7 +13,7 @@
   The value returned is the accumulator object \code{y}
 }
 \description{
-  This funciton implements a map operation over different
+  This function implements a map operation over different
   data types. This provides polymorphism for vectors,
   lists, matrices and data.frames.
 }

@@ -1,7 +1,7 @@
 # :vim set filetype=R
 #' Apply a function over each element of a vector
 #'
-#' This funciton implements a map operation over different data types. This provides
+#' This function implements a map operation over different data types. This provides
 #' polymorphism for vectors, lists, matrices and data.frames.
 #'
 #' @section Usage:
@@ -68,7 +68,7 @@ map(x, fn, y=c()) %when% {
 #' is due to R session protecting against infinite recursion via the
 #' expressions parameter. See \code{options}.
 #'
-#' @return a vector containing the result of fn appled to the rolling window.
+#' @return a vector containing the result of fn applied to the rolling window.
 #'
 #' @examples
 #' x <- 1:10
@@ -105,14 +105,14 @@ maprange(x, window, fn, do.pad=FALSE) %when% {
 #' mapblock(x, block, fn, do.pad=FALSE)
 #'
 #' @section Details:
-#' The function \code{fn} must take one required argment. If the block size is not 
+#' The function \code{fn} must take one required argument. If the block size is not 
 #' a multiple of \code{anylength(x)} the vector returned will have \code{NA}s for indices
 #' that fall outside the range of the blocks.
 #'
-#' For two-dimensional structures, blocking occurs accross the columns of the data
-#' structure and the function will be appled to all rows for that given block of columns.
+#' For two-dimensional structures, blocking occurs across the columns of the data
+#' structure and the function will be applied to all rows for that given block of columns.
 #'
-#' @return A vector containing the result of fn appled to each block 
+#' @return A vector containing the result of fn applied to each block 
 #'
 #' @examples
 #'  
@@ -149,8 +149,8 @@ mapblock(x, block, fn, do.pad=FALSE) %when% {
 #' Successively apply a function to a sequence and the value of the
 #' previous application
 #'
-#' This function applys a function to a sequence and the value of the previous 
-#' application, see refrences.
+#' This function applies a function to a sequence and the value of the previous 
+#' application, see references.
 #'
 #' @name fold
 #' @param x Any indexable data structure
@@ -164,7 +164,7 @@ mapblock(x, block, fn, do.pad=FALSE) %when% {
 #' This function implements a linear fold operation via recursion. The reduction process
 #' is accomplished by recursively passing x[-1] into the inner function call. For each 
 #' call to fold, the input vector is shrinking by one element and the function applied
-#' to the data is appled to the first element of the input vector and the accumulator. 
+#' to the data is applied to the first element of the input vector and the accumulator. 
 #' Hence, the function applied to the blocks must take two arguments
 #' (i.e., a binary function).
 #'
@@ -185,7 +185,7 @@ mapblock(x, block, fn, do.pad=FALSE) %when% {
 #' x <- matrix(1:10, ncol=2)
 #' fold(x, function(a,b) a+b)
 #'
-#' # Fold accross the rows of a data.frame.
+#' # Fold across the rows of a data.frame.
 #' x <- data.frame(col1=1:10, col2=1:10)
 #' fold(x, function(a,b) a+b)
 fold(EMPTY, fn, acc) %as% acc
@@ -250,7 +250,7 @@ foldrange(x, window, fn, acc=0, idx) %when% {
 #' value of the previous application over a moving block subsequence of 
 #' a vector
 #'
-#' This function applies a funciton to a moving block of a sequence and the previous 
+#' This function applies a function to a moving block of a sequence and the previous 
 #' application of the function. 
 #'
 #' @name foldblock
@@ -262,7 +262,7 @@ foldrange(x, window, fn, acc=0, idx) %when% {
 #' @section Usage:
 #' foldblock(x, block, fn, acc=0)
 #'
-#' @return An object containg the accumulated result
+#' @return An object containing the accumulated result
 #'
 #' @section Details:
 #' This function apples to both one-dimensional and two-dimensional data structures.
