@@ -49,7 +49,8 @@
 }
 \examples{
 # The number 4 is included in each sub-sequence
-slice(1:10, 4, TRUE)
+x <- 1:10
+slice(x, 4, TRUE)
 
 # With expressions, the sub-sequences are not necessarily continguous
 slice(x, x \%\% 2 == 0)

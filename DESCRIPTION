@@ -20,6 +20,7 @@ Collate:
     'lambda.tools-package.R'
     'logic.R'
     'sequence.R'
-    'tools.R'
     'fold.R'
     'map.R'
+    'sample.R'
+    'transform.R'

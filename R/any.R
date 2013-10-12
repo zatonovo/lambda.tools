@@ -216,14 +216,19 @@ anytypes(data, fn=class) %as% {
 is.empty(x) %::% a : logical
 is.empty(x) %as% { length(x) < 1 }
 
-is.bad(x) %::% . : logical
+
+is.bad(x) %::% a : logical
 is.bad(NULL) %as% TRUE
 is.bad(EMPTY) %as% TRUE
-is.bad(x) %when% { all(is.na(x)) } %as% TRUE
 
 is.bad(x) %::% list : list
 is.bad(x) %as% { lapply(x, is.bad) }
 
-is.bad(x) %::% . : matrix
-is.bad(x) %as% { apply(x, 2, is.bad) }
+is.bad(x) %::% data.frame : matrix
+is.bad(x) %as% { sapply(x, is.bad) }
 
+is.bad(x) %::% matrix : matrix
+is.bad(x) %as% { apply(x,1, is.bad) }
+
+is.bad(x) %::% a : logical
+is.bad(x) %as% { is.na(x) }

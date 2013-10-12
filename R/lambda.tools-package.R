@@ -20,7 +20,7 @@
 #' @docType package
 #' @exportPattern "^[^\\.]"
 #' @import lambda.r
-#' @author Brian Lee Yung Rowe <r@@zatonovo.com>, Eric Cox <ec@@cashpath.com>
+#' @author Brian Lee Yung Rowe <r@@zatonovo.com>
 #' @seealso \code{\link{lambda.r}}
 #' @keywords package attribute logic
 NULL
