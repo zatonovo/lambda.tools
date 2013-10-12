@@ -10,9 +10,8 @@
   \item{x}{An object}
 }
 \value{
-  The result of the function \code{fn} if \code{condition}
-  is satisfied for that specific element. Otherwise,
-  returns the element itself.
+  Either \code{fn(x)} if \code{condition} is true,
+  otherwise \code{x}.
 }
 \description{
   This function conditionally applies a function to an
@@ -25,26 +24,25 @@
 \section{Details}{
   This function can be used to apply a function to a vector
   containing elements that lie outside the valid domain of
-  \code{fn}. Th function \code{onlyif} differs from
+  \code{fn}. The function \code{onlyif} differs from
   \code{ifelse} in the sense that it is not vectorized and
   a closure can be used. For example,
 
   \code{ifelse(length(x) < 10, function(y) fold(x,
   function(x,y) x+y), x)}
 
-  will fail due to the closure around \code{fold}.  The
-  alternative would be,
+  will fail due to the closure around \code{fold}. The
+  alternative would be
 
   \code{onlyif(length(x) < 10, function(y) fold(x,
-  function(x,y) x+y), x)}
-
-  If the argument \code{fn}, is not a function
-  \code{onlyif} will throw an error.
+  function(x,y) x+y), x)}.
 }
 \examples{
 x <- 1:5
 onlyif(length(x) < 10, function(y) pad(y, 10 - length(y)), x)
 
-onlyif(length(x) < 10, function(y) fold(x, function(x, y) x+y), x)
+# This returns x
+x <- 1:20
+onlyif(length(x) < 10, function(y) pad(y, 10 - length(y)), x)
 }
 

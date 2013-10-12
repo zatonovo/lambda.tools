@@ -1,48 +1,28 @@
 \name{range.for}
 \alias{range.for}
-\title{Get the range of a value in a series}
+\title{Find contiguous ranges of a given value within a sequence}
 \arguments{
-  \item{value}{A value in series (can be unique or
-  repeating in series)}
+  \item{target}{A value to find in x}
 
-  \item{series}{A series of values}
+  \item{x}{A vector}
 }
 \value{
-  A \code{data.frame} where each row contains the start and
-  end index for the range of the value of interest in the
-  series.
+  A data.frame where each row specifies the end points of a
+  contiguous range that contains the target value
 }
 \description{
-  This function returns the range of a repeated or
-  non-repeated element in a series.
+  Identify the index ranges for a given value in a sequence
+  and return the minimum and maximum values of the ranges.
 }
-\section{Details}{
-  This function is only defined for a one-dimensional
-  vector and will throw an error if a two-dimensional input
-  is used. The function \code{segment} is used to shift the
-  series and scan the rows of the \code{data.frame} for
-  matching values. If two values are the same on a specific
-  row then adjacent data can be detected.
-}
-
-\section{TODO}{
-  Implement a \code{range.for} clause that can find the
-  range of a subsequence in a sequence. For example,
-
-  \code{sequence <- c(seq(1, 10), c(10, 10), seq(11, 20))}
-
-  \code{range.for(c(10, 10, 10), sequence)}
-
-  The above call to \code{range.for} should return the
-  range for the triplet \code{c(10, 10, 10)}.
-}
-
-\section{See Also}{
-  \code{segment}
+\section{Usage}{
+  range.for(target, x)
 }
 \examples{
-# Find the range of repeated values of 25 in a series.
-series <- c(seq(1, 25), c(25, 25), seq(26, 50))
-range.for(25, series)
+# Find all contiguous ranges containing 2
+x <- sample(c(1,2,2,2,3,4), 20, replace=TRUE)
+range.for(2,x)
+}
+\author{
+  Brian Lee Yung Rowe
 }
 

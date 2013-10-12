@@ -1,43 +1,54 @@
 \name{pad}
 \alias{pad}
-\title{Pad a vector with NAs or other values.}
+\title{Pad a vector with some default value}
 \arguments{
-  \item{x}{Vector to be padded}
+  \item{x}{A vector to pad}
 
-  \item{head}{The length of padded values at the head of x}
+  \item{head}{The amount to prepend}
 
-  \item{tail}{The length of padded values at the tail of x}
+  \item{tail}{The amount to append}
 
-  \item{default}{Value to be padded (default is NA)}
+  \item{default}{The value to use for the pad}
 }
 \value{
-  The input vector x will be returned with the appropriate
-  value(s) padded to the head or tail, or both.
+  A padded sequence
 }
 \description{
-  This function pads a vector with \code{NA}s or other
-  values.
+  This function pads a vector with default values as a way
+  to coerce the value to some predetermined length.
 }
+\section{Usage}{
+  pad(x, head, tail=0, default=NA)
+}
+
 \section{Details}{
-  This function pads NAs or other values to the head and
-  tail of a vector. This function has only been implemented
-  for \code{x} being a vector. The number of elements that
-  are padded to the head or tail of the vector are
-  controlled by the parameters \code{head} and \code{tail},
-  respectively.
+  It is common for sequence operations to return a sequence
+  that is shorter than the original sequence. This
+  phenomenon can be annoying when binding the output with
+  the input in a regular data structure like a matrix or
+  data.frame. This function prepends or appends a specified
+  value to a data structure to ensure that the length of
+  the data structure is compatible with another data
+  structure.
 }
 \examples{
-# Pad adds NAs to the head of x.
-x <- 1:5
-pad(x, 5)
+# A moving average results in n - window + 1 results, so pad at the
+# head to get a vector of length 50
+x <- abs(rnorm(50))
+m <- maprange(x, 10, mean)
+pad(m, 9)
 
-# Pad adds NAs to the tail of x.
-pad(x, 0, 5)
+# Pad at the end instead of the beginning. Note that the head must
+# explicitly be set to 0
+pad(m, 0, 9)
 
-# Pad add NAs to the head and tail of x.
-pad(x, 5, 5)
+# Pad on both sides
+pad(m, 4, 5)
 
-# Pad adds zeros to the head and tail of x.
-pad(x, 5, 5, default=0)
+# Use a different default value
+pad(m, 9, default=0)
+}
+\author{
+  Brian Lee Yung Rowe
 }
 

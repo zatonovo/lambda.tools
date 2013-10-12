@@ -1,8 +1,9 @@
 #' Tools for functional programming in R
 #'
-#' This package contains a collection of functions that facilitate modeling of data 
-#' using a functional programming paradigm. The idea is that using tools that are 
-#' more closely connected with the idioms of mathematics will make it easier to map 
+#' This package contains a collection of functions that facilitate modeling 
+#' of data using a functional programming paradigm. The idea is that 
+#' using tools that are more closely connected with the 
+#' idioms of mathematics will make it easier to map 
 #' the mathematical model to the software model. 
 #'
 #' \tabular{ll}{

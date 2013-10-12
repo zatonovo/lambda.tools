@@ -1,20 +1,22 @@
 \name{quantize}
 \alias{quantize}
-\title{Force values into bins}
+\title{Force values into a set of bins}
 \arguments{
-  \item{x}{The vector whose values should be binned}
+  \item{x}{A sequence}
 
-  \item{bins}{The available bins}
+  \item{bins}{The bins to quantize into}
 
   \item{metric}{The method to attract values to the bins}
 }
 \value{
-  a vector containing quantized data.
+  A vector containing quantized data
 }
 \description{
-  This function quantizes data based on a metric function.
-  The effect is that values in x will be forced into the
-  set of given bins.
+  This function quantizes data into a set of bins based on
+  a metric function. Each value in the input is evaluated
+  with each quantization level (the bin), and the level
+  with the smallest distance is assigned to the input
+  value.
 }
 \section{Usage}{
   quantize(x, bins=c(-1,0,1), metric=function(a,b)
@@ -22,28 +24,32 @@
 }
 
 \section{Details}{
-  This function forces values into a set of bins using a
-  distance metric. This process is referred to as
-  quantizing and is useful in signal processing or
-  classification. The metric used can be a function such as
-  Euclidean distance or absolute distance, for example.
+  When converting analog signals to digital signals,
+  quantization is a natural phenomenon. This concept can be
+  extended to contexts outside of DSP. More generally it
+  can be thought of as a way to classify a sequence of
+  numbers according to some arbitrary distance function.
 
-  For each value in \code{x}, this \code{quantize}
-  evaluates the metric function with the value of \code{x}
-  and all defined bins. The smallest metric value is
-  selected and used to force the value of x to the nearest
-  bin. The metric function should be binary, otherwise a
-  comparison between the value of x and the bin can not be
-  made.
+  The default distance function is the Euclidean distance
+  in 1 dimension. For the default set of bins, values from
+  (-infty, -.5] will map to -1. The values from (-.5, .5]
+  map to 0, and the segment (.5, infty) map to 1.
+  Regardless of the ordering of the bins, this behavior is
+  guaranteed. Hence for a collection of boundary points k
+  and bins b, where |b| = |k| + 1, the mapping will always
+  have the form (-infty, k_1] => b_1, (k_1, k_2] => b_2,
+  ... (k_n, infty) => b_n.
 }
 \examples{
 x <- seq(-2, 2, by=.1)
 quantize(x)
 
-# quantize x using a Euclidean distance metric.
-quantize(x, metric=function(a, b) sqrt((a - b)^2))
-
-# Notice the difference in the return vector when compared to the above examples.
-quantize(x, bins=c(-2, -1, 0, 1, 2), metric=function(a, b) sqrt((a - b)^2))
+quantize(x, bins=-1.5:1.5)
+}
+\author{
+  Brian Lee Yung Rowe
+}
+\seealso{
+  \code{\link{confine}}
 }
 

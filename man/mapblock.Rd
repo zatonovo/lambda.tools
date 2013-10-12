@@ -13,39 +13,37 @@
   block
 }
 \description{
-  Apply a function over blocks of a data structure. This
-  function implements polymorphism over lists, vectors,
-  matrices and data.frames.
+  This form of map operates on non-overlapping adjacent
+  blocks of a data structure.
 }
 \section{Usage}{
-  mapblock(x, block, fn, do.pad=FALSE)
+  mapblock(x, window, fn, do.pad=FALSE)
 }
 
 \section{Details}{
-  The function \code{fn} must take one required argument.
-  If the block size is not a multiple of
-  \code{anylength(x)} the vector returned will have
-  \code{NA}s for indices that fall outside the range of the
-  blocks.
+  This function is useful primarily in the two-dimensional
+  form. The use case is when a number of rotation matrices
+  should be applied to a set of points. By collecting all
+  the rotation matrices into a larger matrix, it is easy to
+  produce a map process along the sub-matrices in a way
+  that doesn't require managing indices.
 
-  For two-dimensional structures, blocking occurs across
-  the columns of the data structure and the function will
-  be applied to all rows for that given block of columns.
+  The 1D version is provided for completeness and is
+  equivalent to a 2D map, except on the edge cases.
 }
 \examples{
-x <- 1:10
-# Apply mean to blocks of x - look how the length of output excluding NAs is
-# length(x) / block.
+# The 1D version is equivalent to a 2D map
+x <- 1:24
+mapblock(x, 4, sum) == map(matrix(x,nrow=4), sum)
 
-x2 <- mapblock(x, 2, mean)
-x2 <- mapblock(x, 2, mean, TRUE)
-x5 <- mapblock(x, 5, mean)
+# Sum sub-sequences of a sequence. Note that the last value will have
+# fewer elements
+mapblock(1:10, 3, sum)
 
-# Apply mapblock across the columns of a matrix for two block sizes - Note
-# how the function is applied to block columns.
-
-m <- matrix(1:12, ncol=2)
-mapblock(m, 1, sum)
-mapblock(m, 2, sum)
+# Pad at the head of the sequence to yield an integer multiple of window
+mapblock(1:10, 3, function(x) sum(x, na.rm=TRUE), do.pad=TRUE)
+}
+\author{
+  Brian Lee Yung Rowe
 }
 

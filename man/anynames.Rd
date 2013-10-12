@@ -1,7 +1,7 @@
 \name{anynames}
 \alias{anynames}
 \alias{anynames<-}
-\title{Get the useful names of a data structure. This attempts to
+\title{Get the names of a data structure. This attempts to
 create some polymorphism around lists, vectors, and data.frames}
 \arguments{
   \item{data}{Any indexable data structure}
@@ -35,10 +35,6 @@ create some polymorphism around lists, vectors, and data.frames}
   with time-series objects such as zoo and xts.
 }
 \examples{
-# These examples illustrate anynames provides a clean interface for
-# different named data structures. The function anynames can be used in place of
-# names or colnames.
-
 m <- matrix(c(1,2,3,4,5,6), ncol=2)
 anynames(m) <- c('d','e')
 anynames(m)
@@ -52,4 +48,8 @@ anynames(l)
 df <- data.frame(a=1:10, b=1:10,c=1:10,d=1:10,e=1:10)
 anynames(df)
 }
+\author{
+  Brian Lee Yung Rowe
+}
+\keyword{attribute}
 

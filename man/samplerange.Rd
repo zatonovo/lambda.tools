@@ -1,11 +1,11 @@
 \name{samplerange}
 \alias{samplerange}
-\title{Get a sample as a subsequence of a larger set}
+\title{Sample sub-sequences from a sequence}
 \arguments{
   \item{x}{A one-dimensional or two-dimensional data
   structure}
 
-  \item{size}{Sample size}
+  \item{size}{The number of sub-sequences to create}
 
   \item{window}{The length of the output vectors}
 
@@ -13,32 +13,59 @@
   function}
 }
 \value{
-  A matrix containing the samples from x stored
-  column-wise.
+  When a sequence is passed to samplerange a matrix is
+  returned, where each column represents a sampled
+  subsequence. Hence the dimensions of the matrix will be
+  window by size.
+
+  If a matrix is passed to samplerange then a list of
+  sub-matrices is returned. Each sub-matrix will be of
+  dimension window by ncol(x). The length of the resulting
+  list will be size.
+
+  In either case, each _column_ is independent.
 }
 \description{
-  Get a sample as a subsequence of a larger set
+  This is like the normal sample function but instead of a
+  scalar, vector sub-sequences are extracted from the
+  input.
 }
-\section{Details}{
-  If the window parameter is defined to be greater than the
-  length of the input vector, this function will throw an
-  error. This function can be applied to both one- and
-  two-dimensional data structures.
+\section{Usage}{
+  samplerange(x, size, window, ...)
+}
 
-  A fixed integer set of a sample size is sampled randomly
-  based on the the length of the input vector \code{x} and
-  the window parameter. This fixed integer set is used to
-  index the values in the vector x.
+\section{Details}{
+  Sometimes a sequence is auto-correlated. Attempting to
+  construct a a sub-sequence by sampling from such a
+  sequence will lose the auto-correlation embedded within
+  the original sequence. The solution is to draw random
+  sub-sequences from the original sequence, which is what
+  this function does.
+
+  This operation can be for both a sequence (i.e. a vector
+  or array) or a matrix/data.frame. If the latter, a
+  sub-matrix is selected such that the columns of the
+  matrix are preserved. This behavior is consistent with
+  time series data formats where a single series is
+  represented by a column and each row represents a point
+  in time. Hence, the 2D version will select sub-sequences
+  in time, collecting all associated time series.
+
+  Under the hood, this function relies on sample.int, so
+  the behavior of the output can be controlled by passing
+  additional arguments to sample.int, such as replace=TRUE.
 }
 \examples{
-# Sample a range in a vector.
-x <- 1:10
-samplerange(x, 5, 2)
+# Extract seven sub-sequences, each with length 3
+samplerange(1:20, 7, 3)
 
-samplerange(x, 5, 3)
+# This time use replacement
+samplerange(1:20, 7, 3, replace=TRUE)
 
-# Sample a range in a matrix.
-x <- matrix(rnorm(10), ncol=2)
-samplerange(x, 4, 2)
+# Extract five sub-matrices with dimensions 2 by 4
+samplerange(matrix(1:32, ncol=4), 5, 2)
+}
+\author{
+  Brian Lee Yung Rowe
 }
 

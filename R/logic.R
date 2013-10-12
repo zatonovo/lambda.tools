@@ -4,89 +4,76 @@
 #'
 #' This function checks if an object is a scalar.
 #'
-#' @name is.scalar
-#' @param x An object
-#' 
 #' @section Usage:
 #' is.scalar(x)
 #'
 #' @section Details:
-#' This function checks to determine if an object \code{x} is a scalar. The usage of 
-#' 'scalar' in this function definition is intended to mean any object with length equal
-#' to one.
+#' This function checks to determine if an object \code{x} is a scalar,
+#' i.e. the length of the object is equal to one.
 #'
+#' @name is.scalar
+#' @param x An object
 #' @return A logical value that indicates if the input is of length one
 #'
 #' @examples
 #' is.scalar(10)
 #' 
 #' is.scalar(1:10)
-is.scalar(x) %when% {
-  length(x) == 1
-} %as% { TRUE }
-is.scalar(x) %as% { FALSE }
+is.scalar(x) %when% { length(x) == 1 } %as% TRUE
+is.scalar(x) %as% FALSE
 
 #' Conditionally apply a function to an argument
 #'
 #' This function conditionally applies a function to an argument given
 #' a logical condition.
 #'
-#' @name onlyif
-#' @param condition Logical statement used to conditionally apply fn to x
-#' @param fn A function to apply to x
-#' @param x An object
-#'
 #' @section Usage:
 #' onlyif(condition, fn, x)
 #'
 #' @section Details:
 #' This function can be used to apply a function to a vector containing
-#' elements that lie outside the valid domain of \code{fn}. Th function \code{onlyif}
-#' differs from \code{ifelse} in the sense that it is not vectorized and a closure
-#' can be used. For example,
+#' elements that lie outside the valid domain of \code{fn}. 
+#' The function \code{onlyif} differs from \code{ifelse} in the sense that
+#' it  is not vectorized and a closure can be used. For example,
 #'
 #' \code{ifelse(length(x) < 10, function(y) fold(x, function(x,y) x+y), x)}
 #'
-#' will fail due to the closure around \code{fold}.  The alternative would be,
+#' will fail due to the closure around \code{fold}. The alternative would be
 #'
-#' \code{onlyif(length(x) < 10, function(y) fold(x, function(x,y) x+y), x)}
+#' \code{onlyif(length(x) < 10, function(y) fold(x, function(x,y) x+y), x)}.
 #'
-#' If the argument \code{fn}, is not a function \code{onlyif} will throw an error. 
-#'
-#' @return The result of the function \code{fn} if \code{condition} is satisfied for that
-#' specific element. Otherwise, returns the element itself.
+#' @name onlyif
+#' @param condition Logical statement used to conditionally apply fn to x
+#' @param fn A function to apply to x
+#' @param x An object
+#' @return Either \code{fn(x)} if \code{condition} is true, otherwise \code{x}.
 #'
 #' @examples
 #' x <- 1:5
 #' onlyif(length(x) < 10, function(y) pad(y, 10 - length(y)), x)
 #'
-#' onlyif(length(x) < 10, function(y) fold(x, function(x, y) x+y), x)
-onlyif(TRUE, fn, x) %when% { 
-  is.function(fn)
-} %as% { fn(x) }
-onlyif(FALSE, fn, x) %as% { x }
+#' # This returns x
+#' x <- 1:20
+#' onlyif(length(x) < 10, function(y) pad(y, 10 - length(y)), x)
+onlyif(condition, fn, x) %::% logical : Function : . : .
+onlyif(TRUE, fn, x) %as% fn(x)
+onlyif(FALSE, fn, x) %as% x
 
-#' Apply a default value whenever a variable is empty, NULL, or NA
+#' Apply a default value whenever a variable is not well-formed
+#'
+#' This function provides a functional approach for a specific use case
+#' of conditional expressions: that of applying default values when
+#' a variable is not well-formed. In this context, well-formedness is
+#' considered to be any scalar value that is not NA.
+#' By encapsulating this behavior in a
+#' function, referential transparency is preserved.
 #'
 #' @name use_default
 #' @param x a scalar variable
 #' @param default the value to replace empty, NULL, or NA
 #'
-#' @section Details:
-#' These are equivalent operations,
-#'
-#' \code{x <- sample(c(1:3, NA), 10, replace=TRUE)}
-#'
-#' \code{x[is.na(x)] <- 0}
-#'
-#' \code{map(x, function(y) use_default(y,0))}
-#'
-#' The value in using \code{use_default} instead of element replacement by a set 
-#' operation is that the functional definition will help mathematical provability 
-#' of the program and facilitate translation between the mathematical model and code.
-#'
-#' @return A scalar variable that has been mapped to a default value if it is NA,
-#' EMPTY, or NULL. Otherwise, this function will return the value itself. 
+#' @return A well-formed value, either the original value or the default
+#' if x is not well-formed.
 #'
 #' @examples
 #' x <- c(1, 2, 3, NA, NA)

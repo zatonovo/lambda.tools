@@ -1,147 +1,146 @@
 # :vim set filetype=R
-#' Force values into bins
+#' Force values into a set of bins
 #'
-#' This function quantizes data based on a metric function. The effect is that values
-#' in x will be forced into the set of given bins.
-#'
-#' @name quantize
-#' @param x The vector whose values should be binned
-#' @param bins The available bins
-#' @param metric The method to attract values to the bins
+#' This function quantizes data into a set of bins based on a 
+#' metric function. Each value in the input is evaluated with each
+#' quantization level (the bin), and the level with the smallest
+#' distance is assigned to the input value.
 #'
 #' @section Usage:
 #' quantize(x, bins=c(-1,0,1), metric=function(a,b) abs(a-b))
 #'
 #' @section Details:
-#' This function forces values into a set of bins using a distance metric. This process
-#' is referred to as quantizing and is useful in signal processing or classification. The
-#' metric used can be a function such as Euclidean distance or absolute distance, for 
-#' example. 
+#' When converting analog signals to digital signals, 
+#' quantization is a natural phenomenon. This concept can be extended
+#' to contexts outside of DSP. More generally it can be thought of
+#' as a way to classify a sequence of numbers according to some
+#' arbitrary distance function.
+#' 
+#' The default distance function is the Euclidean distance in 1 dimension.
+#' For the default set of bins, values from (-infty, -.5] will map to -1.
+#' The values from (-.5, .5] map to 0, and the segment (.5, infty) map to 1.
+#' Regardless of the ordering of the bins, this behavior is
+#' guaranteed. Hence for a collection of boundary points k and bins b,
+#' where |b| = |k| + 1, the mapping will always have the form
+#' (-infty, k_1] => b_1, (k_1, k_2] => b_2, ... (k_n, infty) => b_n.
 #'
-#' For each value in \code{x}, this \code{quantize} evaluates the metric function with
-#' the value of \code{x} and all defined bins. The smallest metric value is selected 
-#' and used to force the value of x to the nearest bin. The metric function should be
-#' binary, otherwise a comparison between the value of x and the bin can not be made. 
+#' @name quantize
+#' @param x A sequence
+#' @param bins The bins to quantize into
+#' @param metric The method to attract values to the bins
+#' @return A vector containing quantized data
 #'
-#' @return a vector containing quantized data.
+#' @author Brian Lee Yung Rowe
+#' @seealso \code{\link{confine}}
 #'
 #' @examples
 #' x <- seq(-2, 2, by=.1)  
 #' quantize(x)
 #'
-#' # quantize x using a Euclidean distance metric.
-#' quantize(x, metric=function(a, b) sqrt((a - b)^2))
-#'
-#' # Notice the difference in the return vector when compared to the above examples.
-#' quantize(x, bins=c(-2, -1, 0, 1, 2), metric=function(a, b) sqrt((a - b)^2))
+#' quantize(x, bins=-1.5:1.5)
 quantize(x, bins=c(-1,0,1), metric=function(a,b) abs(a-b)) %as% {
   bins <- sort(bins)
   ds <- sapply(bins, function(b) metric(x,b))
-  if (is.null(dim(ds))) ds <- t(ds)
+  ds <- onlyif(is.null(dim(ds)), t, ds)
   apply(ds,1, function(d) item(bins, which.min(d)))
 }
 
 
 #' Confine values to the given bounds
 #'
-#' This function confines the values of a vector to the given bounds.
-#'
-#' @name confine
-#' @param x A vector
-#' @param min.level Lower bound on values to be confined
-#' @param max.level Upper bound on values to be confined
+#' Given a sequence this function confines the sequence values to within
+#' the specified bounds. This behavior is equivalent to clipping in
+#' digital signal processing.
 #'
 #' @section Usage:
 #' confine(x, min.level=-1, max.level=1)
 #'
 #' @section Details:
-#' This function confines a set of values within a lower and upper bound. The function
-#' definition is only written for x being a vector and is not vectorized to handle 
-#' two dimensional data structures. 
+#' The confine function can be thought of a transform that limits the
+#' range of a sequence. Any values outside the range [min.level, max.level]
+#' are adjusted to be exactly min.level or max.level.
+#' 
+#' Care should be taken when using this function as it is not always
+#' a good idea to change the value of outliers. Sometimes it is better
+#' to remove these values from a data set instead.
 #'
-#' @return A vector of points that lie within the bounds defined by min.level and 
-#' max.level.
+#' @name confine
+#' @param x A numeric vector
+#' @param min.level The lower bound
+#' @param max.level The upper bound
+#' @return A sequence with values outside of [min.level, max.level]
+#' clipped to those values
+#'
+#' @author Brian Lee Yung Rowe
+#' @seealso \code{\link{quantize}}
 #'
 #' @examples
-#' # Confine the values in x to lie between [-1, 1].
-#' x <- c(rep(4, 3), rep(3, 3), rep(0, 3), rep(-3, 3), rep(-4, 3))
-#' confine(x)
+#' confine(seq(-2,2, by=.1))
 #'
-#' # Confine a random vector.
-#' y <- rnorm(100, sd=4)
-#' x <- 1:100
-#' confine(y)
-#'
-#' # Note the effect of min.level and max.level.
-#' plot(x, y)
-#' points(x, confine(y), col='red') 
-#' points(x, confine(y, min.level=-2, max.level=2), col='blue')
-#' points(x, confine(y, min.level=-3, max.level=3), col='green') 
 confine(x, min.level=-1, max.level=1) %when% {
-  length(x) > 1
   min.level < max.level
 } %as% {
-  sapply(x, function(y) confine(y,min.level,max.level))
+  y <- ifelse(x < min.level, min.level, x)
+  ifelse(y > max.level, max.level, x)
 }
 
-confine(x, min.level, max.level) %when% { x < min.level } %as% min.level
-confine(x, min.level, max.level) %when% { x > max.level } %as% max.level
-confine(x, min.level, max.level) %as% x
 
-
-#' Split a sequence based on a pivot value or an expression
+#' Slice a sequence into two adjacent sub-sequences
 #'
-#' @name slice
-#' @param x A sequence
-#' @param pivot The index where x will be sliced
-#' @param inclusive Defined as TRUE will include the value of x at index pivot as 
-#' the first element in second half of the slice of x
-#' @param expression A logical expression used for logical indexing of x
-#' 
+#' A sequence can be sliced using an explicit pivot point or by using
+#' a logical expression.
+#'
 #' @section Usage:
 #' slice(x, pivot, inclusive=FALSE)
 #'
 #' slice(x, expression)
 #'
 #' @section Details:
-#' This function splits a sequence based on a pivot value or logical expression. 
-#' The inclusive parameter will either include or exclude the value at the pivot 
-#' in the second element of the returned list. 
+#' This function splits a sequence into two adjacent sub-sequences
+#' at a pivot point or based on a logical expression. If a pivot
+#' point is chosen, then the inclusive parameter determines whether
+#' the value associated with the pivot should be included in both
+#' sub-sequences. If FALSE, then the indices of the sub-sequences 
+#' will have the form [1, pivot], [pivot + 1, n], where n = |x|. If
+#' inclusive is TRUE, then the sub-sequences have indices of
+#' [1, pivot], [pivot, n]. Obviously the pivot must be an element
+#' of the set of indices of x.
 #'
-#' This function is defined for one- and two-dimensional data structures. In the two-
-#' dimensional case, \code{slice} will return a list where each value in the list is a 
-#' matrix. This function is useful for splitting data on a value and applying a function
-#' to the smaller pieces.
+#' An alternative construction is to use an expression to define
+#' a slice point. The first sub-sequence corresponds to the
+#' values where the expression evaluated to TRUE, while the 
+#' second sequence corresponds to values when the expression 
+#' evaluated to FALSE.
 #'
-#' @return A list containing the left and right vectors with respect to pivot.
+#' In two dimensions only the first variant of this function is
+#' defined, as it cannot be guaranteed that a regular matrix will
+#' be generated using an arbitrary expression.
+#'
+#' @name slice
+#' @param x An indexable data structure, typically a vector
+#' @param pivot The index of the pivot point in x
+#' @param inclusive Whether to include the pivot point in the second 
+#'  sub-sequence
+#' @param expression A logical expression
+#' @return A list containing two sub-sequences or sub-matrices
+#'
+#' @author Brian Lee Yung Rowe
 #'
 #' @examples
-#' # Slice x at the 25th index and switch inclusive flag - look at second half of the
-#' # output.
-#' x <- 1:10
-#' slice(x, 5, TRUE)
+#' # The number 4 is included in each sub-sequence
+#' slice(1:10, 4, TRUE)
 #'
-#' slice(x, 5, FALSE)
+#' # With expressions, the sub-sequences are not necessarily continguous
+#' slice(x, x %% 2 == 0)
 #'
-#' # Some examples using expressions - Notice how the ordering of the returned 
-#' # list of sequences changes.
-#' slice(x, x < 5)
+#' # Same as above but in two dimensions
+#' x <- matrix(1:40, ncol=4)
+#' slice(x, 4)
 #'
-#' slice(x, x > 5)
-#'
-#' # Slice a few two-dimensional objects.
-#' A <- matrix(1:10, ncol=2)
-#' slice(A, 3, TRUE)
-#'
-#' df <- data.frame(col1=1:10, col2=1:10)
-#' slice(df, 5, TRUE)
-#'
-#' slice(df, 5, FALSE)
-#'
-#' slice(df, df$col1 < 5)
 slice(x, pivot, inclusive) %::% a : numeric : logical : list
 slice(x, pivot, inclusive=FALSE) %when% {
   is.null(dim(x))
+  pivot > 0
   pivot < anylength(x)
 } %as% {
   left <- x[1:pivot]
@@ -153,7 +152,7 @@ slice(x, pivot, inclusive=FALSE) %when% {
   pivot < anylength(x)
 } %as% {
   left <- x[1:pivot,]
-  right <- x[(pivot+as.numeric(!inclusive)):nrow(x),]
+  right <- x[(pivot+as.numeric(!inclusive)):anylength(x),]
   list(left, right)
 }
 
@@ -167,56 +166,4 @@ slice(x, expression) %when% {
   list(left, right)
 }
 
-slice(x, expression) %when% {
-  length(expression) == anylength(x) 
-} %as% {
-  left <- x[expression,]
-  right <- x[!expression,]
-  list(left, right)
-}
 
-#' Remove the head and tail of a data structure
-#'
-#' This function removes the head and tail of a data structure. Polymorphism is created 
-#' around vectors, lists, matrices and data.frames.
-#'
-#' @name chomp
-#' @param x Any indexable data structure
-#' @param head The number of elements to be removed from the head of x
-#' @param tail The number of elements to be removed from the tail of x
-#' 
-#' @section Usage:
-#' chomp(x, head=1, tail=1)
-#'
-#' @section Details:
-#' This function removes the head and tail of a data structure. The parameters
-#' \code{head} and \code{tail} control how many elements are removed from the data
-#' structure, and they must be positive. Additionally, the summation of \code{head} and
-#' \code{tail} must not be greater than or equal to the length of the data structure.
-#'  
-#' @return A vector with the elements defined by head and tail removed.
-#'
-#' @examples
-#' chomp(1:10)
-#'
-#' chomp(1:10, head=2, tail=2)
-#'
-#' chomp(matrix(1:10, ncol=2))
-#'
-#' chomp(data.frame(x=1:10, y=1:10, head=2, tail=2))
-chomp(x, head=1, tail=1) %when% {
-  is.null(dim(x))
-  head > 0 
-  tail > 0
-  head + tail < anylength(x)
-} %as% {
-  x[(1+head):(length(x)-tail)]
-}
-
-chomp(x, head=1, tail=1) %when% {
-  head > 0
-  tail > 0
-  head + tail < anylength(x)
-} %as% {
-  x[(1+head):(nrow(x)-tail), ]
-}

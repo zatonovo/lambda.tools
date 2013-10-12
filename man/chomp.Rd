@@ -11,34 +11,32 @@
   tail of x}
 }
 \value{
-  A vector with the elements defined by head and tail
-  removed.
+  A data structure with the head and tail chomped off
 }
 \description{
-  This function removes the head and tail of a data
-  structure. Polymorphism is created around vectors, lists,
-  matrices and data.frames.
+  Remove the specified number of elements from either the
+  head or tail of a data structure.
 }
 \section{Usage}{
   chomp(x, head=1, tail=1)
 }
 
 \section{Details}{
-  This function removes the head and tail of a data
-  structure. The parameters \code{head} and \code{tail}
-  control how many elements are removed from the data
-  structure, and they must be positive. Additionally, the
-  summation of \code{head} and \code{tail} must not be
-  greater than or equal to the length of the data
-  structure.
+  This function is inspired by the PERL function of the
+  same name. While the PERL version is designed for
+  strings, this version is designed for any indexable data
+  structure, typically containing numbers.
 }
 \examples{
 chomp(1:10)
+chomp(letters)
 
-chomp(1:10, head=2, tail=2)
-
-chomp(matrix(1:10, ncol=2))
-
-chomp(data.frame(x=1:10, y=1:10, head=2, tail=2))
+chomp(data.frame(x=1:10, y=1:10), head=2, tail=2)
+}
+\author{
+  Brian Lee Yung Rowe
+}
+\seealso{
+  \code{\link{pad}}
 }
 

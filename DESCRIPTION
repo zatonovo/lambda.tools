@@ -4,7 +4,7 @@ Title: Tools for modeling data with functional programming
 Version: 1.0.0
 Date: 2013-08-30
 Imports:
-    lambda.r
+    lambda.r (>= 1.1.4)
 Suggests:
     testthat (>= 0.2)
 Author: Brian Lee Yung Rowe, Eric Cox
@@ -17,8 +17,9 @@ Description: Provides tools that manipulate and transform data using methods
 License: LGPL-3
 Collate:
     'any.R'
-    'higher_order.R'
     'lambda.tools-package.R'
     'logic.R'
     'sequence.R'
     'tools.R'
+    'fold.R'
+    'map.R'

@@ -13,35 +13,57 @@
   The value returned is the accumulator object \code{y}
 }
 \description{
-  This function implements a map operation over different
-  data types. This provides polymorphism for vectors,
-  lists, matrices and data.frames.
+  This function implements a map operation over arbitrary
+  indexable data structures. Both 1D and 2D data structures
+  are supported.
+}
+\note{
+  This function is implemented using recursion and will
+  throw an error if the length of \code{x} approaches
+  \code{getOption('expressions') / 8.0}. This limit is due
+  to R attempting to protect against infinite recursion.
+  See \code{options} for more details.
 }
 \section{Usage}{
   map(x, fn, y=c())
 }
 
 \section{Details}{
-  This function is implemented using recursion and will
-  throw an error if the length of \code{x} approaches
-  \code{getOption('expressions') / 8.0}. This limit is due
-  to R session protecting against infinite recursion via
-  the expressions parameter. See \code{options}.
+  While many functions in R are vectorized, some functions
+  only work for scalar input. The map function transforms
+  any scalar-valued function into a vectorized function.
+  This is known as the map-equivalent form of the scalar
+  function.
 
-  Recursion will decrement the length of the input object
-  \code{x} and eventually the above function clause will be
-  called as a result of \code{x} being empty. At that point
-  \code{map} will return the accumulator \code{y}.
+  The map operation is implemented for 2D data structures
+  as a column-based operation. If a row-based procedure is
+  desired instead, simply transpose the data structure.
+
+  Conceptually, the map operation is implemented in the
+  apply family of functions. The reason for this
+  implementation is primarily for pedagogical purposes.
 }
 \examples{
 map(-10:10, quantize)
 
-map(rnorm(10, sd=2), function(y) sum(y), y=list())
+# Output a list instead of a vector
+map(-10:10, quantize, y=list())
 
 # Sum the columns of a matrix
-map(matrix(rnorm(10, sd=2), ncol=2), function(y) sum(y), y=list())
+map(matrix(1:24, ncol=4), sum)
 
 # Sum the columns of a data.frame
-map(matrix(rnorm(10, sd=2), ncol=2), function(y) sum(y), y=list())
+map(data.frame(a=1:6, b=7:12, c=13:18, d=19:24), sum)
+}
+\author{
+  Brian Lee Yung Rowe
+}
+\references{
+  Brian Lee Yung Rowe, Modeling Data With Functional
+  Programming In R.
+}
+\seealso{
+  \code{\link{fold}} \code{\link{maprange}}
+  \code{\link{mapblock}}
 }
 

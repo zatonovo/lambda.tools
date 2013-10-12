@@ -1,46 +1,44 @@
 \name{foldblock}
 \alias{foldblock}
-\title{Successively apply a function to a block of a sequence and the
-value of the previous application over a moving block subsequence of
-a vector}
+\title{Successively apply a function to adjacent blocks of a sequence}
 \arguments{
-  \item{x}{Any Indexable data structure}
+  \item{x}{Any indexable data structure}
 
-  \item{block}{The number of elements included in the
-  rolling block}
+  \item{window}{The number of elements in each
+  sub-sequence}
 
-  \item{fn}{The function applied to the rolling range}
+  \item{fn}{The function applied to the sub-sequence}
 
-  \item{acc}{Accumulator}
+  \item{acc}{The intermediate accumulated value}
 }
 \value{
-  An object containing the accumulated result
+  The accumulated value
 }
 \description{
-  This function applies a function to a moving block of a
-  sequence and the previous application of the function.
+  Apply a function to non-overlapping sub-sequences and the
+  accumulated value of the function application
 }
 \section{Usage}{
-  foldblock(x, block, fn, acc=0)
+  foldblock(x, window, fn, acc=0)
 }
 
 \section{Details}{
-  This function apples to both one-dimensional and
-  two-dimensional data structures. A restriction on the
-  block size is that the block size must be less than the
-  length(x). The function applied to the blocks must take
-  two arguments (i.e., a binary function).
-}
-
-\section{TODO}{
-  This function is not working for a matrix. See github
-  issue https://github.com/muxspace/lambda.tools/issues/3
+  This function is the fold counterpart of mapblock. It's
+  primarily here for completeness purposes, as the utility
+  of this function is still to be determined.
 }
 \examples{
-x <- 1:10
-foldblock(x, 2, function(a,b) a+b)
-
-# fold with a block size of 3 - Notice how the length of the output changes.
-foldblock(x, 3, function(a,b) a+b)
+\dontrun{
+# Mean of means
+z <- sapply(1:200,
+  function(x) foldblock(rnorm(500), 10, function(a,b) mean(a) + b) / 50)
+}
+}
+\author{
+  Brian Lee Yung Rowe
+}
+\seealso{
+  \code{\link{map}} \code{\link{fold}}
+  \code{\link{foldrange}}
 }
 

@@ -1,24 +1,22 @@
 \name{slice}
 \alias{slice}
-\title{Split a sequence based on a pivot value or an expression}
+\title{Slice a sequence into two adjacent sub-sequences}
 \arguments{
-  \item{x}{A sequence}
+  \item{x}{An indexable data structure, typically a vector}
 
-  \item{pivot}{The index where x will be sliced}
+  \item{pivot}{The index of the pivot point in x}
 
-  \item{inclusive}{Defined as TRUE will include the value
-  of x at index pivot as the first element in second half
-  of the slice of x}
+  \item{inclusive}{Whether to include the pivot point in
+  the second sub-sequence}
 
-  \item{expression}{A logical expression used for logical
-  indexing of x}
+  \item{expression}{A logical expression}
 }
 \value{
-  A list containing the left and right vectors with respect
-  to pivot.
+  A list containing two sub-sequences or sub-matrices
 }
 \description{
-  Split a sequence based on a pivot value or an expression
+  A sequence can be sliced using an explicit pivot point or
+  by using a logical expression.
 }
 \section{Usage}{
   slice(x, pivot, inclusive=FALSE)
@@ -27,41 +25,40 @@
 }
 
 \section{Details}{
-  This function splits a sequence based on a pivot value or
-  logical expression. The inclusive parameter will either
-  include or exclude the value at the pivot in the second
-  element of the returned list.
+  This function splits a sequence into two adjacent
+  sub-sequences at a pivot point or based on a logical
+  expression. If a pivot point is chosen, then the
+  inclusive parameter determines whether the value
+  associated with the pivot should be included in both
+  sub-sequences. If FALSE, then the indices of the
+  sub-sequences will have the form [1, pivot], [pivot + 1,
+  n], where n = |x|. If inclusive is TRUE, then the
+  sub-sequences have indices of [1, pivot], [pivot, n].
+  Obviously the pivot must be an element of the set of
+  indices of x.
 
-  This function is defined for one- and two-dimensional
-  data structures. In the two- dimensional case,
-  \code{slice} will return a list where each value in the
-  list is a matrix. This function is useful for splitting
-  data on a value and applying a function to the smaller
-  pieces.
+  An alternative construction is to use an expression to
+  define a slice point. The first sub-sequence corresponds
+  to the values where the expression evaluated to TRUE,
+  while the second sequence corresponds to values when the
+  expression evaluated to FALSE.
+
+  In two dimensions only the first variant of this function
+  is defined, as it cannot be guaranteed that a regular
+  matrix will be generated using an arbitrary expression.
 }
 \examples{
-# Slice x at the 25th index and switch inclusive flag - look at second half of the
-# output.
-x <- 1:10
-slice(x, 5, TRUE)
+# The number 4 is included in each sub-sequence
+slice(1:10, 4, TRUE)
 
-slice(x, 5, FALSE)
+# With expressions, the sub-sequences are not necessarily continguous
+slice(x, x \%\% 2 == 0)
 
-# Some examples using expressions - Notice how the ordering of the returned
-# list of sequences changes.
-slice(x, x < 5)
-
-slice(x, x > 5)
-
-# Slice a few two-dimensional objects.
-A <- matrix(1:10, ncol=2)
-slice(A, 3, TRUE)
-
-df <- data.frame(col1=1:10, col2=1:10)
-slice(df, 5, TRUE)
-
-slice(df, 5, FALSE)
-
-slice(df, df$col1 < 5)
+# Same as above but in two dimensions
+x <- matrix(1:40, ncol=4)
+slice(x, 4)
+}
+\author{
+  Brian Lee Yung Rowe
 }
 
