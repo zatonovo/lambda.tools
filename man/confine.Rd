@@ -18,7 +18,8 @@
   equivalent to clipping in digital signal processing.
 }
 \section{Usage}{
-  confine(x, min.level=-1, max.level=1)
+  confine(x, min.level, max.level) %::% numeric : numeric :
+  numeric : numeric confine(x, min.level=-1, max.level=1)
 }
 
 \section{Details}{

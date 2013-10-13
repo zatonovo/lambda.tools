@@ -53,6 +53,7 @@ quantize(x, bins=c(-1,0,1), metric=function(a,b) abs(a-b)) %as% {
 #' digital signal processing.
 #'
 #' @section Usage:
+#' confine(x, min.level, max.level) %::% numeric : numeric : numeric : numeric
 #' confine(x, min.level=-1, max.level=1)
 #'
 #' @section Details:
@@ -77,11 +78,12 @@ quantize(x, bins=c(-1,0,1), metric=function(a,b) abs(a-b)) %as% {
 #' @examples
 #' confine(seq(-2,2, by=.1))
 #'
+confine(x, min.level, max.level) %::% numeric : numeric : numeric : numeric
 confine(x, min.level=-1, max.level=1) %when% {
   min.level < max.level
 } %as% {
   y <- ifelse(x < min.level, min.level, x)
-  ifelse(y > max.level, max.level, x)
+  ifelse(y > max.level, max.level, y)
 }
 
 

@@ -18,8 +18,7 @@
   yes\cr }
 }
 \author{
-  Brian Lee Yung Rowe <r@zatonovo.com>, Eric Cox
-  <ec@cashpath.com>
+  Brian Lee Yung Rowe <r@zatonovo.com>
 }
 \seealso{
   \code{\link{lambda.r}}

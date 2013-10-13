@@ -37,19 +37,9 @@ test_that("a named data.frame has correct names", {
   expect_equal(anynames(df), c('a', 'b', 'c', 'd', 'e'))
 })
 
+
 context("anytypes")
-test_that("unnamed vector has correct type", {
-  a <- c(1,2,3)
-  expect_equal(anytypes(a), "numeric")
-})
-
-test_that("named vector has correct type", {
-  a <- c(1,2,3)
-  names(a) <- c('a','b','c')
-  expect_equal(anytypes(a), "numeric")
-})
-
-test_that("named data.frame has correct type", {
+test_that("A named data.frame has the correct types", {
   a <- data.frame(a=c(1,2,3), b=c("larry","mo","curly"), c=c(TRUE,FALSE,TRUE))
   ts <- anytypes(a)
   expect_equal(names(ts), c("a","b","c"))
@@ -57,7 +47,7 @@ test_that("named data.frame has correct type", {
   expect_equal(ts, c('numeric','factor','logical'))
 })
 
-test_that("unnamed data.frame has correct type", {
+test_that("An unnamed data.frame has the correct types", {
   a <- data.frame(c(1,2,3), c("larry","mo","curly"), c(TRUE,FALSE,TRUE))
   ts <- anytypes(a)
   # The data.frame will fill this in
@@ -68,30 +58,30 @@ test_that("unnamed data.frame has correct type", {
 
 
 context("is.bad")
-test_that("list with bad values", {
+test_that("A list is handled correctly", {
   a <- list(a=1:3, b=NULL, c=NA, d='foo')
   e <- list(a=rep(FALSE,3), b=TRUE, c=TRUE, d=FALSE)
   expect_equal(is.bad(a), e)
 })
 
-test_that("vector with NAs", {
+test_that("A vector with NAs is handled correctly", {
   a <- c(1,NA,3)
   expect_equal(is.bad(a), c(FALSE,TRUE,FALSE))
 })
 
-test_that("data.frame with NAs", {
+test_that("A data.frame with NAs is handled correctly", {
   a <- data.frame(a=1:3, b=NA)
   e <- matrix(c(rep(FALSE,3), rep(TRUE,3)), ncol=2)
   colnames(e) <- c('a','b')
   expect_equal(is.bad(a), e)
 })
 
-test_that("data.frame that is empty", {
+test_that("A data.frame that is empty is handled correctly", {
   a <- data.frame(a=NULL, b=NULL)
   expect_true(is.bad(a))
 })
 
-test_that("matrix with NAs", {
+test_that("A matrix with NAs is handled correctly", {
   a <- matrix(c(1:3, NA), ncol=2)
   e <- matrix(c(rep(FALSE,3), TRUE), ncol=2)
   expect_equal(is.bad(a), e)
@@ -99,32 +89,32 @@ test_that("matrix with NAs", {
 
 
 context("is.empty")
-test_that("non-empty vector", {
+test_that("A non-empty vector resolves to FALSE", {
   a <- c(1,2,3)
   expect_false(is.empty(a))
 })
 
-test_that("empty vector", {
+test_that("An empty vector resolves to TRUE", {
   a <- c()
   expect_true(is.empty(a))
 })
 
-test_that("non-empty list", {
+test_that("A non-empty list resolves to FALSE", {
   a <- list(a=1,2,3)
   expect_false(is.empty(a))
 })
 
-test_that("empty list", {
+test_that("An empty list resolves to TRUE", {
   a <- list()
   expect_true(is.empty(a))
 })
 
-test_that("non-empty data.frame", {
+test_that("A non-empty data.frame resolves to FALSE", {
   a <- data.frame(a=1:3,b=2,c=3)
   expect_false(is.empty(a))
 })
 
-test_that("empty data.frame", {
+test_that("An empty data.frame resolves to TRUE", {
   a <- data.frame(a=NULL, b=NULL)
   expect_true(is.empty(a))
 })

@@ -156,13 +156,14 @@ maprange(x, window, fn, do.pad=FALSE) %as% {
 #' # Pad at the head of the sequence to yield an integer multiple of window
 #' mapblock(1:10, 3, function(x) sum(x, na.rm=TRUE), do.pad=TRUE)
 #'
+# TODO: Look at whether pad makes sense
 mapblock(x, window, fn, do.pad=FALSE) %when% {
   is.null(dim(x))
   window < anylength(x)
 } %as% {
-  x <- onlyif(do.pad, function(y) pad(y, length(y) %% window), x)
   s <- seq(1, length(x), by=window)
-  sapply(s, function(idx) fn(x[idx:min(length(x), idx+window-1)]))
+  y <- sapply(s, function(idx) fn(x[idx:min(length(x), idx+window-1)]))
+  onlyif(do.pad, function(z) pad(z, length(z) %% window), y)
 }
 
 mapblock(x, window, fn, do.pad=FALSE) %as% {
