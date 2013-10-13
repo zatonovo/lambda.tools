@@ -1,43 +1,57 @@
-context("map")
-test_that("map for a vector", {
+# :vim set filetype=R
+context("1D map")
+test_that("Basic functionality", {
   x <- 1:10
-  expect_equal(map(x, function(a) sum(a)), x)
+  act <- map(x, function(a) a^2)
+  exp <- x^2
+  expect_equal(act, exp)
 })
 
-test_that("map for a vector using quantize", {
-  y <- c(-1, -1, -1, -1, -1, -1,
-         -1, -1, -1, -1, 0, 1, 1,
-         1, 1, 1, 1, 1, 1, 1, 1)
-  expect_equal(map(-10:10, quantize), y)
+test_that("Custom accumulator", {
+  x <- 1:10
+  act <- map(x, function(a) a^2, acc=list())
+  exp <- as.list(x^2)
+  expect_equal(act, exp)
 })
 
-
-test_that("map throws error when fn is not a function", {
-  x <- c(seq(1, 10, by=0.1), rep(NA, 5)) 
+test_that("Invalid functions are not allowed", {
+  x <- 1:10
   f <- 'I am not a function.'
   expect_error(map(x, f))
 })
 
-test_that("map for a vector with NAs works", {
-  x <- c(seq(1, 10, by=0.1), rep(NA, 5)) 
-  f <- function(a) { a } 
-  y <- map(x, f, y=c())
-  expect_equal(x, y)
+test_that("NAs okay in input sequence", {
+  x <- c(-5:5, NA, NA, 7:10) 
+  act <- map(x, function(a) abs(a))
+  exp <- abs(x)
+  expect_equal(act, exp)
 })
 
-test_that("map with x as a matrix", {
+
+context("2D map")
+test_that("Basic functionality", {
   x <- matrix(1:10, ncol=2)
-  z <- map(x, function(a) sum(a))
-  expect_equal(z, c(15, 40))
+  act <- map(x, function(a) sum(a))
+  exp <- apply(x, 2, sum)
+  expect_equal(act, exp)
 })
 
-test_that("map with x as a data.frame works for fn: Rn -> R", {
-  x <- data.frame(col1=1:10, col2=1:10)
-  z <- map(x, function(a) sum(a), y=list())
-  expect_equal(z, list(55, 55))
+test_that("Use a data.frame as input", {
+  x <- data.frame(a=1:10, b=11:20)
+  act <- map(x, function(a) sum(a))
+  exp <- c(55, 155)
+  expect_equal(act, exp)
 })
 
-context("maprange")
+test_that("Use a data.frame as input and accumulate in a list", {
+  x <- data.frame(a=1:10, b=11:20)
+  act <- map(x, function(a) sum(a), acc=list())
+  exp <- list(55, 155)
+  expect_equal(act, exp)
+})
+
+
+context("1D maprange")
 test_that("maprange with window size a multiple of length(x)",{
   x <- 1:10
   y <- maprange(x, 2, function(a) sum(a))
@@ -56,48 +70,40 @@ test_that("maprange with window size not a multiple of length(x) and do.pad",{
   expect_equal(y, c(NA, NA, 6, 9, 12, 15, 18, 21, 24, 27))
 })
 
-
 test_that("maprange with x a vector and with window size > length(x)",{
   x <- 1:10
   expect_error(maprange(x, 11, function(a) sum(a), "No valid function for"))
 })
 
-context("mapblock")
-test_that("mapblock with x a vector and with block size < length(x)",{
+
+context("2D maprange")
+# TODO: Add tests here
+
+
+context("1D mapblock")
+test_that("Basic functionality",{
   x <- 1:10
-  y <- mapblock(x, 2, mean)
-  expect_equal(y, c(1.5, 3.5, 5.5, 7.5, 9.5))
+  act <- mapblock(x, 2, mean)
+  exp <- apply(matrix(x,nrow=2), 2, mean)
+  expect_equal(act, exp)
 })
 
-test_that("mapblock with x a vector and with block size < length(x) and NAs",{
+test_that("Window does not divide length of x",{
   x <- 1:10
-  y <- mapblock(x, 2, mean, TRUE)
-  expect_equal(y, c(NA, 1.5, 3.5, 5.5, 7.5, 9.5))
+  act <- mapblock(x, 3, mean)
+  exp <- c(apply(matrix(x[1:9],nrow=3), 2, mean), 10)
+  expect_equal(act, exp)
 })
 
-test_that("mapblock with x a vector and with block size = length(x) / 2",{
+test_that("Window longer than length of x",{
   x <- 1:10
-  y <- mapblock(x, 5, mean)
-  expect_equal(y, c(3, 8))
+  act <- mapblock(x, 11, mean)
+  exp <- mean(x)
+  expect_equal(act, exp)
 })
 
-test_that("mapblock with x a vector and with block size = length(x) / 2 and NAs",{
-  x <- 1:10
-  y <- mapblock(x, 5, mean, TRUE)
-  expect_equal(y, c(NA, NA, NA, NA, 3, 8))
-})
 
-test_that("mapblock with x a vector and with block size > length(x)",{
-  x <- 1:10
-  expect_error(mapblock(x, 11, function(a) sum(a)))
-})
-
-test_that("mapblock with x a vector and with block size not a multiple of length(x)",{
-  x <- 1:10
-  y <- mapblock(x, 3, function(a) sum(a))
-  expect_equal(y, c(6, 15, 24, NA))
-})
-
+context("2D mapblock")
 test_that("mapblock with x a matrix block size of one",{
   m <- matrix(1:12, ncol=2)
   y <- mapblock(m, 1, sum)

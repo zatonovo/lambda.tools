@@ -7,6 +7,8 @@
   \item{block}{The block size used to map over}
 
   \item{fn}{A function applied to a block}
+
+  \item{\dots}{Optional arguments to pass to sapply}
 }
 \value{
   A vector containing the result of fn applied to each
@@ -28,20 +30,31 @@
   produce a map process along the sub-matrices in a way
   that doesn't require managing indices.
 
+  Unlike maprange, mapblock doesn't have a do.pad option.
+  Typical usage scenarios begin by constructing a matrix
+  block that is compatible with some other data structure.
+  Hence given a matrix A with dimensions m x n and a window
+  of length m, it is possible to construct a k x m block
+  matrix B composed of smaller m x m sub-matrices such that
+  each iteration of mapblock operates on a 1 x m vector
+  against an m x m sub-matrix. The point is that by
+  construction the dimensions must be compatible, so
+  padding after the fact becomes unnecessary.
+
   The 1D version is provided for completeness and is
   equivalent to a 2D map, except on the edge cases.
 }
 \examples{
+# Apply multiple rotation matrices to a set of points
+a <- matrix(sample(12, 20, replace=TRUE), nrow=2)
+theta <- 2 * pi * sample(360,4, replace=TRUE) / 360
+b <- fold(theta, function(d,acc)
+  cbind(acc,matrix(c(cos(d),sin(d),-sin(d),cos(d)), nrow=2)), c())
+z <- mapblock(b, 2, function(m) m \%*\% a, simplify=FALSE)
+
 # The 1D version is equivalent to a 2D map
 x <- 1:24
 mapblock(x, 4, sum) == map(matrix(x,nrow=4), sum)
-
-# Sum sub-sequences of a sequence. Note that the last value will have
-# fewer elements
-mapblock(1:10, 3, sum)
-
-# Pad at the head of the sequence to yield an integer multiple of window
-mapblock(1:10, 3, function(x) sum(x, na.rm=TRUE), do.pad=TRUE)
 }
 \author{
   Brian Lee Yung Rowe

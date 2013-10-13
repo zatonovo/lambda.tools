@@ -124,9 +124,10 @@ foldrange(x, window, fn, acc=0) %when% {
 #' foldblock(x, window, fn, acc=0)
 #'
 #' @section Details:
-#' This function is the fold counterpart of mapblock. It's primarily
-#' here for completeness purposes, as the utility of this function
-#' is still to be determined.
+#' This function is the fold counterpart of mapblock. Like mapblock
+#' the usefulness of this function is for the 2D case, as it can
+#' simplify interacting with matrices. See the example below for
+#' using foldblock as a summation operator over matrices
 #'
 #' @name foldblock
 #' @param x Any indexable data structure
@@ -139,24 +140,26 @@ foldrange(x, window, fn, acc=0) %when% {
 #' @seealso \code{\link{map}} \code{\link{fold}} \code{\link{foldrange}}
 #'
 #' @examples
-#' \dontrun{
-#' # Mean of means
-#' z <- sapply(1:200,
-#'   function(x) foldblock(rnorm(500), 10, function(a,b) mean(a) + b) / 50)
-#' }
+#' # Sum 5 2 x 2 matrices
+#' ms <- matrix(sample(40,20, replace=TRUE), nrow=2)
+#' foldblock(ms,2, function(a,b) a + b)
 #'
-foldblock(x, window, fn, acc, idx) %::% . : numeric : Function : . : numeric : .
-foldblock(x, window, fn, acc, 0) %as% acc
+#' # 1D foldblock is equivalent to 2D fold
+#' x <- 1:12
+#' f <- function(a,b) mean(a) + b
+#' foldblock(x,3,f) == fold(matrix(x, nrow=3),f)
+#'
+foldblock(x, window, fn, acc) %::% . : numeric : Function : . : .
+foldblock(EMPTY, window, fn, acc) %as% acc
 
-foldblock(x, window, fn, acc=0, idx=length(x)-window+1) %when% { 
+foldblock(x, window, fn, acc=0) %when% { 
   is.null(dim(x))
-  window < anylength(x)
 } %as% {
-  foldblock(x, window, fn, fn(x[idx:(idx+window-1)], acc), max(idx-window,0))
+  y <- min(length(x),window)
+  foldblock(x[-(1:y)], window, fn, fn(x[1:y], acc))
 }
 
-foldblock(x, window, fn, acc=0) %when% {
-  window < anylength(x)
-} %as% {
-  sapply(1:ncol(x), function(ydx) foldrange(x[,ydx], window, fn, acc))
+foldblock(x, window, fn, acc=0) %as% {
+  y <- min(ncol(x),window)
+  foldblock(x[,-(1:y)], window, fn, fn(x[,1:y], acc))
 }

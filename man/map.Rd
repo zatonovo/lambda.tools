@@ -4,13 +4,13 @@
 \arguments{
   \item{x}{Any indexable data structure}
 
-  \item{fn}{A function applied to elements in x}
+  \item{fn}{A function applied to each x_i in x}
 
-  \item{y}{An accumulator object (vector, list, matrix,
-  data.frame)}
+  \item{acc}{An initial data structure to accumulate the
+  value of f(x_i)}
 }
 \value{
-  The value returned is the accumulator object \code{y}
+  A sequence representing < f(x_i) > for all x_i in x
 }
 \description{
   This function implements a map operation over arbitrary
@@ -25,7 +25,7 @@
   See \code{options} for more details.
 }
 \section{Usage}{
-  map(x, fn, y=c())
+  map(x, fn, acc=c())
 }
 
 \section{Details}{
@@ -39,7 +39,7 @@
   as a column-based operation. If a row-based procedure is
   desired instead, simply transpose the data structure.
 
-  Conceptually, the map operation is implemented in the
+  Conceptually, the map operation is equivalent to the
   apply family of functions. The reason for this
   implementation is primarily for pedagogical purposes.
 }
@@ -47,7 +47,7 @@
 map(-10:10, quantize)
 
 # Output a list instead of a vector
-map(-10:10, quantize, y=list())
+map(-10:10, quantize, acc=list())
 
 # Sum the columns of a matrix
 map(matrix(1:24, ncol=4), sum)

@@ -23,16 +23,21 @@
 }
 
 \section{Details}{
-  This function is the fold counterpart of mapblock. It's
-  primarily here for completeness purposes, as the utility
-  of this function is still to be determined.
+  This function is the fold counterpart of mapblock. Like
+  mapblock the usefulness of this function is for the 2D
+  case, as it can simplify interacting with matrices. See
+  the example below for using foldblock as a summation
+  operator over matrices
 }
 \examples{
-\dontrun{
-# Mean of means
-z <- sapply(1:200,
-  function(x) foldblock(rnorm(500), 10, function(a,b) mean(a) + b) / 50)
-}
+# Sum 5 2 x 2 matrices
+ms <- matrix(sample(40,20, replace=TRUE), nrow=2)
+foldblock(ms,2, function(a,b) a + b)
+
+# 1D foldblock is equivalent to 2D fold
+x <- 1:12
+f <- function(a,b) mean(a) + b
+foldblock(x,3,f) == fold(matrix(x, nrow=3),f)
 }
 \author{
   Brian Lee Yung Rowe

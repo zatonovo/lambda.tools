@@ -5,7 +5,7 @@
 #' data structures. Both 1D and 2D data structures are supported.
 #'
 #' @section Usage:
-#' map(x, fn, y=c())
+#' map(x, fn, acc=c())
 #'
 #' @section Details:
 #' While many functions in R are vectorized, some functions only work
@@ -17,15 +17,15 @@
 #' column-based operation. If a row-based procedure is desired instead,
 #' simply transpose the data structure.
 #'
-#' Conceptually, the map operation is implemented in the apply family
+#' Conceptually, the map operation is equivalent to the apply family
 #' of functions. The reason for this implementation is primarily for
 #' pedagogical purposes.
 #'
 #' @name map
 #' @param x Any indexable data structure
-#' @param fn A function applied to elements in x
-#' @param y An accumulator object (vector, list, matrix, data.frame)
-#' @return The value returned is the accumulator object \code{y} 
+#' @param fn A function applied to each x_i in x
+#' @param acc An initial data structure to accumulate the value of f(x_i)
+#' @return A sequence representing < f(x_i) > for all x_i in x
 #'
 #' @author Brian Lee Yung Rowe
 #' @seealso \code{\link{fold}} \code{\link{maprange}} \code{\link{mapblock}}
@@ -43,7 +43,7 @@
 #' map(-10:10, quantize)
 #'
 #' # Output a list instead of a vector
-#' map(-10:10, quantize, y=list())
+#' map(-10:10, quantize, acc=list())
 #'
 #' # Sum the columns of a matrix
 #' map(matrix(1:24, ncol=4), sum)
@@ -51,17 +51,17 @@
 #' # Sum the columns of a data.frame
 #' map(data.frame(a=1:6, b=7:12, c=13:18, d=19:24), sum)
 #'
-map(x, fn, y) %::% . : Function : . : .
-map(EMPTY, fn, y) %as% y
+map(x, fn, acc) %::% . : Function : . : .
+map(EMPTY, fn, acc) %as% acc
 
-map(x, fn, y=c()) %when% { 
+map(x, fn, acc=c()) %when% { 
   is.null(dim(x)) 
 } %as% {
-  map(x[-1], fn, c(y, fn(x[[1]])))
+  map(x[-1], fn, c(acc, fn(x[[1]])))
 }
 
-map(x, fn, y=c()) %as% {
-  map(x[,-1,drop=FALSE], fn, c(y, fn(x[,1])))
+map(x, fn, acc=c()) %as% {
+  map(x[,-1,drop=FALSE], fn, c(acc, fn(x[,1])))
 }
 
 #' Apply a function over a rolling range of a data structure
@@ -132,6 +132,16 @@ maprange(x, window, fn, do.pad=FALSE) %as% {
 #' a larger matrix, it is easy to produce a map process along the 
 #' sub-matrices in a way that doesn't require managing indices.
 #'
+#' Unlike maprange, mapblock doesn't have a do.pad option. Typical
+#' usage scenarios begin by constructing a matrix block that is
+#' compatible with some other data structure. Hence given a matrix
+#' A with dimensions m x n and a window of length m, it is possible
+#' to construct a k x m block matrix B composed of smaller m x m 
+#' sub-matrices such that each iteration of mapblock operates on a
+#' 1 x m vector against an m x m sub-matrix. The point is that by
+#' construction the dimensions must be compatible, so padding
+#' after the fact becomes unnecessary.
+#'
 #' The 1D version is provided for completeness and is equivalent to a
 #' 2D map, except on the edge cases.
 #'
@@ -139,34 +149,32 @@ maprange(x, window, fn, do.pad=FALSE) %as% {
 #' @param x Any indexable data structure
 #' @param block The block size used to map over
 #' @param fn A function applied to a block
+#' @param \dots Optional arguments to pass to sapply
 #' @return A vector containing the result of fn applied to each block 
 #'
 #' @author Brian Lee Yung Rowe
 #'
 #' @examples
+#' # Apply multiple rotation matrices to a set of points
+#' a <- matrix(sample(12, 20, replace=TRUE), nrow=2)
+#' theta <- 2 * pi * sample(360,4, replace=TRUE) / 360
+#' b <- fold(theta, function(d,acc)
+#'   cbind(acc,matrix(c(cos(d),sin(d),-sin(d),cos(d)), nrow=2)), c())
+#' z <- mapblock(b, 2, function(m) m %*% a, simplify=FALSE)
 #'  
 #' # The 1D version is equivalent to a 2D map
 #' x <- 1:24
 #' mapblock(x, 4, sum) == map(matrix(x,nrow=4), sum)
 #'
-#' # Sum sub-sequences of a sequence. Note that the last value will have
-#' # fewer elements
-#' mapblock(1:10, 3, sum)
-#'
-#' # Pad at the head of the sequence to yield an integer multiple of window
-#' mapblock(1:10, 3, function(x) sum(x, na.rm=TRUE), do.pad=TRUE)
-#'
-# TODO: Look at whether pad makes sense
-mapblock(x, window, fn, do.pad=FALSE) %when% {
+mapblock(x, window, fn, ...) %when% {
   is.null(dim(x))
-  window < anylength(x)
 } %as% {
   s <- seq(1, length(x), by=window)
-  y <- sapply(s, function(idx) fn(x[idx:min(length(x), idx+window-1)]))
-  onlyif(do.pad, function(z) pad(z, length(z) %% window), y)
+  sapply(s, function(idx) fn(x[idx:min(length(x), idx+window-1)]), ...)
 }
 
-mapblock(x, window, fn, do.pad=FALSE) %as% {
-  sapply(1:ncol(x), function(ydx) mapblock(x[,ydx], window, fn, do.pad))
+mapblock(x, window, fn, ...) %as% {
+  s <- seq(1, ncol(x), by=window)
+  sapply(s, function(idx) fn(x[,idx:min(ncol(x), idx+window-1)]), ...)
 }
 
