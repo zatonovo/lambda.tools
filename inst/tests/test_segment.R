@@ -1,18 +1,25 @@
 # :vim set filetype=R
 context("segment")
-test_that("No padding works", {
-  x <- 1:5
-  y <- matrix(c(1:4, 2:5), ncol=2, dimnames=list(NULL,c('a','b')))
-  expect_equal(segment(x), y)
+test_that("Numeric vector", {
+  act <- segment(1:5)
+  exp <- data.frame(a=1:4, b=2:5)
+  expect_equal(act, exp)
 })
 
-test_that("Using padding works", {
-  x <- 1:5
-  y <- matrix(c(NA,1:5, 1:5,NA), ncol=2, dimnames=list(NULL,c('a','b')))
-  expect_equal(segment(x, TRUE), y)
+test_that("Numeric vector with padding", {
+  act <- segment(1:5, do.pad=TRUE)
+  exp <- data.frame(a=c(NA,1:5), b=c(1:5,NA))
+  expect_equal(act, exp)
 })
 
-test_that("x cannot be a 2-d array", {
+test_that("Date vector", {
+  d <- Sys.Date() + 0:4
+  act <- segment(d)
+  exp <- data.frame(a=d[1:4], b=d[2:5])
+  expect_equal(act, exp)
+})
+
+test_that("Disallow 2D data structures", {
   x <- matrix(rnorm(10), ncol=2)
   expect_error(segment(x), "No valid function for")
 })

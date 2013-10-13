@@ -175,8 +175,11 @@ partition(x, metric=median, radius=10) %when% {
 #' @param x A vector
 #' @param do.pad Whether the vector should be padded to contain 
 #' the edges of the sequence
-#' @return A matrix with dimensions length(x) - 1 by 2 or
-#' length(x) + 1 by 2 if do.pad == TRUE.
+#' @return The return value is a data.frame with dimensions 
+#' length(x) - 1 by 2 or length(x) + 1 by 2 if do.pad == TRUE.
+#' A data.frame is used to support arbitrary types. For example,
+#' using a Date vector will result in a numeric output, which is
+#' inconvenient.
 #'
 #' @author Brian Lee Yung Rowe
 #' @seealso \code{\link{partition}} \code{\link{maprange}}
@@ -202,9 +205,7 @@ segment(x, do.pad=FALSE) %when% {
   is.null(dim(x))
 } %as% {
   x <- onlyif(do.pad, function(y) pad(y,1,1), x)
-  m <- matrix(c(x[1:(length(x)-1)], x[2:length(x)]), ncol=2)
-  colnames(m) <- c('a','b')
-  m
+  data.frame(a=x[1:(length(x)-1)], b=x[2:length(x)])
 }
 
 

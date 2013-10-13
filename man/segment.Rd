@@ -8,8 +8,11 @@
   contain the edges of the sequence}
 }
 \value{
-  A matrix with dimensions length(x) - 1 by 2 or length(x)
-  + 1 by 2 if do.pad == TRUE.
+  The return value is a data.frame with dimensions
+  length(x) - 1 by 2 or length(x) + 1 by 2 if do.pad ==
+  TRUE. A data.frame is used to support arbitrary types.
+  For example, using a Date vector will result in a numeric
+  output, which is inconvenient.
 }
 \description{
   Create a shifted version of a sequence to make it easier
