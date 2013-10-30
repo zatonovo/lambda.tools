@@ -207,6 +207,7 @@ slice(x, pivot, inclusive=FALSE) %when% {
   list(left, right)
 }
 
+
 slice(x, expression) %::% a : logical : list
 slice(x, expression) %when% {
   is.null(dim(x))
@@ -214,6 +215,14 @@ slice(x, expression) %when% {
 } %as% {
   left <- x[expression]
   right <- x[!expression]
+  list(left, right)
+}
+
+slice(x, expression) %when% {
+  length(expression) == anylength(x)
+} %as% {
+  left <- x[expression,]
+  right <- x[!expression,]
   list(left, right)
 }
 
