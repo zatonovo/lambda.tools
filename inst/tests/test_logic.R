@@ -23,8 +23,8 @@ test_that("onlyif works with negative condition", {
 
 test_that("fn argument must be a function.", {
   x <- rnorm(5)
-  fn <- 'string' 
-  expect_error(onlyif(TRUE, fn, x), "No valid function for")
+  constant <- 'string' 
+  expect_equal(onlyif(TRUE, constant, x), "string")
 })
 
 

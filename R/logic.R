@@ -34,7 +34,7 @@ is.scalar(x) %as% FALSE
 #' This function can be used to apply a function to a vector containing
 #' elements that lie outside the valid domain of \code{fn}. 
 #' The function \code{onlyif} differs from \code{ifelse} in the sense that
-#' it  is not vectorized and a closure can be used. For example,
+#' it is not vectorized and a closure can be used. For example,
 #'
 #' \code{ifelse(length(x) < 10, function(y) fold(x, function(x,y) x+y), x)}
 #'
@@ -45,19 +45,25 @@ is.scalar(x) %as% FALSE
 #' @name onlyif
 #' @param condition Logical statement used to conditionally apply fn to x
 #' @param fn A function to apply to x
+#' @param expr An expression 
 #' @param x An object
-#' @return Either \code{fn(x)} if \code{condition} is true, otherwise \code{x}.
+#' @return Either \code{expr} if \code{condition} is true, otherwise \code{x}.
 #'
 #' @examples
 #' x <- 1:5
+#' onlyif(length(x) < 10, pad(x, 10 - length(x), x)
 #' onlyif(length(x) < 10, function(y) pad(y, 10 - length(y)), x)
 #'
 #' # This returns x
 #' x <- 1:20
-#' onlyif(length(x) < 10, function(y) pad(y, 10 - length(y)), x)
+#' onlyif(length(x) < 10, pad(x, 10 - length(x), x)
 onlyif(condition, fn, x) %::% logical : Function : . : .
 onlyif(TRUE, fn, x) %as% fn(x)
 onlyif(FALSE, fn, x) %as% x
+
+onlyif(condition, expr, x) %::% logical : . : . : .
+onlyif(TRUE, expr, x) %as% expr
+onlyif(FALSE, expr, x) %as% x
 
 #' Apply a default value whenever a variable is not well-formed
 #'
