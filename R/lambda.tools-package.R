@@ -40,8 +40,8 @@
 #' \tabular{ll}{
 #' Package: \tab lambda.tools\cr
 #' Type: \tab Package\cr
-#' Version: \tab 1.0.1\cr
-#' Date: \tab 2013-10-13\cr
+#' Version: \tab 1.0.2\cr
+#' Date: \tab 2013-12-05\cr
 #' License: \tab LGPL-3\cr
 #' LazyLoad: \tab yes\cr
 #' }
