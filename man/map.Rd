@@ -25,6 +25,8 @@
   See \code{options} for more details.
 }
 \section{Usage}{
+  map(x, fn, acc) \%::\% . : Function : . : .
+
   map(x, fn, acc=c())
 }
 

@@ -5,6 +5,8 @@
 #' data structures. Both 1D and 2D data structures are supported.
 #'
 #' @section Usage:
+#' map(x, fn, acc) \%::\% . : Function : . : .
+#'
 #' map(x, fn, acc=c())
 #'
 #' @section Details:

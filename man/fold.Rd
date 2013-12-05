@@ -16,8 +16,9 @@
   accumulated value of the previous function applications
 }
 \section{Usage}{
-  fold(x, fn, acc) %::% . : Function : . : . fold(EMPTY,
-  fn, acc) %as% acc fold(x, fn, acc=0)
+  fold(x, fn, acc) \%::\% . : Function : . : .
+
+  fold(x, fn, acc=0)
 }
 
 \section{Details}{

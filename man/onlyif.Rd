@@ -55,4 +55,7 @@ onlyif(length(x) < 10, function(x) pad(x, 10 - length(x)), x)
 x <- 1:20
 onlyif(length(x) < 10, function(x) pad(x, 10 - length(x)), x)
 }
+\seealso{
+  \code{\link{use_default}}
+}
 

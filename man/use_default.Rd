@@ -23,4 +23,7 @@
 x <- c(1, 2, 3, NA, NA)
 map(x, function(y) use_default(y, 0))
 }
+\seealso{
+  \code{\link{onlyif}}
+}
 

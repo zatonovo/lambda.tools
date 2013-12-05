@@ -55,6 +55,7 @@ is.scalar(x) %as% FALSE
 #' @param expr An expression 
 #' @param x An object
 #' @return Either \code{expr} if \code{condition} is true, otherwise \code{x}.
+#' @seealso \code{\link{use_default}}
 #'
 #' @examples
 #' x <- 1:5
@@ -87,6 +88,7 @@ onlyif(FALSE, expr, x) %as% x
 #'
 #' @return A well-formed value, either the original value or the default
 #' if x is not well-formed.
+#' @seealso \code{\link{onlyif}}
 #'
 #' @examples
 #' x <- c(1, 2, 3, NA, NA)
