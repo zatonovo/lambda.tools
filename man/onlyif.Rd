@@ -7,11 +7,13 @@
 
   \item{fn}{A function to apply to x}
 
+  \item{expr}{An expression}
+
   \item{x}{An object}
 }
 \value{
-  Either \code{fn(x)} if \code{condition} is true,
-  otherwise \code{x}.
+  Either \code{expr} if \code{condition} is true, otherwise
+  \code{x}.
 }
 \description{
   This function conditionally applies a function to an
@@ -28,21 +30,29 @@
   \code{ifelse} in the sense that it is not vectorized and
   a closure can be used. For example,
 
-  \code{ifelse(length(x) < 10, function(y) fold(x,
-  function(x,y) x+y), x)}
+  \code{ifelse(length(x) < 10, pad(x, 10 - length(x)), x)}
 
-  will fail due to the closure around \code{fold}. The
-  alternative would be
+  yields the wrong result due to the length of the first
+  argument. The \code{onlyif} function is designed for
+  these situations.
 
-  \code{onlyif(length(x) < 10, function(y) fold(x,
-  function(x,y) x+y), x)}.
+  \code{onlyif(length(x) < 10, function(x) pad(x, 10 -
+  length(x)), x)}.
+
+  Note that a closure is only required if an expression
+  cannot be evaluated under both a TRUE or FALSE scenario.
+
+  The alternative would be to use a conditional block,
+  which can result in improperly scoped code if one is
+  careless.
 }
 \examples{
 x <- 1:5
-onlyif(length(x) < 10, function(y) pad(y, 10 - length(y)), x)
+onlyif(length(x) < 10, pad(x, 10 - length(x)), x)
+onlyif(length(x) < 10, function(x) pad(x, 10 - length(x)), x)
 
 # This returns x
 x <- 1:20
-onlyif(length(x) < 10, function(y) pad(y, 10 - length(y)), x)
+onlyif(length(x) < 10, function(x) pad(x, 10 - length(x)), x)
 }
 
