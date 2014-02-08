@@ -61,8 +61,8 @@ map(data.frame(a=1:6, b=7:12, c=13:18, d=19:24), sum)
   Brian Lee Yung Rowe
 }
 \references{
-  Brian Lee Yung Rowe, Modeling Data With Functional
-  Programming In R.
+  Rowe, Brian Lee Yung. Modeling Data With Functional
+  Programming In R. Chapman & Hall/CRC Press. Forthcoming.
 }
 \seealso{
   \code{\link{fold}} \code{\link{maprange}}

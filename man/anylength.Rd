@@ -48,18 +48,24 @@
   to check \code{nrow}, \code{anylength} can test for both
   situations in a single clause.
 
-  \preformatted{slice(x, expression) \%::\% a : logical :
-  list slice(x, expression) \%when\% \{ length(expression)
-  == length(x) \}
+  \preformatted{ slice(x, expression) \%::\% a : logical :
+  list
 
-  slice(x, expression) \%::\% a : logical : list slice(x,
-  expression) \%when\% \{ length(expression) == nrow(x) \}}
+  slice(x, expression) \%when\% \{ length(expression) ==
+  length(x) \}
+
+  slice(x, expression) \%::\% a : logical :
+
+  slice(x, expression) \%when\% \{ length(expression) ==
+  nrow(x) \}}
 
   These two clauses can be replaced with
 
-  \preformatted{slice(x, expression) \%::\% a : logical :
-  list slice(x, expression) \%when\% \{ length(expression)
-  == anylength(x) \}}
+  \preformatted{ slice(x, expression) \%::\% a : logical :
+  .
+
+  slice(x, expression) \%when\% \{ length(expression) ==
+  anylength(x) \}}
 
   Another use of \code{anylength} is when working with
   \code{sapply}. The output value is governed by the result

@@ -110,6 +110,7 @@ foldrange(x, window, fn, acc=0, idx=length(x)-window+1) %when% {
 }
 
 foldrange(x, window, fn, acc=0) %when% {
+  ! is.null(dim(x))
   window < anylength(x)
 } %as% {
   sapply(1:ncol(x), function(ydx) foldrange(x[,ydx], window, fn, acc))

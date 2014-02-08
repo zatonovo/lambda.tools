@@ -49,6 +49,11 @@ is.scalar(x) %as% FALSE
 #' The alternative would be to use a conditional block, which can result
 #' in improperly scoped code if one is careless.
 #'
+#' @note
+#' The interface for this function is experimental. I'm looking for a way
+#' to preserve unevaluated expressions. Until then, I don't recommend
+#' using the function.
+#'
 #' @name onlyif
 #' @param condition Logical statement used to conditionally apply fn to x
 #' @param fn A function to apply to x

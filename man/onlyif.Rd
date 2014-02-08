@@ -19,6 +19,11 @@
   This function conditionally applies a function to an
   argument given a logical condition.
 }
+\note{
+  The interface for this function is experimental. I'm
+  looking for a way to preserve unevaluated expressions.
+  Until then, I don't recommend using the function.
+}
 \section{Usage}{
   onlyif(condition, fn, x)
 }

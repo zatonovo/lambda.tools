@@ -32,8 +32,9 @@
 #' @author Brian Lee Yung Rowe
 #' @seealso \code{\link{fold}} \code{\link{maprange}} \code{\link{mapblock}}
 #'
-#' @references Brian Lee Yung Rowe, 
-#' Modeling Data With Functional Programming In R.
+#' @references Rowe, Brian Lee Yung. 
+#' Modeling Data With Functional Programming In R. Chapman & Hall/CRC Press.
+#' Forthcoming.
 #'
 #' @note This function is implemented using recursion and will 
 #' throw an error if the length of \code{x} approaches 
@@ -115,7 +116,10 @@ maprange(x, window, fn, do.pad=FALSE) %when% {
   onlyif(do.pad, function(z) pad(z, window-1), y)
 }
 
-maprange(x, window, fn, do.pad=FALSE) %as% {
+maprange(x, window, fn, do.pad=FALSE) %when% {
+  ! is.null(dim(x))
+  window < anylength(x)
+} %as% {
   sapply(1:ncol(x), function(ydx) maprange(x[,ydx], window, fn, do.pad))
 }
 
