@@ -57,11 +57,15 @@ fold(EMPTY, fn, acc) %as% acc
 fold(x, fn, acc=0) %when% { 
   is.null(dim(x))
 } %as% {
-  fold(x[-1], fn, fn(x[[1]], acc))
+  #fold(x[-1], fn, fn(x[[1]], acc))
+  sapply(x, function(xi) acc <<- fn(xi, acc))
+  acc
 }
 
 fold(x, fn, acc=0) %as% { 
-  fold(x[,-1,drop=FALSE], fn, fn(x[,1], acc))
+  #fold(x[,-1,drop=FALSE], fn, fn(x[,1], acc))
+  apply(x, 2, function(xi) acc <<- fn(xi, acc))
+  acc
 }
 
 #' Successively apply a function to a rolling range of a sequence
