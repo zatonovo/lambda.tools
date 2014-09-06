@@ -110,7 +110,7 @@ map(x, fn, acc=c()) %as% {
 #' maprange(matrix(rnorm(80),ncol=4), 5, mean, do.pad=TRUE)
 maprange(x, window, fn, do.pad=FALSE) %when% {
   is.null(dim(x))
-  window < anylength(x)
+  window <= anylength(x)
 } %as% {
   y <- sapply(window:length(x), function(idx) fn(x[(idx-window+1):idx]))
   onlyif(do.pad, function(z) pad(z, window-1), y)
@@ -118,7 +118,7 @@ maprange(x, window, fn, do.pad=FALSE) %when% {
 
 maprange(x, window, fn, do.pad=FALSE) %when% {
   ! is.null(dim(x))
-  window < anylength(x)
+  window <= anylength(x)
 } %as% {
   sapply(1:ncol(x), function(ydx) maprange(x[,ydx], window, fn, do.pad))
 }
