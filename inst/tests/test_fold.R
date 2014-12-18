@@ -1,33 +1,43 @@
 # :vim set filetype=R
 
 context("1D fold")
-test_that("fold with x as a vector", {
+test_that("a numeric vector is valid", {
   x <- 1:10
-  expect_equal(fold(x, function(a,b) a+b), 55) 
+  expect_equal(fold(x, function(a,b) a+b,0), 55) 
 })
 
-test_that("fold with x as a vector and fn not a function", {
+test_that("an error is thrown when a non-function is used", {
   x <- 1:10
   fn <- "I am not a function"
-  expect_error(fold(x, fn), "No valid function for") 
+  expect_error(fold(x, fn, 0), "No valid function for") 
 })
 
-test_that("fold with x as a vector of length 1.", {
-  x <- c(1)
-  expect_equal(fold(x, function(a,b) a+b), 1)
+test_that("a vector of length 1 is valid", {
+  x <- 1
+  expect_equal(fold(x, function(a,b) a+b,0), 1)
+})
+
+test_that("ellipsis is valid", {
+  x <- 1:5
+  fn <- function(a,acc) {acc[a] <- a^2; acc}
+  o <- fold(x, fn, list(), simplify=FALSE)
+
+  expect_equal(class(o), 'list')
+  expect_equal(length(o), 5)
+  expect_equal(o[[2]], 4)
 })
 
 
 context("2D fold")
-test_that("fold with x as a matrix.", {
+test_that("fold with x as a matrix", {
   x <- matrix(1:10, ncol=2)
-  y <- fold(x, function(a,b) a+b)
+  y <- fold(x, function(a,b) a+b, 0)
   expect_equal(y, c(7, 9, 11, 13, 15))
 })
 
-test_that("fold with x as a data.frame.", {
+test_that("fold with x as a data.frame", {
   x <- data.frame(x1=1:10, x2=1:10) 
-  y <- fold(x, function(a,b) a+b)
+  y <- fold(x, function(a,b) a+b, 0)
   expect_equal(y, c(2 ,4, 6, 8, 10, 12, 14, 16, 18, 20))
 })
 
@@ -61,7 +71,7 @@ test_that("Equivalence with 2D fold",{
   x <- 1:12
   f <- function(a,b) mean(a) + b
   act <- foldblock(x, 3, f)
-  exp <- fold(matrix(x,nrow=3), f)
+  exp <- fold(matrix(x,nrow=3), f, 0)
   expect_equal(act, exp)
 })
 

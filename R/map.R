@@ -129,7 +129,7 @@ maprange(x, window, fn, do.pad=FALSE) %when% {
 #' a data structure.
 #'
 #' @section Usage:
-#' mapblock(x, window, fn, do.pad=FALSE)
+#' mapblock(x, window, fn, ...)
 #'
 #' @section Details:
 #' This function is useful primarily in the two-dimensional form. The 

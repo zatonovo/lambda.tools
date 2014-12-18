@@ -16,9 +16,9 @@
   accumulated value of the previous function applications
 }
 \section{Usage}{
-  fold(x, fn, acc) \%::\% . : Function : . : .
+  fold(x, fn, acc, ...) \%::\% . : Function : . : ... : .
 
-  fold(x, fn, acc=0)
+  fold(x, fn, acc, ...)
 }
 
 \section{Details}{
@@ -43,15 +43,15 @@
 x <- 1:10
 
 # This is equivalent to the summation operator
-sum(x) == fold(x, function(a,b) a+b)
-sum(x^2) == fold(x, function(a,b) a^2 + b)
+sum(x) == fold(x, function(a,b) a+b, 0)
+sum(x^2) == fold(x, function(a,b) a^2 + b, 0)
 
 # This is equivalent to the product operator
 prod(x) == fold(x, function(a,b) a*b, 1)
 
 # Note the equivalence with map
 x <- matrix(1:24, ncol=4)
-map(t(x), function(a) sum(a)) == fold(x, function(a,b) a + b)
+map(t(x), function(a) sum(a)) == fold(x, function(a,b) a + b, 0)
 }
 \author{
   Brian Lee Yung Rowe

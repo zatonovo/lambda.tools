@@ -5,9 +5,9 @@
 #' of the previous function applications
 #'
 #' @section Usage:
-#' fold(x, fn, acc) \%::\% . : Function : . : .
+#' fold(x, fn, acc, ...) \%::\% . : Function : . : ... : .
 #'
-#' fold(x, fn, acc=0)
+#' fold(x, fn, acc, ...)
 #'
 #' @section Details:
 #' The fold operation is a generalization of the summation and product
@@ -41,30 +41,31 @@
 #' x <- 1:10
 #'
 #' # This is equivalent to the summation operator
-#' sum(x) == fold(x, function(a,b) a+b)
-#' sum(x^2) == fold(x, function(a,b) a^2 + b)
+#' sum(x) == fold(x, function(a,b) a+b, 0)
+#' sum(x^2) == fold(x, function(a,b) a^2 + b, 0)
 #'
 #' # This is equivalent to the product operator
 #' prod(x) == fold(x, function(a,b) a*b, 1)
 #'
 #' # Note the equivalence with map
 #' x <- matrix(1:24, ncol=4)
-#' map(t(x), function(a) sum(a)) == fold(x, function(a,b) a + b)
+#' map(t(x), function(a) sum(a)) == fold(x, function(a,b) a + b, 0)
 #'
 fold(x, fn, acc) %::% . : Function : . : .
 fold(EMPTY, fn, acc) %as% acc
 
-fold(x, fn, acc=0) %when% { 
+fold(x, fn, acc, ...) %::% . : Function : . : ... : .
+fold(x, fn, acc, ...) %when% { 
   is.null(dim(x))
 } %as% {
   #fold(x[-1], fn, fn(x[[1]], acc))
-  sapply(x, function(xi) acc <<- fn(xi, acc))
+  sapply(x, function(xi) acc <<- fn(xi, acc), ...)
   acc
 }
 
-fold(x, fn, acc=0) %as% { 
+fold(x, fn, acc, ...) %as% { 
   #fold(x[,-1,drop=FALSE], fn, fn(x[,1], acc))
-  apply(x, 2, function(xi) acc <<- fn(xi, acc))
+  apply(x, 2, function(xi) acc <<- fn(xi, acc), ...)
   acc
 }
 
@@ -152,7 +153,7 @@ foldrange(x, window, fn, acc=0) %when% {
 #' # 1D foldblock is equivalent to 2D fold
 #' x <- 1:12
 #' f <- function(a,b) mean(a) + b
-#' foldblock(x,3,f) == fold(matrix(x, nrow=3),f)
+#' foldblock(x,3,f) == fold(matrix(x, nrow=3),f, 0)
 #'
 foldblock(x, window, fn, acc) %::% . : numeric : Function : . : .
 foldblock(EMPTY, window, fn, acc) %as% acc

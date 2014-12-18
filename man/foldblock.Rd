@@ -37,7 +37,7 @@ foldblock(ms,2, function(a,b) a + b)
 # 1D foldblock is equivalent to 2D fold
 x <- 1:12
 f <- function(a,b) mean(a) + b
-foldblock(x,3,f) == fold(matrix(x, nrow=3),f)
+foldblock(x,3,f) == fold(matrix(x, nrow=3),f, 0)
 }
 \author{
   Brian Lee Yung Rowe

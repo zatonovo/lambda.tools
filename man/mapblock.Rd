@@ -19,7 +19,7 @@
   blocks of a data structure.
 }
 \section{Usage}{
-  mapblock(x, window, fn, do.pad=FALSE)
+  mapblock(x, window, fn, ...)
 }
 
 \section{Details}{
