@@ -2,7 +2,7 @@
 \alias{ntry}
 \title{Call a function until it succeeds}
 \arguments{
-  \item{fn}{A zero-argument function}
+  \item{fn}{A single argument function}
 
   \item{n}{The number of attempts to call the function}
 }
@@ -31,15 +31,15 @@
 
   This higher-order function will call the specified
   function up to n times, returning on the first successful
-  call. The function fn is a closure that takes no
-  arguments.
+  call. The function fn is a closure that takes a single
+  argument representing the attempt number.
 
   If calling the function fails n times, then ntry will
   fail with an error.
 }
 \examples{
 \dontrun{
-fn <- function() {
+fn <- function(i) {
   x <- sample(1:4, 1)
   flog.info("x = \%s",x)
   if (x < 4) stop('stop') else x
