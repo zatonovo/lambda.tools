@@ -26,3 +26,4 @@ Collate:
     'map.R'
     'sample.R'
     'transform.R'
+    'ntry.R'
