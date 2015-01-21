@@ -9,8 +9,8 @@
 #' \tabular{ll}{
 #' Package: \tab lambda.tools\cr
 #' Type: \tab Package\cr
-#' Version: \tab 1.0.4\cr
-#' Date: \tab 2014-12-18\cr
+#' Version: \tab 1.0.5\cr
+#' Date: \tab 2015-01-21\cr
 #' License: \tab LGPL-3\cr
 #' LazyLoad: \tab yes\cr
 #' }
