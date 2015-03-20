@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/zatonovo/lambda.tools.png)](https://travis-ci.org/zatonovo/lambda.tools)
+
 lambda.tools
 ============
 
