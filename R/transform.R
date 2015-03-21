@@ -215,9 +215,9 @@ segment(x, do.pad=FALSE) %when% {
 #' the minimum and maximum values of the ranges.
 #'
 #' @section Usage:
-#' range.for(target, x)
+#' range_for(target, x)
 #'
-#' @name range.for
+#' @name range_for
 #' @param target A value to find in x
 #' @param x A vector
 #' @return A data.frame where each row specifies the end points
@@ -228,9 +228,9 @@ segment(x, do.pad=FALSE) %when% {
 #' @examples
 #' # Find all contiguous ranges containing 2
 #' x <- sample(c(1,2,2,2,3,4), 20, replace=TRUE)
-#' range.for(2,x) 
+#' range_for(2,x) 
 #'
-range.for(target, x) %when% {
+range_for(target, x) %when% {
   is.null(dim(x))
 } %as% {
   y <- segment(x, TRUE)
