@@ -1,6 +1,6 @@
 Package: lambda.tools
 Type: Package
-Title: Tools for modeling data with functional programming
+Title: Tools for Modeling Data with Functional Programming
 Version: 1.0.6
 Date: 2015-03-20
 Depends:
