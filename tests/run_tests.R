@@ -1,4 +1,4 @@
 library(testthat)
 library(lambda.r)
-library_if_available(lambda.tools)
+library(lambda.tools)
 test_package('lambda.tools')
