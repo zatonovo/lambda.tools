@@ -59,13 +59,19 @@ fold(x, fn, acc, ...) %when% {
   is.null(dim(x))
 } %as% {
   #fold(x[-1], fn, fn(x[[1]], acc))
-  sapply(x, function(xi) acc <<- fn(xi, acc), ...)
+  sapply(x, function(xi) {
+    acc <<- fn(xi, acc)
+    NULL
+  }, ...)
   acc
 }
 
 fold(x, fn, acc, ...) %as% { 
   #fold(x[,-1,drop=FALSE], fn, fn(x[,1], acc))
-  apply(x, 2, function(xi) acc <<- fn(xi, acc), ...)
+  apply(x, 2, function(xi) {
+    acc <<- fn(xi, acc)
+    NULL
+  }, ...)
   acc
 }
 
