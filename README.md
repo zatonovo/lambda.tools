@@ -44,7 +44,7 @@ use overlapping sub-vectors. This process is analogous to a
 sliding window, where the index increments by one as opposed to
 by the window size. For the same vector `x`, a maprange operation
 with window of length 3 produces the following sub-vectors as
-arguments: `x[1:3]`, `x[2:4]`, `x[3:6]`, ..., `x[10:12]`.
+arguments: `x[1:3]`, `x[2:4]`, `x[3:5]`, ..., `x[10:12]`.
 
 An example of a range operation is generating n-grams from a text
 document. Suppose a vector `v` contains a sequence of words. Then
