@@ -32,12 +32,12 @@
 #' @author Brian Lee Yung Rowe
 #' @seealso \code{\link{fold}} \code{\link{maprange}} \code{\link{mapblock}}
 #'
-#' @references Rowe, Brian Lee Yung. 
+#' @references Rowe, Brian Lee Yung.
 #' Modeling Data With Functional Programming In R. Chapman & Hall/CRC Press.
 #' Forthcoming.
 #'
-#' @note This function is implemented using recursion and will 
-#' throw an error if the length of \code{x} approaches 
+#' @note This function is implemented using recursion and will
+#' throw an error if the length of \code{x} approaches
 #' \code{getOption('expressions') / 8.0}. This limit
 #' is due to R attempting to protect against infinite recursion.
 #' See \code{options} for more details.
@@ -57,8 +57,8 @@
 map(x, fn, acc) %::% . : Function : . : .
 map(EMPTY, fn, acc) %as% acc
 
-map(x, fn, acc=c()) %when% { 
-  is.null(dim(x)) 
+map(x, fn, acc=c()) %when% {
+  is.null(dim(x))
 } %as% {
   map(x[-1], fn, c(acc, fn(x[[1]])))
 }
@@ -74,12 +74,12 @@ map(x, fn, acc=c()) %as% {
 #'
 #' @section Usage:
 #' maprange(x, window, fn, do.pad=FALSE)
-#' 
+#'
 #' @section Details:
 #' This function is intended to work primarily with time series-like
 #' objects where the same statistic is computed over a rolling window
 #' of the time series. In other packages this operation is referred to as
-#' rollapply (e.g. zoo). This version has two significant differences from 
+#' rollapply (e.g. zoo). This version has two significant differences from
 #' other implementations: 1) it is purely functional, and therefore
 #' easy to reason about; 2) it has consistent semantics with the
 #' family of map functions.
@@ -108,19 +108,25 @@ map(x, fn, acc=c()) %as% {
 #'
 #' # Same as above, but do it for 4 time series
 #' maprange(matrix(rnorm(80),ncol=4), 5, mean, do.pad=TRUE)
-maprange(x, window, fn, do.pad=FALSE) %when% {
+maprange(x, window, fn, do.pad=FALSE, window.gap = 1) %when% {
+  window.gap >= window
+} %as% {
+  stop("Window gap should not be larger than window size.")
+}
+
+maprange(x, window, fn, do.pad=FALSE, window.gap = 1) %when% {
   is.null(dim(x))
   window <= anylength(x)
 } %as% {
-  y <- sapply(window:length(x), function(idx) fn(x[(idx-window+1):idx]))
+  y <- sapply(seq(window, length(x), by = window.gap), function(idx) fn(x[(idx-window+1):idx]))
   onlyif(do.pad, function(z) pad(z, window-1), y)
 }
 
-maprange(x, window, fn, do.pad=FALSE) %when% {
+maprange(x, window, fn, do.pad=FALSE, window.gap = 1) %when% {
   ! is.null(dim(x))
   window <= anylength(x)
 } %as% {
-  sapply(1:ncol(x), function(ydx) maprange(x[,ydx], window, fn, do.pad))
+  sapply(1:ncol(x), function(ydx) maprange(x[,ydx], window, fn, do.pad, window.gap))
 }
 
 #' Apply a function over blocks of a vector
@@ -132,17 +138,17 @@ maprange(x, window, fn, do.pad=FALSE) %when% {
 #' mapblock(x, window, fn, ...)
 #'
 #' @section Details:
-#' This function is useful primarily in the two-dimensional form. The 
+#' This function is useful primarily in the two-dimensional form. The
 #' use case is when a number of rotation matrices should be applied
 #' to a set of points. By collecting all the rotation matrices into
-#' a larger matrix, it is easy to produce a map process along the 
+#' a larger matrix, it is easy to produce a map process along the
 #' sub-matrices in a way that doesn't require managing indices.
 #'
 #' Unlike maprange, mapblock doesn't have a do.pad option. Typical
 #' usage scenarios begin by constructing a matrix block that is
 #' compatible with some other data structure. Hence given a matrix
 #' A with dimensions m x n and a window of length m, it is possible
-#' to construct a k x m block matrix B composed of smaller m x m 
+#' to construct a k x m block matrix B composed of smaller m x m
 #' sub-matrices such that each iteration of mapblock operates on a
 #' 1 x m vector against an m x m sub-matrix. The point is that by
 #' construction the dimensions must be compatible, so padding
@@ -156,7 +162,7 @@ maprange(x, window, fn, do.pad=FALSE) %when% {
 #' @param block The block size used to map over
 #' @param fn A function applied to a block
 #' @param \dots Optional arguments to pass to sapply
-#' @return A vector containing the result of fn applied to each block 
+#' @return A vector containing the result of fn applied to each block
 #'
 #' @author Brian Lee Yung Rowe
 #'
@@ -167,7 +173,7 @@ maprange(x, window, fn, do.pad=FALSE) %when% {
 #' b <- fold(theta, function(d,acc)
 #'   cbind(acc,matrix(c(cos(d),sin(d),-sin(d),cos(d)), nrow=2)), c())
 #' z <- mapblock(b, 2, function(m) m %*% a, simplify=FALSE)
-#'  
+#'
 #' # The 1D version is equivalent to a 2D map
 #' x <- 1:24
 #' mapblock(x, 4, sum) == map(matrix(x,nrow=4), sum)
