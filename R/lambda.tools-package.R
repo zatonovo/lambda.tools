@@ -29,7 +29,7 @@
 #' and similar functions for \code{fold}. 
 #'
 #' \subsection{Block operations}{
-#' The semantics of a block operation is that regular, continguous chunks of
+#' The semantics of a block operation is that regular, contiguous chunks of
 #' data are passed to the function. Suppose a vector \code{x} has 12 elements.
 #' Performing a mapblock operation with window of length 3 applies the 
 #' specified function to the following sub-vectors: \code{x[1:3]},

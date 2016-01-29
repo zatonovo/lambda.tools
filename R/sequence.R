@@ -181,7 +181,7 @@ chomp(x, head=1, tail=1) %when% {
 #' x <- 1:10
 #' slice(x, 4, TRUE)
 #'
-#' # With expressions, the sub-sequences are not necessarily continguous
+#' # With expressions, the sub-sequences are not necessarily contiguous
 #' slice(x, x %% 2 == 0)
 #'
 #' # Same as above but in two dimensions
