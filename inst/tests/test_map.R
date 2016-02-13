@@ -77,13 +77,13 @@ test_that("maprange with x a vector and with window size > length(x)",{
 
 test_that("maprange with window size a multiple of length(x) and window gap < window size", {
   x <- 1:10
-  y <- maprange(x, 3, function(a) sum(a), window.gap = 2)
+  y <- maprange(x, 3, function(a) sum(a), by = 2)
   expect_equal(y, c(6, 12, 18, 24))
 })
 
 test_that("maprange with window size a multiple of length(x) and window gap > window size", {
   x <- 1:10
-  y <- quote(maprange(x, 3, function(a) sum(a), window.gap = 4))
+  y <- quote(maprange(x, 3, function(a) sum(a), by = 4))
   expect_error(eval(y), "Window gap should not be larger")
 })
 

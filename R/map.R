@@ -73,7 +73,7 @@ map(x, fn, acc=c()) %as% {
 #' multiple sequences bound as a matrix or data.frame.
 #'
 #' @section Usage:
-#' maprange(x, window, fn, do.pad=FALSE)
+#' maprange(x, window, fn, do.pad=FALSE, by=1)
 #'
 #' @section Details:
 #' This function is intended to work primarily with time series-like
@@ -82,7 +82,15 @@ map(x, fn, acc=c()) %as% {
 #' rollapply (e.g. zoo). This version has two significant differences from
 #' other implementations: 1) it is purely functional, and therefore
 #' easy to reason about; 2) it has consistent semantics with the
-#' family of map functions.
+#' family of map functions; 3) it has an extra parameter \code{by} to set the
+#' gap between two contiguous windows.
+#'
+#' A typical use case for the \code{by} parameter is like this: you have
+#' a monthly time series, and need to calculate a metric over a rolling window
+#' of 12 months, but the start point of each window is every quarter end.
+#' Normally you'd have to roll through every months then filter out those
+#' that start at quarter end. Now you can just set \code{by=3} and get your
+#' result in one line.
 #'
 #' Comparing the code for zoo:::rollapply.zoo, which is close to 100 lines,
 #' versus the 3 lines separated into 2 function clauses clearly
@@ -95,6 +103,7 @@ map(x, fn, acc=c()) %as% {
 #' @param window The length of the sub-sequence to pass to fn
 #' @param fn A function applied to a rolling range of x
 #' @param do.pad Whether to pad the output to be the same length as the input
+#' @param by The gap between two contiguous windows.
 #' @return In the 1D case, a vector of length(x) - window + 1 (unless padded)
 #' will be returned. Otherwise a matrix with dimension
 #' length(x) - window + 1 by ncol(x) will be returned.
@@ -108,25 +117,25 @@ map(x, fn, acc=c()) %as% {
 #'
 #' # Same as above, but do it for 4 time series
 #' maprange(matrix(rnorm(80),ncol=4), 5, mean, do.pad=TRUE)
-maprange(x, window, fn, do.pad=FALSE, window.gap = 1) %when% {
-  window.gap >= window
+maprange(x, window, fn, do.pad=FALSE, by=1) %when% {
+  by >= window
 } %as% {
   stop("Window gap should not be larger than window size.")
 }
 
-maprange(x, window, fn, do.pad=FALSE, window.gap = 1) %when% {
+maprange(x, window, fn, do.pad=FALSE, by=1) %when% {
   is.null(dim(x))
   window <= anylength(x)
 } %as% {
-  y <- sapply(seq(window, length(x), by = window.gap), function(idx) fn(x[(idx-window+1):idx]))
+  y <- sapply(seq(window, length(x), by = by), function(idx) fn(x[(idx-window+1):idx]))
   onlyif(do.pad, function(z) pad(z, window-1), y)
 }
 
-maprange(x, window, fn, do.pad=FALSE, window.gap = 1) %when% {
+maprange(x, window, fn, do.pad=FALSE, by=1) %when% {
   ! is.null(dim(x))
   window <= anylength(x)
 } %as% {
-  sapply(1:ncol(x), function(ydx) maprange(x[,ydx], window, fn, do.pad, window.gap))
+  sapply(1:ncol(x), function(ydx) maprange(x[,ydx], window, fn, do.pad, by))
 }
 
 #' Apply a function over blocks of a vector
