@@ -21,7 +21,7 @@ test_that("Invalid functions are not allowed", {
 })
 
 test_that("NAs okay in input sequence", {
-  x <- c(-5:5, NA, NA, 7:10) 
+  x <- c(-5:5, NA, NA, 7:10)
   act <- map(x, function(a) abs(a))
   exp <- abs(x)
   expect_equal(act, exp)
@@ -72,9 +72,20 @@ test_that("maprange with window size not a multiple of length(x) and do.pad",{
 
 test_that("maprange with x a vector and with window size > length(x)",{
   x <- 1:10
-  expect_error(maprange(x, 11, function(a) sum(a), "No valid function for"))
+  expect_error(maprange(x, 11, function(a) sum(a)), "No valid function for")
 })
 
+test_that("maprange with window size a multiple of length(x) and window gap < window size", {
+  x <- 1:10
+  y <- maprange(x, 3, function(a) sum(a), by = 2)
+  expect_equal(y, c(6, 12, 18, 24))
+})
+
+test_that("maprange with window size a multiple of length(x) and window gap > window size", {
+  x <- 1:10
+  y <- quote(maprange(x, 3, function(a) sum(a), by = 4))
+  expect_error(eval(y), "Window gap should not be larger")
+})
 
 context("2D maprange")
 # TODO: Add tests here
@@ -113,7 +124,7 @@ test_that("mapblock with x a matrix block size of one",{
 test_that("mapblock with x a matrix block size equal to ncol(m)",{
   m <- matrix(1:12, ncol=2)
   y <- mapblock(m, 2, sum)
-  expect_equal(y, c(78)) 
+  expect_equal(y, c(78))
 })
 
 test_that("mapblock with x a data.frame block size of one",{
