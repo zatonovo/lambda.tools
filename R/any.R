@@ -169,7 +169,8 @@ anytypes(data, fn=class) %as% {
 
 anytypes(data, fn) %::% data.frame : Function : character
 anytypes(data, fn=class) %as% {
-  ts <- apply(matrix(anynames(data), ncol=1), 1, function(x) fn(data[,x]))
+  ts <- apply(matrix(anynames(data), ncol=1), 1, 
+    function(x) paste(fn(data[,x]), collapse=' '))
   names(ts) <- anynames(data)
   return(ts)
 }
