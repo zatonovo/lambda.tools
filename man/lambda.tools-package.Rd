@@ -16,8 +16,8 @@ the mathematical model to the software model.
 \tabular{ll}{
 Package: \tab lambda.tools\cr
 Type: \tab Package\cr
-Version: \tab 1.0.7\cr
-Date: \tab 2015-06-09\cr
+Version: \tab 1.0.8\cr
+Date: \tab 2016-05-10\cr
 License: \tab LGPL-3\cr
 LazyLoad: \tab yes\cr
 }
