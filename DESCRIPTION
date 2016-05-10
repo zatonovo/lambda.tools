@@ -27,3 +27,4 @@ Collate:
     'sample.R'
     'transform.R'
     'ntry.R'
+RoxygenNote: 5.0.1
