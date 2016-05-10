@@ -110,14 +110,17 @@ fold(x, fn, acc, ...) %as% {
 #'   function(x) foldrange(rnorm(50), 10, function(a,b) mean(a) + b) / 41)
 #' }
 #'
-foldrange(x, window, fn, acc, idx) %::% . : numeric : Function : . : numeric : .
-foldrange(x, window, fn, acc, 0) %as% acc
-
-foldrange(x, window, fn, acc=0, idx=length(x)-window+1) %when% {
+foldrange(x, window, fn, acc) %::% . : numeric : Function : . : .
+foldrange(x, window, fn, acc=0) %when% {
   is.null(dim(x))
   window < anylength(x)
 } %as% {
-  foldrange(x, window, fn, fn(x[idx:(idx+window-1)], acc), idx-1)
+  n <- length(x) - window + 1
+  sapply(1:n, function(i) {
+    acc <<- fn(x[i:(i+window-1)], acc)
+    NULL
+  })
+  acc
 }
 
 foldrange(x, window, fn, acc=0) %when% {
