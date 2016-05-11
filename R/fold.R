@@ -58,16 +58,15 @@ fold(x, fn, acc, ...) %::% . : Function : . : ... : .
 fold(x, fn, acc, ...) %when% { 
   is.null(dim(x))
 } %as% {
-  #fold(x[-1], fn, fn(x[[1]], acc))
-  sapply(x, function(xi) {
-    acc <<- fn(xi, acc)
+  # sapply strips away names, but this construction preserves them
+  sapply(1:length(x), function(i) {
+    acc <<- fn(x[i], acc)
     NULL
   }, ...)
   acc
 }
 
 fold(x, fn, acc, ...) %as% { 
-  #fold(x[,-1,drop=FALSE], fn, fn(x[,1], acc))
   apply(x, 2, function(xi) {
     acc <<- fn(xi, acc)
     NULL
