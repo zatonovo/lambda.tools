@@ -51,16 +51,13 @@
 #' x <- matrix(1:24, ncol=4)
 #' map(t(x), function(a) sum(a)) == fold(x, function(a,b) a + b, 0)
 #'
-fold(x, fn, acc) %::% . : Function : . : .
-fold(EMPTY, fn, acc) %as% acc
-
 fold(x, fn, acc, ...) %::% . : Function : . : ... : .
 fold(x, fn, acc, ...) %when% { 
   is.null(dim(x))
 } %as% {
   # sapply strips away names, but this construction preserves them
   sapply(1:length(x), function(i) {
-    acc <<- fn(x[i], acc)
+    acc <<- fn(x[[i]], acc)
     NULL
   }, ...)
   acc
