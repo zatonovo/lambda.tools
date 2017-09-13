@@ -92,7 +92,7 @@
 #' }
 #'
 #' @name lambda.tools-package
-#' @aliases lambda.tools-package lambda.tools
+#' @aliases lambda.tools-package lambda.tools UseFunction `%as%` `%:=%` `%::%`
 #' @docType package
 #' @exportPattern "^[^\\.]"
 #' @import lambda.r

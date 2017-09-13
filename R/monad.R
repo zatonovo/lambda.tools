@@ -2,7 +2,7 @@ Maybe(a) %:=% a
 Just(a) %:=% Maybe(a)
 Nothing() %:=% Maybe(NA)
       
-mreturn(x) %as% Just(x)
+unit(x) %as% Just(x)
 
 # Bind operator
 m %>>=% g %::% Nothing : Function : Maybe
