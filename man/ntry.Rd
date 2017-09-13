@@ -37,6 +37,7 @@ is a closure that takes a single argument representing the attempt number.
 
 If calling the function fails n times, then ntry will fail with an error.
 }
+
 \examples{
 \dontrun{
 fn <- function(i) {
@@ -47,4 +48,3 @@ fn <- function(i) {
 ntry(fn, 6)
 }
 }
-

@@ -31,6 +31,7 @@ the usefulness of this function is for the 2D case, as it can
 simplify interacting with matrices. See the example below for
 using foldblock as a summation operator over matrices
 }
+
 \examples{
 # Sum 5 2 x 2 matrices
 ms <- matrix(sample(40,20, replace=TRUE), nrow=2)
@@ -42,10 +43,9 @@ f <- function(a,b) mean(a) + b
 foldblock(x,3,f) == fold(matrix(x, nrow=3),f, 0)
 
 }
-\author{
-Brian Lee Yung Rowe
-}
 \seealso{
 \code{\link{map}} \code{\link{fold}} \code{\link{foldrange}}
 }
-
+\author{
+Brian Lee Yung Rowe
+}

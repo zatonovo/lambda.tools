@@ -56,6 +56,7 @@ In the future, a wrap parameter might be included that would emulate
 a loop instead of a sequence. This would be useful if a sequence
 represented a stationary time series.
 }
+
 \examples{
 partition(1:10, mean, radius=2)
 
@@ -63,4 +64,3 @@ partition(1:10, mean, radius=2)
 \author{
 Brian Lee Yung Rowe
 }
-

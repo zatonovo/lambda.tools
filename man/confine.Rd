@@ -35,14 +35,14 @@ Care should be taken when using this function as it is not always
 a good idea to change the value of outliers. Sometimes it is better
 to remove these values from a data set instead.
 }
+
 \examples{
 confine(seq(-2,2, by=.1))
 
 }
-\author{
-Brian Lee Yung Rowe
-}
 \seealso{
 \code{\link{quantize}}
 }
-
+\author{
+Brian Lee Yung Rowe
+}

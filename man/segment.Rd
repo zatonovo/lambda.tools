@@ -42,6 +42,7 @@ function can focus on a row-specific model independent of data
 management mechanics like maintaining proper indices while iterating
 over the sequence, as this is handled by segment.
 }
+
 \examples{
 segment(1:10)
 
@@ -57,10 +58,9 @@ t(maprange(1:10, 2, function(x) x))
 # Create four shifted copies instead of two
 maprange(1:10, 4, function(x) x)
 }
-\author{
-Brian Lee Yung Rowe
-}
 \seealso{
 \code{\link{partition}} \code{\link{maprange}}
 }
-
+\author{
+Brian Lee Yung Rowe
+}

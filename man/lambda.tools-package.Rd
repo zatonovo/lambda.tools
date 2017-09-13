@@ -2,8 +2,12 @@
 % Please edit documentation in R/lambda.tools-package.R
 \docType{package}
 \name{lambda.tools-package}
-\alias{lambda.tools}
 \alias{lambda.tools-package}
+\alias{lambda.tools}
+\alias{UseFunction}
+\alias{`\%as\%`}
+\alias{`\%:=\%`}
+\alias{`\%::\%`}
 \title{Tools for functional programming in R}
 \description{
 This package contains a collection of functions that facilitate modeling 
@@ -99,9 +103,7 @@ eliminate the need for conditional blocks, which
 can streamline code and remove the risk of poorly scoped variables.
 }
 }
-\author{
-Brian Lee Yung Rowe <r@zatonovo.com>
-}
+
 \references{
 Rowe, Brian Lee Yung.
 Modeling Data With Functional Programming In R. Chapman & Hall/CRC Press.
@@ -113,7 +115,9 @@ Forthcoming.
  \code{\link{quantize}} \code{\link{partition}}
  \code{\link{lambda.r}}
 }
+\author{
+Brian Lee Yung Rowe <r@zatonovo.com>
+}
 \keyword{attribute}
 \keyword{logic}
 \keyword{package}
-

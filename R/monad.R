@@ -32,7 +32,7 @@
 #' monadic operations together.
 #'
 #' @name monad
-#' @aliases Maybe Just Nothing unit `%>>=%` `%>=>%` `%<=<%` `%.%` 
+#' @aliases Maybe Just Nothing unit %>>=% %>=>% %<=<% %.% 
 #' @return Usually a monad
 Maybe(a) %:=% a
 Just(a) %:=% Maybe(a)

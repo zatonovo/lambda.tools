@@ -69,6 +69,7 @@ function, so it is difficult to know a priori whether the result
 will be a vector or a matrix. With \code{anylength} it doesn't 
 matter since the same function is used in either case.
 }
+
 \examples{
 # Get the rows of the matrix
 anylength(matrix(c(1,2,3,4,5,6), ncol=2))
@@ -79,4 +80,3 @@ anylength(c(1,2,3,4,5))
 \author{
 Brian Lee Yung Rowe
 }
-

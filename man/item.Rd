@@ -34,6 +34,7 @@ bad index value, which is defined as {NULL, NA, vector of length 0}.
 If any of these values are used as the index, then NA is returned
 instead of an empty vector.
 }
+
 \examples{
 # Compare default behavior with item
 (1:10)[NA]
@@ -45,4 +46,3 @@ item(1:10, -2)
 \author{
 Brian Lee Yung Rowe
 }
-

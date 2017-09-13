@@ -30,6 +30,7 @@ anytypes(data, fn=class)
 This is a convenience function to see the types associated with the
 elements of a list or the columns of a data.frame.
 }
+
 \examples{
 x <- data.frame(ints=1:3, chars=c('a','b','c'), nums=c(.1,.2,.3))
 anytypes(x)
@@ -41,4 +42,3 @@ anytypes(x)
 Brian Lee Yung Rowe
 }
 \keyword{attribute}
-

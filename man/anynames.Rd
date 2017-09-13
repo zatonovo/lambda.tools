@@ -37,6 +37,7 @@ two dimensional structures are organized by column,
 as this is compatible with time-series objects such as
 zoo and xts.
 }
+
 \examples{
 m <- matrix(c(1,2,3,4,5,6), ncol=2)
 anynames(m) <- c('d','e')
@@ -55,4 +56,3 @@ anynames(df)
 Brian Lee Yung Rowe
 }
 \keyword{attribute}
-

@@ -41,6 +41,7 @@ operates on the columns of x. This indicates that fn takes a
 vector and not a scalar as the first argument. If fn is vectorized,
 then the behavior of fold will be equivalent to a 2D map over the rows!
 }
+
 \examples{
 x <- 1:10
 
@@ -56,9 +57,6 @@ x <- matrix(1:24, ncol=4)
 map(t(x), function(a) sum(a)) == fold(x, function(a,b) a + b, 0)
 
 }
-\author{
-Brian Lee Yung Rowe
-}
 \references{
 Haskell Wiki, http://www.haskell.org/haskellwiki/Fold
 
@@ -68,4 +66,6 @@ Modeling Data With Functional Programming In R.
 \seealso{
 \code{\link{map}} \code{\link{foldrange}} \code{\link{foldblock}}
 }
-
+\author{
+Brian Lee Yung Rowe
+}

@@ -2,5 +2,3 @@
 
 exportPattern("^[^\\.]")
 import(lambda.r)
-export(UseFunction, "%as%","%:=%","%::%")
-export(debug.lr, undebug.lr)

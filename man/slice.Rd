@@ -49,6 +49,7 @@ In two dimensions only the first variant of this function is
 defined, as it cannot be guaranteed that a regular matrix will
 be generated using an arbitrary expression.
 }
+
 \examples{
 # The number 4 is included in each sub-sequence
 x <- 1:10
@@ -65,4 +66,3 @@ slice(x, 4)
 \author{
 Brian Lee Yung Rowe
 }
-

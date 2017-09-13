@@ -35,6 +35,7 @@ This function is the fold counterpart of maprange. It's primarily
 here for completeness purposes, as the utility of this function
 is still to be determined.
 }
+
 \examples{
 \dontrun{
 # Mean of rolling means
@@ -43,10 +44,9 @@ z <- sapply(1:500,
 }
 
 }
-\author{
-Brian Lee Yung Rowe
-}
 \seealso{
 \code{\link{map}} \code{\link{fold}} \code{\link{foldblock}}
 }
-
+\author{
+Brian Lee Yung Rowe
+}

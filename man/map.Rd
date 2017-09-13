@@ -46,6 +46,7 @@ Conceptually, the map operation is equivalent to the apply family
 of functions. The reason for this implementation is primarily for
 pedagogical purposes.
 }
+
 \examples{
 map(-10:10, quantize)
 
@@ -59,9 +60,6 @@ map(matrix(1:24, ncol=4), sum)
 map(data.frame(a=1:6, b=7:12, c=13:18, d=19:24), sum)
 
 }
-\author{
-Brian Lee Yung Rowe
-}
 \references{
 Rowe, Brian Lee Yung.
 Modeling Data With Functional Programming In R. Chapman & Hall/CRC Press.
@@ -70,4 +68,6 @@ Forthcoming.
 \seealso{
 \code{\link{fold}} \code{\link{maprange}} \code{\link{mapblock}}
 }
-
+\author{
+Brian Lee Yung Rowe
+}

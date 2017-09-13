@@ -53,6 +53,7 @@ Under the hood, this function relies on sample.int, so the behavior
 of the output can be controlled by passing additional arguments to
 sample.int, such as replace=TRUE.
 }
+
 \examples{
 # Extract seven sub-sequences, each with length 3
 samplerange(1:20, 7, 3)
@@ -66,4 +67,3 @@ samplerange(matrix(1:32, ncol=4), 5, 2)
 \author{
 Brian Lee Yung Rowe
 }
-

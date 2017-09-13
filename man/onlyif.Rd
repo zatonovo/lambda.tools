@@ -49,6 +49,7 @@ under both a TRUE or FALSE scenario.
 The alternative would be to use a conditional block, which can result
 in improperly scoped code if one is careless.
 }
+
 \examples{
 x <- 1:5
 onlyif(length(x) < 10, pad(x, 10 - length(x)), x)
@@ -61,4 +62,3 @@ onlyif(length(x) < 10, function(x) pad(x, 10 - length(x)), x)
 \seealso{
 \code{\link{use_default}}
 }
-

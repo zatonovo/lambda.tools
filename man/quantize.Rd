@@ -40,16 +40,16 @@ guaranteed. Hence for a collection of boundary points k and bins b,
 where |b| = |k| + 1, the mapping will always have the form
 (-infty, k_1] => b_1, (k_1, k_2] => b_2, ... (k_n, infty) => b_n.
 }
+
 \examples{
 x <- seq(-2, 2, by=.1)  
 quantize(x)
 
 quantize(x, bins=-1.5:1.5)
 }
-\author{
-Brian Lee Yung Rowe
-}
 \seealso{
 \code{\link{confine}}
 }
-
+\author{
+Brian Lee Yung Rowe
+}

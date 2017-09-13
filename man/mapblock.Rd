@@ -45,6 +45,7 @@ after the fact becomes unnecessary.
 The 1D version is provided for completeness and is equivalent to a
 2D map, except on the edge cases.
 }
+
 \examples{
 # Apply multiple rotation matrices to a set of points
 a <- matrix(sample(12, 20, replace=TRUE), nrow=2)
@@ -61,4 +62,3 @@ mapblock(x, 4, sum) == map(matrix(x,nrow=4), sum)
 \author{
 Brian Lee Yung Rowe
 }
-

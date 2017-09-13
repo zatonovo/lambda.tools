@@ -52,6 +52,7 @@ demonstrates the conciseness inherent in functional programming.
 Mathematics is known for being very compact and powerful. When
 utilized appropriately, functional programs share this same property.
 }
+
 \examples{
 # Compute a 5-period moving average over a vector
 maprange(rnorm(20), 5, mean, do.pad=TRUE)
@@ -59,10 +60,9 @@ maprange(rnorm(20), 5, mean, do.pad=TRUE)
 # Same as above, but do it for 4 time series
 maprange(matrix(rnorm(80),ncol=4), 5, mean, do.pad=TRUE)
 }
-\author{
-Brian Lee Yung Rowe
-}
 \seealso{
 \code{\link{map}} \code{\link{mapblock}}
 }
-
+\author{
+Brian Lee Yung Rowe
+}

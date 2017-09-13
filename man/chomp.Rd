@@ -28,16 +28,16 @@ This function is inspired by the PERL function of the same name. While
 the PERL version is designed for strings, this version is designed for
 any indexable data structure, typically containing numbers.
 }
+
 \examples{
 chomp(1:10)
 chomp(letters)
 
 chomp(data.frame(x=1:10, y=1:10), head=2, tail=2)
 }
-\author{
-Brian Lee Yung Rowe
-}
 \seealso{
 \code{\link{pad}}
 }
-
+\author{
+Brian Lee Yung Rowe
+}

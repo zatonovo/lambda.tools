@@ -22,9 +22,9 @@ is.scalar(x)
 This function checks to determine if an object \code{x} is a scalar,
 i.e. the length of the object is equal to one.
 }
+
 \examples{
 is.scalar(10)
 
 is.scalar(1:10)
 }
-

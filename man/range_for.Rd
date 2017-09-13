@@ -20,6 +20,7 @@ the minimum and maximum values of the ranges.
 
 range_for(target, x)
 }
+
 \examples{
 # Find all contiguous ranges containing 2
 x <- sample(c(1,2,2,2,3,4), 20, replace=TRUE)
@@ -29,4 +30,3 @@ range_for(2,x)
 \author{
 Brian Lee Yung Rowe
 }
-

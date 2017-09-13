@@ -33,6 +33,7 @@ data structure like a matrix or data.frame. This function prepends
 or appends a specified value to a data structure to ensure that the
 length of the data structure is compatible with another data structure.
 }
+
 \examples{
 # A moving average results in n - window + 1 results, so pad at the
 # head to get a vector of length 50
@@ -53,4 +54,3 @@ pad(m, 9, default=0)
 \author{
 Brian Lee Yung Rowe
 }
-
