@@ -21,7 +21,7 @@ assert("Date vector", {
 
 assert("Disallow 2D data structures", {
   x <- matrix(rnorm(10), ncol=2)
-  tryCatch(segment(x), function(e) TRUE)
+  tryCatch(segment(x), error=function(e) TRUE)
 })
 
 
@@ -38,7 +38,7 @@ assert("item works for a small sequence with bad index.", {
 
 assert("x can not be a 2-d array", {
   x <- matrix(rnorm(10), ncol=2)
-  tryCatch(item(x, 1), function(e) TRUE)
+  tryCatch(item(x, 1), error=function(e) TRUE)
 })
 
 

@@ -37,5 +37,5 @@ assert("use_default works", {
 
 assert("Non-scalar arguement throws an error.", {
   
-  tryCatch(use_default(c(1, 1), 0), function(e) TRUE)
+  tryCatch(use_default(c(1, 1), 0), error=function(e) TRUE)
 })

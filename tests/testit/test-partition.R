@@ -17,6 +17,6 @@ assert("Partition works for a non-default radius", {
 
 assert("A matrix is not allowed as input", {
   x <- matrix(rnorm(10), ncol=2)
-  tryCatch(partition(x), function(e) TRUE)
+  tryCatch(partition(x), error=function(e) TRUE)
 })
 

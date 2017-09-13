@@ -9,7 +9,7 @@ assert("a numeric vector is valid", {
 assert("an error is thrown when a non-function is used", {
   x <- 1:10
   fn <- "I am not a function"
-  tryCatch(fold(x, fn, 0), function(e) TRUE) 
+  tryCatch(fold(x, fn, 0), error=function(e) TRUE) 
 })
 
 assert("a vector of length 1 is valid", {
@@ -51,7 +51,7 @@ assert("foldrange with window size not a multiple of length(x)",{
 
 assert("foldrange with x a vector and with window size > length(x)",{
   x <- 1:10
-  tryCatch(foldrange(x, 11, function(a,b) a+b, function(e) TRUE))
+  tryCatch(foldrange(x, 11, function(a,b) a+b), error=function(e) TRUE)
 })
 
 

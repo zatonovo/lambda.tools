@@ -25,7 +25,7 @@ assert("pad pads corrrect number of 0s to head and tail", {
 
 assert("x can not be a 2-d array.", {
   x <- matrix(rnorm(10), ncol=2)
-  tryCatch(pad(x, 10), function(e) TRUE)
+  tryCatch(pad(x, 10), error=function(e) TRUE)
 })
 
 

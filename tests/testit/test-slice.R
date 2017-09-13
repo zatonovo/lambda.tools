@@ -52,8 +52,8 @@ assert("slice a data.frame with an expression", {
 assert("pivot is larger than length of x", {
   x <- 1:50
   df <- data.frame(x=x, y=x)
-  tryCatch(slice(1:50, 51), function(e) TRUE)
-  tryCatch(slice(df, 51), function(e) TRUE)
+  tryCatch(slice(1:50, 51), error=function(e) TRUE)
+  tryCatch(slice(df, 51), error=function(e) TRUE)
 })
 
 assert("expression length is not equal to length of x", {
@@ -61,10 +61,10 @@ assert("expression length is not equal to length of x", {
   x2 <- 1:100
   df <- data.frame(col1=x, col2=x) 
   df2 <- data.frame(col1=x2, col2=x2)
-  tryCatch(slice(x, x2 < 25), function(e) TRUE)
-  tryCatch(slice(x, x2 < 25 & x2 > 50), function(e) TRUE)
-  tryCatch(slice(df, df2$col1 < 25 & df2$col1 > 50), function(e) TRUE)
-  tryCatch(slice(df, df2[,1] < 25 & df2[,1] > 50), function(e) TRUE)
+  tryCatch(slice(x, x2 < 25), error=function(e) TRUE)
+  tryCatch(slice(x, x2 < 25 & x2 > 50), error=function(e) TRUE)
+  tryCatch(slice(df, df2$col1 < 25 & df2$col1 > 50), error=function(e) TRUE)
+  tryCatch(slice(df, df2[,1] < 25 & df2[,1] > 50), error=function(e) TRUE)
 })
 
 

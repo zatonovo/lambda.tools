@@ -17,7 +17,7 @@ assert("Custom accumulator", {
 assert("Invalid functions are not allowed", {
   x <- 1:10
   f <- 'I am not a function.'
-  tryCatch(map(x, f))
+  tryCatch(map(x, f), error=function(e) TRUE)
 })
 
 assert("NAs okay in input sequence", {
@@ -72,7 +72,7 @@ assert("maprange with window size not a multiple of length(x) and do.pad",{
 
 assert("maprange with x a vector and with window size > length(x)",{
   x <- 1:10
-  tryCatch(maprange(x, 11, function(a) sum(a)), function(e) TRUE)
+  tryCatch(maprange(x, 11, function(a) sum(a)), error=function(e) TRUE)
 })
 
 assert("maprange with window size a multiple of length(x) and window gap < window size", {
@@ -84,7 +84,7 @@ assert("maprange with window size a multiple of length(x) and window gap < windo
 assert("maprange with window size a multiple of length(x) and window gap > window size", {
   x <- 1:10
   y <- quote(maprange(x, 3, function(a) sum(a), by = 4))
-  tryCatch(eval(y), function(e) TRUE)
+  tryCatch(eval(y), error=function(e) TRUE)
 })
 
 #context("2D maprange")

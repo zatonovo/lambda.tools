@@ -16,15 +16,15 @@ assert("Confine fails when min.level >= max.level", {
   x <- 1:100
   y <- rnorm(100, sd=4)
 
-  tryCatch(confine(y, min.len=1, max.len=-1), function(e) TRUE)
-  tryCatch(confine(y, min.len=1, max.len=1), function(e) TRUE)
+  tryCatch(confine(y, min.len=1, max.len=-1), error=function(e) TRUE)
+  tryCatch(confine(y, min.len=1, max.len=1), error=function(e) TRUE)
 })
 
 assert("Confine fails for character input", {
   x <- 'abcdefghijk'
 
-  tryCatch(confine(x), function(e) TRUE)
-  tryCatch(confine(x, min.len='b', max.len='h'), function(e) TRUE)
+  tryCatch(confine(x), error=function(e) TRUE)
+  tryCatch(confine(x, min.len='b', max.len='h'), error=function(e) TRUE)
 })
 
 
