@@ -49,3 +49,17 @@ Monads are types that carry context. Monad operators enable chaining
 monadic operations together.
 }
 
+\examples{
+require(lambda.r)
+safelog(x) \%::\% numeric : Maybe
+safelog(x) \%when\% { x <= 0 } \%as\% Nothing()
+safelog(x) \%:=\% Just(log(x))
+
+safesqrt(x) \%::\% numeric : Maybe
+safesqrt(x) \%when\% { x <= 0 } \%as\% Nothing()
+safesqrt(x) \%:=\% Just(sqrt(x))
+
+safelogsqrt <- safelog \%<=<\% safesqrt
+safelogsqrt(-2)
+safelogsqrt(2)
+}

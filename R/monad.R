@@ -34,6 +34,20 @@
 #' @name monad
 #' @aliases Maybe Just Nothing unit %>>=% %>=>% %<=<% %.% 
 #' @return Usually a monad
+#' @examples
+#' require(lambda.r)
+#' safelog(x) %::% numeric : Maybe
+#' safelog(x) %when% { x <= 0 } %as% Nothing()
+#' safelog(x) %:=% Just(log(x))
+#' 
+#' safesqrt(x) %::% numeric : Maybe
+#' safesqrt(x) %when% { x <= 0 } %as% Nothing()
+#' safesqrt(x) %:=% Just(sqrt(x))
+#' 
+#' safelogsqrt <- safelog %<=<% safesqrt
+#' safelogsqrt(-2)
+#' safelogsqrt(2)
+
 Maybe(a) %:=% a
 Just(a) %:=% Maybe(a)
 Nothing() %:=% Maybe(NA)
